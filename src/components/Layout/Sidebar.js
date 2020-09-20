@@ -25,7 +25,9 @@ import {
   MdViewList,
   MdWeb,
   MdWidgets,
+  MdMap,
 } from 'react-icons/md';
+import { FaMapMarker, FaDatabase, FaInfoCircle } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import {
   // UncontrolledTooltip,
@@ -37,54 +39,78 @@ import {
 } from 'reactstrap';
 import bn from 'utils/bemnames';
 
-const sidebarBackground = {
-  backgroundImage: `url("${sidebarBgImage}")`,
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-};
+const sidebarBackground = {};
 
 const navComponents = [
-  { to: '/buttons', name: 'buttons', exact: false, Icon: MdRadioButtonChecked },
-  {
-    to: '/button-groups',
-    name: 'button groups',
-    exact: false,
-    Icon: MdGroupWork,
-  },
-  { to: '/forms', name: 'forms', exact: false, Icon: MdChromeReaderMode },
-  { to: '/input-groups', name: 'input groups', exact: false, Icon: MdViewList },
-  {
-    to: '/dropdowns',
-    name: 'dropdowns',
-    exact: false,
-    Icon: MdArrowDropDownCircle,
-  },
-  { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
-  { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
-  { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
-  { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
+  // { to: '/buttons', name: 'buttons', exact: false, Icon: MdRadioButtonChecked },
+  // {
+  // to: '/button-groups',
+  // name: 'button groups',
+  // exact: false,
+  // Icon: MdGroupWork,
+  // },
+  // { to: '/forms', name: 'forms', exact: false, Icon: MdChromeReaderMode },
+  // { to: '/input-groups', name: 'input groups', exact: false, Icon: MdViewList },
+  // {
+  // to: '/dropdowns',
+  // name: 'dropdowns',
+  // exact: false,
+  // Icon: MdArrowDropDownCircle,
+  // },
+  // { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
+  // { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
+  // { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
+  // { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
 ];
 
 const navContents = [
-  { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
-  { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
+  // { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
+  // { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
 ];
 
 const pageContents = [
-  { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
-  {
-    to: '/login-modal',
-    name: 'login modal',
-    exact: false,
-    Icon: MdViewCarousel,
-  },
+  // { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
+  // {
+  //   to: '/login-modal',
+  //   name: 'login modal',
+  //   exact: false,
+  //   Icon: MdViewCarousel,
+  // },
 ];
 
 const navItems = [
-  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
-  { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
-  { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
-  { to: '/widgets', name: 'widgets', exact: false, Icon: MdWidgets },
+  { to: '/', name: 'Osnovne informacije', exact: true, Icon: FaInfoCircle },
+  {
+    to: '/kibspracenje',
+    name: 'PRACENJE STANJA KIBSA',
+    exact: false,
+    Icon: FaInfoCircle,
+  },
+  { to: '/zasto_kibs', name: 'ZASTO KIBS', exact: false, Icon: FaInfoCircle },
+  {
+    to: '/model',
+    name: 'Model za proracun KIBS-a',
+    exact: false,
+    Icon: MdWidgets,
+  },
+  {
+    to: '/baza',
+    name: 'Baze podataka',
+    exact: false,
+    Icon: FaDatabase,
+  },
+  {
+    to: '/mape',
+    name: 'Mape/Poredjenje podataka',
+    exact: false,
+    Icon: FaMapMarker,
+  },
+  {
+    to: '/nosioci_aktivnosti',
+    name: 'Nosioci aktivnosti',
+    exact: false,
+    Icon: FaInfoCircle,
+  },
 ];
 
 const bem = bn.create('sidebar');
@@ -108,22 +134,16 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      <aside className={bem.b()} data-image={sidebarBgImage}>
-        <div className={bem.e('background')} style={sidebarBackground} />
+      <aside className={bem.b()}>
+        <div />
         <div className={bem.e('content')}>
           <Navbar>
-            <SourceLink className="navbar-brand d-flex">
-              <img
-                src={logo200Image}
-                width="40"
-                height="30"
-                className="pr-2"
-                alt=""
-              />
-              <span className="text-white">
-                Reduction <FaGithub />
-              </span>
-            </SourceLink>
+            <span
+              style={{ paddingLeft: '10px', fontWeight: 600, fontSize: '25px' }}
+              className="text-white"
+            >
+              KIBS MAPE
+            </span>
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon }, index) => (
@@ -133,6 +153,11 @@ class Sidebar extends React.Component {
                   className="text-uppercase"
                   tag={NavLink}
                   to={to}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}
                   activeClassName="active"
                   exact={exact}
                 >
@@ -141,7 +166,7 @@ class Sidebar extends React.Component {
                 </BSNavLink>
               </NavItem>
             ))}
-
+            {/* 
             <NavItem
               className={bem.e('nav-item')}
               onClick={this.handleClick('Components')}
@@ -163,8 +188,8 @@ class Sidebar extends React.Component {
                   }}
                 />
               </BSNavLink>
-            </NavItem>
-            <Collapse isOpen={this.state.isOpenComponents}>
+            </NavItem> */}
+            {/* <Collapse isOpen={this.state.isOpenComponents}>
               {navComponents.map(({ to, name, exact, Icon }, index) => (
                 <NavItem key={index} className={bem.e('nav-item')}>
                   <BSNavLink
@@ -180,9 +205,9 @@ class Sidebar extends React.Component {
                   </BSNavLink>
                 </NavItem>
               ))}
-            </Collapse>
+            </Collapse> */}
 
-            <NavItem
+            {/* <NavItem
               className={bem.e('nav-item')}
               onClick={this.handleClick('Contents')}
             >
@@ -220,9 +245,9 @@ class Sidebar extends React.Component {
                   </BSNavLink>
                 </NavItem>
               ))}
-            </Collapse>
+            </Collapse> */}
 
-            <NavItem
+            {/* <NavItem
               className={bem.e('nav-item')}
               onClick={this.handleClick('Pages')}
             >
@@ -260,7 +285,7 @@ class Sidebar extends React.Component {
                   </BSNavLink>
                 </NavItem>
               ))}
-            </Collapse>
+            </Collapse> */}
           </Nav>
         </div>
       </aside>

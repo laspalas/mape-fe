@@ -39,8 +39,7 @@
   &::after {
     z-index: 3;
     // sublime light
-    background: #fc5c7d; /* fallback for old browsers */
-    background: linear-gradient(to bottom, #6a82fb, #fc5c7d);
+    background: #6a82fb; /* fallback for old browsers */
     opacity: 1;
   }
 
@@ -87,8 +86,8 @@
     //   margin: 0 auto;
     // }
     width: 1.5rem;
-    height: 1.5rem;
-    padding-right: 0.5rem;
+    // height: 1.5rem;
+    margin-right: 0.5rem;
   }
 
   &--open {
