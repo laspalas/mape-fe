@@ -13,9 +13,11 @@ const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
 const BadgePage = React.lazy(() => import('pages/BadgePage'));
 const ButtonGroupPage = React.lazy(() => import('pages/ButtonGroupPage'));
 const ButtonPage = React.lazy(() => import('pages/ButtonPage'));
-const CardPage = React.lazy(() => import('pages/CardPage'));
-const ChartPage = React.lazy(() => import('pages/ChartPage'));
-const DashboardPage = React.lazy(() => import('pages/DashboardPage'));
+const PracenjeStanjaKibsa = React.lazy(() =>
+  import('pages/PracenjeStanjaKibsa'),
+);
+const ZastoKibs = React.lazy(() => import('pages/ZastoKibs'));
+const OsnovneInformacije = React.lazy(() => import('pages/OsnovneInformacije'));
 const DropdownPage = React.lazy(() => import('pages/DropdownPage'));
 const FormPage = React.lazy(() => import('pages/FormPage'));
 const InputGroupPage = React.lazy(() => import('pages/InputGroupPage'));
@@ -35,7 +37,7 @@ class App extends React.Component {
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
-            <LayoutRoute
+            {/* <LayoutRoute
               exact
               path="/login"
               layout={EmptyLayout}
@@ -50,14 +52,18 @@ class App extends React.Component {
               component={props => (
                 <AuthPage {...props} authState={STATE_SIGNUP} />
               )}
-            />
+            /> */}
 
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-                <Route exact path="/" component={DashboardPage} />
+                <Route exact path="/" component={OsnovneInformacije} />
                 <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/buttons" component={ButtonPage} />
-                <Route exact path="/cards" component={CardPage} />
+                <Route
+                  exact
+                  path="/kibspracenje"
+                  component={PracenjeStanjaKibsa}
+                />
                 <Route exact path="/widgets" component={WidgetPage} />
                 <Route exact path="/typography" component={TypographyPage} />
                 <Route exact path="/alerts" component={AlertPage} />
@@ -73,7 +79,7 @@ class App extends React.Component {
                 <Route exact path="/modals" component={ModalPage} />
                 <Route exact path="/forms" component={FormPage} />
                 <Route exact path="/input-groups" component={InputGroupPage} />
-                <Route exact path="/charts" component={ChartPage} />
+                <Route exact path="/zasto_kibs" component={ZastoKibs} />
               </React.Suspense>
             </MainLayout>
             <Redirect to="/" />

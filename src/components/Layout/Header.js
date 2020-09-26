@@ -81,18 +81,20 @@ class Header extends React.Component {
     return (
       <Navbar light expand className={bem.b('bg-white')}>
         <Nav navbar className="mr-2">
-          <Button outline onClick={this.handleSidebarControlButton}>
+          <Button
+            outline
+            color="primary"
+            onClick={this.handleSidebarControlButton}
+          >
             <MdClearAll size={25} />
           </Button>
         </Nav>
-        <Nav navbar>
-          <SearchInput />
-        </Nav>
+        <Nav navbar>{/* <SearchInput /> */}</Nav>
 
         <Nav navbar className={bem.e('nav-right')}>
           <NavItem className="d-inline-flex">
             <NavLink id="Popover1" className="position-relative">
-              {isNotificationConfirmed ? (
+              {/* {isNotificationConfirmed ? (
                 <MdNotificationsNone
                   size={25}
                   className="text-secondary can-click"
@@ -104,9 +106,9 @@ class Header extends React.Component {
                   className="text-secondary can-click animated swing infinite"
                   onClick={this.toggleNotificationPopover}
                 />
-              )}
+              )} */}
             </NavLink>
-            <Popover
+            {/* <Popover
               placement="bottom"
               isOpen={this.state.isOpenNotificationPopover}
               toggle={this.toggleNotificationPopover}
@@ -115,10 +117,10 @@ class Header extends React.Component {
               <PopoverBody>
                 <Notifications notificationsData={notificationsData} />
               </PopoverBody>
-            </Popover>
+            </Popover> */}
           </NavItem>
 
-          <NavItem>
+          {/* <NavItem>
             <NavLink id="Popover2">
               <Avatar
                 onClick={this.toggleUserCardPopover}
@@ -163,7 +165,7 @@ class Header extends React.Component {
                 </UserCard>
               </PopoverBody>
             </Popover>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </Navbar>
     );
