@@ -23,6 +23,7 @@ import {
   ListGroupItem,
   Row,
 } from 'reactstrap';
+import PyramidChart from '../components/PyramidChart/PyramidChart';
 
 const CardPage = () => {
   return (
@@ -31,6 +32,7 @@ const CardPage = () => {
       breadcrumbs={[{ name: 'Pracenje stanja KIBS-a', active: true }]}
     >
       Pracenje stanja kibsa
+      <PyramidChart />
     </Page>
   );
 };
