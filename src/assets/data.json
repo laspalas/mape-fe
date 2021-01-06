@@ -1,0 +1,1032 @@
+[
+    {
+        "pu_id": 28,
+        "policijska_uprava": "Prijedor",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 77.3,
+                    "min_max_norm": 1.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 72.7,
+                    "min_max_norm": 0.6901408450704225
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 21.6,
+                    "min_max_norm": 0.8507462686567164
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 23.2,
+                    "min_max_norm": 0.3266932270916334
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.04,
+                    "min_max_norm": 0.2638297872340426
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 5.2,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.04,
+                    "min_max_norm": 0.2638297872340426
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 5.2,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 14.13,
+                    "min_max_norm": 0.9865642994241846
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 52.0,
+                    "min_max_norm": 0.4556451612903225
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 10.8,
+                    "min_max_norm": 0.04132231404958677
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 92.3,
+                    "min_max_norm": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 29,
+        "policijska_uprava": "Banja Luka",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 68.0,
+                    "min_max_norm": 0.6605839416058396
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 85.9,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 10.9,
+                    "min_max_norm": 0.05223880597014933
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 24.0,
+                    "min_max_norm": 0.3585657370517928
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.2,
+                    "min_max_norm": 0.33191489361702126
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 3.6,
+                    "min_max_norm": 0.6923076923076923
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.2,
+                    "min_max_norm": 0.33191489361702126
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 3.6,
+                    "min_max_norm": 0.6923076923076923
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 8.99,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 84.5,
+                    "min_max_norm": 0.8924731182795699
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 28.2,
+                    "min_max_norm": 0.4008264462809917
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 99.2,
+                    "min_max_norm": 0.9718309859154926
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 30,
+        "policijska_uprava": "Gradiska",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 66.1,
+                    "min_max_norm": 0.5912408759124086
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 73.5,
+                    "min_max_norm": 0.7089201877934271
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 21.4,
+                    "min_max_norm": 0.8358208955223879
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 23.2,
+                    "min_max_norm": 0.3266932270916334
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.4,
+                    "min_max_norm": 0.41702127659574467
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.8,
+                    "min_max_norm": 0.15384615384615385
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.4,
+                    "min_max_norm": 0.41702127659574467
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.8,
+                    "min_max_norm": 0.15384615384615385
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 10.16,
+                    "min_max_norm": 0.22456813819577737
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 49.9,
+                    "min_max_norm": 0.42741935483870963
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 10.3,
+                    "min_max_norm": 0.03099173553719008
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 96.7,
+                    "min_max_norm": 0.619718309859155
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 31,
+        "policijska_uprava": "Mrkonjic grad",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 72.0,
+                    "min_max_norm": 0.8065693430656935
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 66.2,
+                    "min_max_norm": 0.5375586854460094
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 23.6,
+                    "min_max_norm": 1.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 17.6,
+                    "min_max_norm": 0.10358565737051798
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.86,
+                    "min_max_norm": 0.18723404255319148
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.2,
+                    "min_max_norm": 0.23076923076923075
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.86,
+                    "min_max_norm": 0.18723404255319148
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.2,
+                    "min_max_norm": 0.23076923076923075
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 11.35,
+                    "min_max_norm": 0.4529750479846449
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 92.5,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 57.2,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 97.3,
+                    "min_max_norm": 0.7042253521126752
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 32,
+        "policijska_uprava": "Doboj",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 71.0,
+                    "min_max_norm": 0.77007299270073
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 80.9,
+                    "min_max_norm": 0.8826291079812206
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 17.7,
+                    "min_max_norm": 0.5597014925373134
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 32.5,
+                    "min_max_norm": 0.697211155378486
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.46,
+                    "min_max_norm": 0.4425531914893617
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.0,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.46,
+                    "min_max_norm": 0.4425531914893617
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.0,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 14.2,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 19.6,
+                    "min_max_norm": 0.020161290322580645
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 25.9,
+                    "min_max_norm": 0.3533057851239669
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 97.8,
+                    "min_max_norm": 0.7746478873239427
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 33,
+        "policijska_uprava": "Bijeljina",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 64.4,
+                    "min_max_norm": 0.5291970802919711
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 62.3,
+                    "min_max_norm": 0.4460093896713614
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 15.4,
+                    "min_max_norm": 0.3880597014925373
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 15.0,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.67,
+                    "min_max_norm": 0.5319148936170213
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.0,
+                    "min_max_norm": 0.1923076923076923
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.67,
+                    "min_max_norm": 0.5319148936170213
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.0,
+                    "min_max_norm": 0.1923076923076923
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 10.14,
+                    "min_max_norm": 0.22072936660268724
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 66.4,
+                    "min_max_norm": 0.6491935483870968
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 17.6,
+                    "min_max_norm": 0.18181818181818182
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 96.4,
+                    "min_max_norm": 0.5774647887323949
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 34,
+        "policijska_uprava": "Zvornik",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 69.1,
+                    "min_max_norm": 0.7007299270072992
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 80.9,
+                    "min_max_norm": 0.8826291079812206
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 13.3,
+                    "min_max_norm": 0.2313432835820896
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 18.9,
+                    "min_max_norm": 0.15537848605577684
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.42,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.4,
+                    "min_max_norm": 0.07692307692307693
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.42,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.4,
+                    "min_max_norm": 0.07692307692307693
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 10.64,
+                    "min_max_norm": 0.31669865642994255
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 63.9,
+                    "min_max_norm": 0.6155913978494623
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 14.0,
+                    "min_max_norm": 0.1074380165289256
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 99.4,
+                    "min_max_norm": 1.0
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 35,
+        "policijska_uprava": "Istocno Sarajevo",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 55.7,
+                    "min_max_norm": 0.21167883211678848
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 43.3,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 11.9,
+                    "min_max_norm": 0.1268656716417911
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 19.5,
+                    "min_max_norm": 0.1792828685258964
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 2.77,
+                    "min_max_norm": 1.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.7,
+                    "min_max_norm": 0.1346153846153846
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 2.77,
+                    "min_max_norm": 1.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.7,
+                    "min_max_norm": 0.1346153846153846
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 13.57,
+                    "min_max_norm": 0.8790786948176585
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 18.1,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 32.0,
+                    "min_max_norm": 0.4793388429752065
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 98.9,
+                    "min_max_norm": 0.9295774647887325
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 36,
+        "policijska_uprava": "Foca",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 60.6,
+                    "min_max_norm": 0.3905109489051096
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 74.2,
+                    "min_max_norm": 0.7253521126760564
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 10.2,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 40.1,
+                    "min_max_norm": 1.0
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.42,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.0,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 0.42,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 0.0,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 11.67,
+                    "min_max_norm": 0.5143953934740884
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 40.2,
+                    "min_max_norm": 0.2970430107526882
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 8.8,
+                    "min_max_norm": 0.0
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 96.5,
+                    "min_max_norm": 0.5915492957746475
+                }
+            ]
+        }
+    },
+    {
+        "pu_id": 37,
+        "policijska_uprava": "Trebinje",
+        "region": "Bosna",
+        "tip_statistike": {
+            "procenat_pojas_napred": [
+                {
+                    "godina": 2017,
+                    "procenat": 49.9,
+                    "min_max_norm": 0.0
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 44.8,
+                    "min_max_norm": 0.0352112676056338
+                }
+            ],
+            "procenat_pojas_nazad": [
+                {
+                    "godina": 2017,
+                    "procenat": 12.9,
+                    "min_max_norm": 0.2014925373134329
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 18.7,
+                    "min_max_norm": 0.147410358565737
+                }
+            ],
+            "procenat_alkohol_dan": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.04,
+                    "min_max_norm": 0.2638297872340426
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.0,
+                    "min_max_norm": 0.1923076923076923
+                }
+            ],
+            "procenat_alkohol_noc": [
+                {
+                    "godina": 2017,
+                    "procenat": 1.04,
+                    "min_max_norm": 0.2638297872340426
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 1.0,
+                    "min_max_norm": 0.1923076923076923
+                }
+            ],
+            "standarno_odstupanje_brzine_van_naselja": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 14.04,
+                    "min_max_norm": 0.9692898272552782
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 72.1,
+                    "min_max_norm": 0.725806451612903
+                }
+            ],
+            "procenat_prekoracenja_brzine_u_naselju_preko_10km_h": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 30.6,
+                    "min_max_norm": 0.4504132231404958
+                }
+            ],
+            "upotreba_dnevnih_svetala": [
+                {
+                    "godina": 2017,
+                    "procenat": null,
+                    "min_max_norm": null
+                },
+                {
+                    "godina": 2019,
+                    "procenat": 98.2,
+                    "min_max_norm": 0.8309859154929575
+                }
+            ]
+        }
+    }
+]

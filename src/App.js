@@ -8,24 +8,13 @@ import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
-const AlertPage = React.lazy(() => import('pages/AlertPage'));
-const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
-const BadgePage = React.lazy(() => import('pages/BadgePage'));
-const ButtonGroupPage = React.lazy(() => import('pages/ButtonGroupPage'));
-const ButtonPage = React.lazy(() => import('pages/ButtonPage'));
 const PracenjeStanjaKibsa = React.lazy(() =>
   import('pages/PracenjeStanjaKibsa'),
 );
+const Mape = React.lazy(() => import('pages/Mape'))
 const ZastoKibs = React.lazy(() => import('pages/ZastoKibs'));
 const OsnovneInformacije = React.lazy(() => import('pages/OsnovneInformacije'));
-const DropdownPage = React.lazy(() => import('pages/DropdownPage'));
-const FormPage = React.lazy(() => import('pages/FormPage'));
 const InputGroupPage = React.lazy(() => import('pages/InputGroupPage'));
-const ModalPage = React.lazy(() => import('pages/ModalPage'));
-const ProgressPage = React.lazy(() => import('pages/ProgressPage'));
-const TablePage = React.lazy(() => import('pages/TablePage'));
-const TypographyPage = React.lazy(() => import('pages/TypographyPage'));
-const WidgetPage = React.lazy(() => import('pages/WidgetPage'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -37,47 +26,15 @@ class App extends React.Component {
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
-            {/* <LayoutRoute
-              exact
-              path="/login"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/signup"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
-              )}
-            /> */}
-
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
                 <Route exact path="/" component={OsnovneInformacije} />
-                <Route exact path="/login-modal" component={AuthModalPage} />
-                <Route exact path="/buttons" component={ButtonPage} />
                 <Route
                   exact
                   path="/kibspracenje"
                   component={PracenjeStanjaKibsa}
                 />
-                <Route exact path="/widgets" component={WidgetPage} />
-                <Route exact path="/typography" component={TypographyPage} />
-                <Route exact path="/alerts" component={AlertPage} />
-                <Route exact path="/tables" component={TablePage} />
-                <Route exact path="/badges" component={BadgePage} />
-                <Route
-                  exact
-                  path="/button-groups"
-                  component={ButtonGroupPage}
-                />
-                <Route exact path="/dropdowns" component={DropdownPage} />
-                <Route exact path="/progress" component={ProgressPage} />
-                <Route exact path="/modals" component={ModalPage} />
-                <Route exact path="/forms" component={FormPage} />
+                <Route exact path="/mape" component={Mape} />
                 <Route exact path="/input-groups" component={InputGroupPage} />
                 <Route exact path="/zasto_kibs" component={ZastoKibs} />
               </React.Suspense>
