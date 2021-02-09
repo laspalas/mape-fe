@@ -9,173 +9,82 @@ import { Line, Pie, Doughnut, Bar, Radar, Polar } from 'react-chartjs-2';
 
 import Page from 'components/Page';
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+import MathJax from 'react-mathjax';
 
-const genLineData = (moreData = {}, moreData2 = {}) => {
-  return {
-    labels: MONTHS,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        backgroundColor: getColor('primary'),
-        borderColor: getColor('primary'),
-        borderWidth: 1,
-        data: [
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-        ],
-        ...moreData,
-      },
-      {
-        label: 'Dataset 2',
-        backgroundColor: getColor('secondary'),
-        borderColor: getColor('secondary'),
-        borderWidth: 1,
-        data: [
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-          randomNum(),
-        ],
-        ...moreData2,
-      },
-    ],
-  };
-};
 
-const genPieData = () => {
-  return {
-    datasets: [
-      {
-        data: [randomNum(), randomNum(), randomNum(), randomNum(), randomNum()],
-        backgroundColor: [
-          getColor('primary'),
-          getColor('secondary'),
-          getColor('success'),
-          getColor('info'),
-          getColor('danger'),
-        ],
-        label: 'Dataset 1',
-      },
-    ],
-    labels: ['Data 1', 'Data 2', 'Data 3', 'Data 4', 'Data 5'],
-  };
-};
+const first_formula = `KIBS_{j}=\\frac{max} {\\overline {w_{ij}}} \\sum\\nolimits_{i=1}^l= \\overline {r_{ij}} \\ \\overline {w_{ij}}`;
+const second_formula = `\\sum_{i=1}^l \\overline {w_{ij}} = 1 `;
+const third_formula = `\\leq\\frac{1} {l-1} \\sum_{i=1}^l ({l-1})\\overline {w_{ij}} = 1 \\geq`; 
+const forth_formula = `\\sum_{i=1}^l \\overline {w_{ij}} = 1 `;
+const description_1 = `Gde\\ je:`;
+const description_2 = `I\\ =\\ broj\\ indikatora`;
+const description_3 = `\\overline {}\\ =ordered\\ value\\ (ponderisanje\\ operatora\\ po\\ utvrdjenom\\ redosledu)`;
+const description_4 = `r\\ =\\ normalizovana\\ vrednost`;
+const description_5 = `w\\ =\\ težina`;
+const description_6 = `m\\ =\\ \\{alkolol,\\ brzina,\\ zaštitni sistem,\\ upotreba\\ dnevnih\\ svetala\\}`;
+const description_7 = `L\\ =\\ donja\\ granica`;
+const description_8 = `U\\ =\\ gornja\\ granica`;
+
+
 
 const ChartPage = () => {
   return (
     <Page title="" breadcrumbs={[{ name: 'Zasto KIBS', active: true }]}>
-      Zasto kibs
-      {/* <Row>
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Bar</CardHeader>
-            <CardBody>
-              <Bar data={genLineData()} />
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Line</CardHeader>
-            <CardBody>
-              <Line data={genLineData({ fill: false }, { fill: false })} />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Stacked Line</CardHeader>
-            <CardBody>
-              <Line
-                data={genLineData()}
-                options={{
-                  scales: {
-                    xAxes: [
-                      {
-                        scaleLabel: {
-                          display: true,
-                          labelString: 'Month',
-                        },
-                      },
-                    ],
-                    yAxes: [
-                      {
-                        stacked: true,
-                        scaleLabel: {
-                          display: true,
-                          labelString: 'Value',
-                        },
-                      },
-                    ],
-                  },
-                }}
-              />
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Combo Bar / Line</CardHeader>
-            <CardBody>
-              <Bar data={genLineData({ type: 'line', fill: false })} />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Pie</CardHeader>
-            <CardBody>
-              <Pie data={genPieData()} />
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Doughnut</CardHeader>
-            <CardBody>
-              <Doughnut data={genPieData()} />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Polar</CardHeader>
-            <CardBody>
-              <Polar data={genPieData()} />
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col xl={6} lg={12} md={12}>
-          <Card>
-            <CardHeader>Radar</CardHeader>
-            <CardBody>
-              <Radar data={genLineData()} />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row> */}
+      <MathJax.Provider>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                <h3>Metodologija</h3>
+              </CardHeader>
+              <CardBody>
+                <ol>
+                  <li>
+                    Selecting the appropriate indicators to combine them in an
+                    index.
+                  </li>
+                  <li>Collecting the data on indicators.</li>
+                  <li>Making of data analyses</li>
+                  <li>Assigning the weights to each indicator</li>
+                  <li>Aggregating the values of indicators.</li>
+                  <li>Testing the robustness of the index</li>
+                  <li>
+                    Computing, evaluating and visualizing the scores of the
+                    final index.
+                  </li>
+                </ol>
+                <h5>Weighting method</h5>
+                <h5>Aggregating indicators</h5>
+                <h5>Index methodology</h5>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <CardBody>
+                <Row>
+                  <Col>
+                    <MathJax.Node formula={first_formula} />
+                    <MathJax.Node formula={second_formula} />
+                    <MathJax.Node formula={third_formula} />
+                    <MathJax.Node formula={forth_formula} />
+                  </Col>
+                  <Col>
+                    <MathJax.Node formula={description_1} />
+                    <MathJax.Node formula={description_2} />
+                    <MathJax.Node formula={description_3} />
+                    <MathJax.Node formula={description_4} />
+                    <MathJax.Node formula={description_5} />
+                    <MathJax.Node formula={description_6} />
+                    <MathJax.Node formula={description_7} />
+                    <MathJax.Node formula={description_8} />
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </MathJax.Provider>
     </Page>
   );
 };

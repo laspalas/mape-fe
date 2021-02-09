@@ -7,6 +7,7 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PracenjeStanjaKibsa = React.lazy(() =>
   import('pages/PracenjeStanjaKibsa'),
@@ -15,6 +16,7 @@ const Mape = React.lazy(() => import('pages/Mape'))
 const ZastoKibs = React.lazy(() => import('pages/ZastoKibs'));
 const OsnovneInformacije = React.lazy(() => import('pages/OsnovneInformacije'));
 const InputGroupPage = React.lazy(() => import('pages/InputGroupPage'));
+const BazaPodataka = React.lazy(() => import('pages/BazePodataka'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -37,6 +39,7 @@ class App extends React.Component {
                 <Route exact path="/mape" component={Mape} />
                 <Route exact path="/input-groups" component={InputGroupPage} />
                 <Route exact path="/zasto_kibs" component={ZastoKibs} />
+                <Route exact path="/baza" component={BazaPodataka} />
               </React.Suspense>
             </MainLayout>
             <Redirect to="/" />
