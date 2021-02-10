@@ -1,7 +1,7 @@
 [
     {
-        "pu_id": 28,
-        "policijska_uprava": "Prijedor",
+        "pu_id": 4,
+        "policijska_uprava": "Tuzla",
         "region": "Bosna",
         "tip_statistike": {
             "procenat_pojas_napred": [
@@ -103,7 +103,7 @@
         }
     },
     {
-        "pu_id": 29,
+        "pu_id": 12,
         "policijska_uprava": "Banja Luka",
         "region": "Bosna",
         "tip_statistike": {
