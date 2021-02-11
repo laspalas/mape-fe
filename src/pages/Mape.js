@@ -119,7 +119,7 @@ const Mape = () => {
 
   const resetFilters = () => {
     setSingleFilterValues(initSingleValues);
-    setShowSingle(false);
+    setMultiFilterValues(initMultiValues);
   };
 
   const onSingleChange = values => {
