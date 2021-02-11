@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 
 
-
-
-const PyramidChart = () => {
+let chart;
+const PyramidChart = ({ width }) => {
   useEffect(() => {
-    window.Highcharts.chart('container', {
+    chart = window.Highcharts.chart('container', {
       chart: {
         type: 'pyramid',
       },
+      responsive: true,
       title: {
         text: 'Piramialni prikaz grupa indikatora',
         align: 'center',
@@ -58,8 +58,7 @@ const PyramidChart = () => {
       tooltip: {
         useHTML: true,
         headerFormat: '<small>{point.key}:</small><table>',
-        pointFormat:
-          '<tr><td style="color: red"><b>{point.z}</b> </td>',
+        pointFormat: '<tr><td style="color: red"><b>{point.z}</b> </td>',
         footerFormat: '</table>',
       },
 
@@ -94,11 +93,9 @@ const PyramidChart = () => {
         },
       ],
     });
-  }, []);
+  }, [width]);
 
   return <div id="container"></div>;
 };
-
-
 
 export default PyramidChart;

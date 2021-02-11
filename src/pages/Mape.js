@@ -7,24 +7,49 @@ import bihgeojson from '../assets/geo-data/bihgeo.json';
 import { MapFilters } from '../components/MapFilters/MapFilters';
 import dataJSON from '../assets/data.json';
 import './mape.scss';
+import { ClearFilters } from '../components/MapFilters/ClearFilters';
 
-const COLOR_1 = "#F7FBFF";
-const COLOR_2 = "#DEEBF7";
-const COLOR_3 = "#C6DBEF";
-const COLOR_4 = "#9ECAE1";
-const COLOR_5 =  "#6BAED6";
-const COLOR_6 = "#4292C6";
-const COLOR_7 = "#2171B5";
-const COLOR_8 = "#08519C";
-const COLOR_9 =  "#08306B";
-const COLOR_10 =  "#08306B";
+const COLOR_1 = '#F7FBFF';
+const COLOR_2 = '#DEEBF7';
+const COLOR_3 = '#C6DBEF';
+const COLOR_4 = '#9ECAE1';
+const COLOR_5 = '#6BAED6';
+const COLOR_6 = '#4292C6';
+const COLOR_7 = '#2171B5';
+const COLOR_8 = '#08519C';
+const COLOR_9 = '#08306B';
+const COLOR_10 = '#08306B';
 
-
+const getColor = value => {
+  switch (value) {
+    case value >= 0.9:
+      return COLOR_10;
+    case value >= 0.8:
+      return COLOR_9;
+    case value >= 0.7:
+      return COLOR_8;
+    case value >= 0.6:
+      return COLOR_7;
+    case value >= 0.6:
+      return COLOR_6;
+    case value >= 0.4:
+      return COLOR_5;
+    case value >= 0.3:
+      return COLOR_4;
+    case value >= 0.2:
+      return COLOR_3;
+    case value >= 0.1:
+      return COLOR_2;
+    case value >= 0:
+      return COLOR_1;
+  }
+};
 
 const position = [43, 17];
 let mapRef;
 
 const initSingleValues = { region: null, parametar: null, godina: null };
+const initMultiValues = { parametar: [], godina: null };
 
 const defaultStyle = {
   color: '#3388ff',
@@ -33,14 +58,22 @@ const defaultStyle = {
   weight: 2,
 };
 
-const applyStyleSingle = values => {
+const getMinMaxNormSingle = values => {
   const region = dataJSON.find(d => d.pu_id === values.region.value);
   const godine = region.tip_statistike[values.parametar.value];
   const minMaxNorm = godine.find(g => g.godina === values.godina.value)
     .min_max_norm;
 
+  return minMaxNorm;
+};
+
+const getKibsDummy = values => {};
+
+const applyStyleSingle = values => {
+  const minMaxNorm = getMinMaxNormSingle(values);
+
   return {
-    fillColor: `rgb(51, 136, 255)`,
+    fillColor: getColor(minMaxNorm),
     fillOpacity: minMaxNorm,
   };
 };
@@ -70,21 +103,31 @@ const Mape = () => {
   const [singleFilterValues, setSingleFilterValues] = useState(
     initSingleValues,
   );
+  const [multiFilterValues, setMultiFilterValues] = useState(initMultiValues);
   const [selected, setSelected] = useState({});
   const [showSingle, setShowSingle] = useState(false);
 
+  const resetFilters = () => {
+    setSingleFilterValues(initSingleValues);
+    setShowSingle(false);
+  };
+
   const onSingleChange = values => {
+    setMultiFilterValues(initMultiValues);
     setSingleFilterValues(values);
     setShowSingle(true);
   };
 
+  const onMultiChange = values => {
+    setSingleFilterValues(initSingleValues);
+    setMultiFilterValues(values);
+  };
+
   function highlightFeature(e) {
     var layer = e.target;
-    console.log(e.target.feature.properties);
     const { name_2 } = e.target.feature.properties;
     setSelected({
       province: `${name_2}`,
-      // count: COUNT
     });
     layer.setStyle({
       weight: 5,
@@ -102,11 +145,16 @@ const Mape = () => {
   }
 
   function onEachFeature(feature, layer) {
-    // layer.bindTooltip(feature.properties.name_2, {
-    //   permanent: true,
-    //   direction: 'center',
-    //   className: 'countryLabel',
-    // });
+    if (
+      singleFilterValues.region &&
+      isSelectedSingleRegion(feature, singleFilterValues)
+    ) {
+      layer.bindTooltip(`${getMinMaxNormSingle(singleFilterValues)}`, {
+        permanent: true,
+        direction: 'top',
+        className: 'countryLabel',
+      });
+    }
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,
@@ -121,10 +169,11 @@ const Mape = () => {
           values={singleFilterValues}
           onChange={onSingleChange}
         />
-        <MapFilters />
+        <MapFilters values={multiFilterValues} onChange={onMultiChange} />
+        <ClearFilters onClearFilters={resetFilters} />
         <MapContainer
           key={`${
-            showSingle
+            singleFilterValues.region
               ? `${singleFilterValues.region.value} ${singleFilterValues.godina.value} ${singleFilterValues.parametar.value}`
               : 'neki_kurac'
           }__`}
@@ -173,7 +222,7 @@ const Mape = () => {
                 onEachFeature={onEachFeature}
                 data={feature}
                 style={feature => {
-                  return applyStyles(singleFilterValues, feature);
+                  return applyStyles(singleFilterValues.region ? singleFilterValues : multiFilterValues, feature);
                 }}
               ></GeoJSON>
             );
