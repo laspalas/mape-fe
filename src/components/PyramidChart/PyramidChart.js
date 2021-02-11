@@ -1,61 +1,7 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-const chartOptions = {
-  chart: {
-    type: 'pyramid',
-  },
-  title: {
-    text: 'Sales pyramid',
-    x: -50,
-  },
-  plotOptions: {
-    series: {
-      dataLabels: {
-        enabled: true,
-        format: '<b>{point.name}</b> ({point.y:,.0f})',
-        softConnector: true,
-      },
-      center: ['40%', '50%'],
-      width: '80%',
-    },
-  },
-  legend: {
-    enabled: false,
-  },
-  series: [
-    {
-      name: 'Unique users',
-      data: [
-        ['Website visits', 15654],
-        ['Downloads', 4064],
-        ['Requested price list', 1987],
-        ['Invoice sent', 976],
-        ['Finalized', 846],
-      ],
-    },
-  ],
 
-  responsive: {
-    rules: [
-      {
-        condition: {
-          maxWidth: 500,
-        },
-        chartOptions: {
-          plotOptions: {
-            series: {
-              dataLabels: {
-                inside: true,
-              },
-              center: ['50%', '50%'],
-              width: '100%',
-            },
-          },
-        },
-      },
-    ],
-  },
-};
+
 
 const PyramidChart = () => {
   useEffect(() => {
@@ -64,60 +10,95 @@ const PyramidChart = () => {
         type: 'pyramid',
       },
       title: {
-        text: 'Sales pyramid',
-        x: -50,
+        text: 'Piramialni prikaz grupa indikatora',
+        align: 'center',
       },
       plotOptions: {
         series: {
           dataLabels: {
             enabled: true,
-            format: '<b>{point.name}</b> ({point.y:,.0f})',
+            align: 'left',
+            verticalAlign: 'middle',
+            format: '<b>{point.name}</b>',
             softConnector: true,
           },
+          states: {
+            hover: {
+              enabled: true,
+            },
+          },
+          cursor: 'pointer',
+
+          point: {
+            events: {
+              click: function () {
+                alert(
+                  'Category: ' + this.category + ', value: ' + this.y + this.z,
+                );
+              },
+            },
+          },
           center: ['40%', '50%'],
-          width: '80%',
+          width: '60%',
         },
       },
       legend: {
         enabled: true,
       },
+      tooltip: {
+        formatter: function () {
+          // The first returned item is the header, subsequent items are the
+          // points
+          return this.series.data.map(function (point) {
+            return point.z + '</br>';
+          });
+        },
+      },
+
+      tooltip: {
+        useHTML: true,
+        headerFormat: '<small>{point.key}:</small><table>',
+        pointFormat:
+          '<tr><td style="color: red"><b>{point.z}</b> </td>',
+        footerFormat: '</table>',
+      },
+
       series: [
         {
-          name: 'Unique users',
+          name: 'Piramialni prikaz grupa indikatora',
+          tooltiInfo: 'aaaaaaa',
           data: [
-            ['Website visits', 15654],
-            ['Downloads', 4064],
-            ['Requested price list', 1987],
-            ['Invoice sent', 976],
-            ['Finalized', 846],
+            {
+              name: 'Final outcomes',
+
+              y: 2,
+              z: 'deaths per 100.000 inhabitants',
+            },
+            {
+              name: 'Intermediate outcomes',
+              y: 2,
+              z:
+                'safety performance indicators<br/>2nd safety performance indicators',
+            },
+            {
+              name: 'Policy performance indicators',
+              y: 2,
+              z: 'safety measures and programmes',
+            },
+            {
+              name: 'Background performance indicators',
+              y: 2,
+              z: 'structure and culture',
+            },
           ],
         },
       ],
-
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500,
-            },
-            chartOptions: {
-              plotOptions: {
-                series: {
-                  dataLabels: {
-                    inside: true,
-                  },
-                  center: ['50%', '50%'],
-                  width: '100%',
-                },
-              },
-            },
-          },
-        ],
-      },
     });
   }, []);
 
   return <div id="container"></div>;
 };
+
+
 
 export default PyramidChart;

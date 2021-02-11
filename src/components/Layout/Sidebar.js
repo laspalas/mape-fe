@@ -82,7 +82,7 @@ const navItems = [
   { to: '/', name: 'Osnovne informacije', exact: true, Icon: FaInfoCircle },
   {
     to: '/kibspracenje',
-    name: 'PRACENJE STANJA KIBSA',
+    name: 'Praćenje stanja bezbednosti saobraćaja',
     exact: false,
     Icon: FaInfoCircle,
   },
