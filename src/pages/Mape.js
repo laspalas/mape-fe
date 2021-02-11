@@ -78,8 +78,14 @@ const applyStyleSingle = values => {
   };
 };
 
-const applyStylesMulti = values => {
-  return {};
+const applyStylesMulti = (values, feature) => {
+  // const kibs = values;
+  // const f = dataJSON.find(d => d.pu_id === feature.id_2);
+
+  return {
+    fillColor: getColor(0.2),
+    fillOpacity: 0.4,
+  };
 };
 
 const applyDefault = () => defaultStyle;
@@ -88,12 +94,16 @@ const isSelectedSingleRegion = (feature, values) =>
   feature.properties.id_2 === values.region.value;
 
 const applyStyles = (values, feature) => {
-  if (!values.region) {
+  if (!values.region && !values.godina) {
     return applyDefault();
   }
 
-  if (isSelectedSingleRegion(feature, values)) {
+  if (values.region && isSelectedSingleRegion(feature, values)) {
     return applyStyleSingle(values);
+  }
+
+  if (values.godina && values.parametar && !values.region) {
+    return applyStylesMulti(values, feature);
   }
 
   return applyDefault();
@@ -141,7 +151,7 @@ const Mape = () => {
   }
 
   function resetHighlight(e) {
-    e.target.setStyle(applyStyles(singleFilterValues, e.target.feature));
+    e.target.setStyle(applyStyles(singleFilterValues.region ? singleFilterValues : multiFilterValues, e.target.feature));
   }
 
   function onEachFeature(feature, layer) {
@@ -155,11 +165,34 @@ const Mape = () => {
         className: 'countryLabel',
       });
     }
+
+    if (multiFilterValues.godina) {
+      layer.bindTooltip('Kibs num', {
+        permanent: true,
+        direction: 'top',
+        className: 'countryLabel',
+      });
+    } 
+
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,
     });
   }
+
+  const getKey = () => {
+    if (singleFilterValues.region) {
+      return `${singleFilterValues.region.value} ${singleFilterValues.godina.value} ${singleFilterValues.parametar.value}`;
+    }
+
+    if (multiFilterValues.godina) {
+      return `${multiFilterValues.godina.value} ${JSON.stringify(
+        multiFilterValues.parametar,
+      )}`;
+    }
+
+    return 'nesto';
+  };
 
   return (
     <Page title="" breadcrumbs={[{ name: 'Mape', active: true }]}>
@@ -172,11 +205,7 @@ const Mape = () => {
         <MapFilters values={multiFilterValues} onChange={onMultiChange} />
         <ClearFilters onClearFilters={resetFilters} />
         <MapContainer
-          key={`${
-            singleFilterValues.region
-              ? `${singleFilterValues.region.value} ${singleFilterValues.godina.value} ${singleFilterValues.parametar.value}`
-              : 'neki_kurac'
-          }__`}
+          key={getKey()}
           mapRef={mapRef}
           center={position}
           zoom={7.2}
@@ -222,7 +251,12 @@ const Mape = () => {
                 onEachFeature={onEachFeature}
                 data={feature}
                 style={feature => {
-                  return applyStyles(singleFilterValues.region ? singleFilterValues : multiFilterValues, feature);
+                  return applyStyles(
+                    singleFilterValues.region
+                      ? singleFilterValues
+                      : multiFilterValues,
+                    feature,
+                  );
                 }}
               ></GeoJSON>
             );
