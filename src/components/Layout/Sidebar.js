@@ -147,7 +147,7 @@ class Sidebar extends React.Component {
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon }, index) => (
-              <NavItem key={index} className={bem.e('nav-item')}>
+              <NavItem style={{ borderRadius: '6px' }} key={index} className={bem.e('nav-item')}>
                 <BSNavLink
                   id={`navItem-${name}-${index}`}
                   className="text-uppercase"
@@ -157,12 +157,13 @@ class Sidebar extends React.Component {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-start',
+                    borderRadius: '5px',
                   }}
                   activeClassName="active"
                   exact={exact}
                 >
                   <Icon className={bem.e('nav-item-icon')} />
-                  <span className="">{name}</span>
+                  <span style={{ maxWidth: '210px'}}>{name}</span>
                 </BSNavLink>
               </NavItem>
             ))}

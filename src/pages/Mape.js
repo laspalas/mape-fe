@@ -111,8 +111,6 @@ const applyStyleSingle = (values, feature) => {
 const applyStylesMulti = (values, feature) => {
   const kibsDummy = getKibsDummy(values, feature);
 
-  console.log(getColor(+kibsDummy.toFixed(2)));
-
   return {
     fillColor: getColor(+kibsDummy.toFixed(2)),
     fillOpacity: 0.7,

@@ -7,10 +7,8 @@ import SourceLink from 'components/SourceLink';
 const Footer = () => {
   return (
     <Navbar>
-      <Nav navbar>
-        <NavItem>
-          2018 Reduction theme, source on <SourceLink>Github</SourceLink>
-        </NavItem>
+      <div style={{ marginTop: '1.6rem'}}></div>
+      <Nav style={{ marginTop: '1.6rem'}} navbar>
       </Nav>
     </Navbar>
   );

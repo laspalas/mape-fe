@@ -54,6 +54,22 @@ const lastWeek = new Date(
   today.getDate() - 7,
 );
 
+const TabContent = ({ children }) => {
+  return (
+    <div
+      style={{
+        minHeight: '1000px',
+        padding: '1rem',
+        border: '1px solid #dee2e6',
+        background: 'white',
+        borderTop: 'none',
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
 class DashboardPage extends React.Component {
   componentDidMount() {
     // this is needed, because InfiniteCalendar forces window scroll
@@ -70,22 +86,17 @@ class DashboardPage extends React.Component {
         title=""
         breadcrumbs={[{ name: 'Osnove informacije', active: true }]}
       >
-        <Card>
-          <Tabs
-            defaultActiveKey="Osnovne informacije"
-            transition={false}
-          >
-            <Tab eventKey="Osnovne informacije" title="Osnovne informacije">
-              <div>aaaaaaa</div>
-            </Tab>
-            <Tab eventKey="Svrha i sadrzaj" title="Svrha i sadrzaj">
-              <div>aaaaaaa</div>
-            </Tab>
-            <Tab eventKey="Cilj projekta" title="Cilj projekta">
-              <div>aaaaaaa</div>
-            </Tab>
-          </Tabs>
-        </Card>
+        <Tabs defaultActiveKey="Osnovne informacije" transition={false}>
+          <Tab eventKey="Osnovne informacije" title="Osnovne informacije">
+            <TabContent>Osnovne informacije</TabContent>
+          </Tab>
+          <Tab eventKey="Svrha i sadrzaj" title="Svrha i sadrzaj">
+            <TabContent>Svrha i sadrzaj</TabContent>
+          </Tab>
+          <Tab eventKey="Cilj projekta" title="Cilj projekta">
+            <TabContent>Cilj projekta</TabContent>
+          </Tab>
+        </Tabs>
       </Page>
     );
   }

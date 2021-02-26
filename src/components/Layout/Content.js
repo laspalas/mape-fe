@@ -9,7 +9,7 @@ const bem = bn.create('content');
 const Content = ({ tag: Tag, className, ...restProps }) => {
   const classes = bem.b(className);
 
-  return <Tag className={classes} {...restProps} />;
+  return <Tag className={classes} style={{ paddingLeft: 0, paddingRight: 0}} {...restProps} />;
 };
 
 Content.defaultProps = {
