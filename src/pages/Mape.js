@@ -10,6 +10,7 @@ import dataJSON from '../assets/data.json';
 import './mape.scss';
 import { ClearFilters } from '../components/MapFilters/ClearFilters';
 import { humanize } from '../utils/humanize';
+import GraphModal from '../components/GraphModal/GraphModal';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -232,6 +233,7 @@ const Mape = () => {
 
   return (
     <Page title="" breadcrumbs={[{ name: 'Mape', active: true }]}>
+      <GraphModal />
       <div style={{ position: 'relative' }}>
         <MapFilters
           isSingle

@@ -12,7 +12,7 @@ const ContentSingle = ({ onChange, values }) => (
       height: '20rem',
       display: 'flex',
       flexDirection: 'column',
-      zIndex: 100000,
+      zIndex: 422,
       padding: '1.6rem',
       background: 'white',
       borderRadius: '4px',
@@ -31,7 +31,7 @@ const ContentKibs = ({ values, onChange }) => (
       minHeight: '20rem',
       display: 'flex',
       flexDirection: 'column',
-      zIndex: 100000,
+      zIndex: 422,
       padding: '1.6rem',
       background: 'white',
       borderRadius: '4px',
@@ -70,7 +70,7 @@ const MapFilters = ({ isSingle, onChange, values }) => {
       <Button
         style={{
           position: 'absolute',
-          zIndex: 10000,
+          zIndex: 422,
           top: '25px',
           left: isSingle ? '80px' : '270px',
         }}

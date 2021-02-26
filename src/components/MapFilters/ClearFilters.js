@@ -6,7 +6,7 @@ const ClearFilters = ({ onClearFilters }) => {
     <Button
       style={{
         position: 'absolute',
-        zIndex: 10000,
+        zIndex: 422,
         top: '25px',
         left: '450px',
         display: 'flex',
