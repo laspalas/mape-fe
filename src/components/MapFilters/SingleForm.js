@@ -3,6 +3,9 @@ import { Box, TextField, Button, Grid } from '@material-ui/core';
 import { mapStaticKeysLabels } from '../../models/statistic';
 import { Autocomplete } from 'formik-material-ui-lab';
 import { Formik, Form, Field } from 'formik';
+import bihgeojson from '../../assets/geo-data/bihgeo.json';
+import { humanize } from '../../utils/humanize';
+import dataJSON from '../../assets/data.json';
 
 const validate = values => {
   if (values.godina && values.parametar && values.region) {
@@ -33,6 +36,7 @@ const SingleForm = ({ onChange, values }) => {
                 component={Autocomplete}
                 disablePortal
                 blurOnSelect
+                getOptionDisabled={(option) => !dataJSON.find((d) => d.pu_id === option.value) }
                 renderInput={params => (
                   <TextField
                     {...params}
@@ -40,10 +44,11 @@ const SingleForm = ({ onChange, values }) => {
                     variant="outlined"
                   />
                 )}
-                options={[
-                  { value: 4, label: 'Tuzla' },
-                  { value: 12, label: 'Banja Luka' },
-                ]}
+                
+                options={bihgeojson.features.map((feature) => ({
+                  value: feature.properties.PU_ID,
+                  label: humanize(feature.properties.NAME),
+                }))}
                 getOptionLabel={option => option.label}
               />
             </Grid>

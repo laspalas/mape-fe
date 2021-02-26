@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react';
 import L from 'leaflet';
 
 import Page from 'components/Page';
+
 import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import bihgeojson from '../assets/geo-data/bihgeo.json';
 import { MapFilters } from '../components/MapFilters/MapFilters';
 import dataJSON from '../assets/data.json';
 import './mape.scss';
 import { ClearFilters } from '../components/MapFilters/ClearFilters';
+import { humanize } from '../utils/humanize';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -45,7 +47,7 @@ const getColor = value => {
   }
 };
 
-const position = [43, 17];
+const position = [44, 18];
 let mapRef;
 
 const initSingleValues = { region: null, parametar: null, godina: null };
@@ -67,9 +69,26 @@ const getMinMaxNormSingle = values => {
   return minMaxNorm;
 };
 
-const getKibsDummy = values => {};
+const getKibsDummy = (values, feature) => {
+  const id = feature.properties.PU_ID;
+  const region = dataJSON.find(d => d.pu_id === id);
 
-const applyStyleSingle = values => {
+  if (!region) {
+    return 0;
+  }
+
+  return (
+    Object.keys(region.tip_statistike).reduce((acc, key) => {
+      const statArray = region.tip_statistike[key];
+      const sum = statArray
+        .map(s => s.min_max_norm || 0)
+        .reduce((acc, s) => s + acc, 0);
+      return sum + acc;
+    }, 0) / 6
+  );
+};
+
+const applyStyleSingle = (values, feature) => {
   const minMaxNorm = getMinMaxNormSingle(values);
 
   return {
@@ -79,19 +98,18 @@ const applyStyleSingle = values => {
 };
 
 const applyStylesMulti = (values, feature) => {
-  // const kibs = values;
-  // const f = dataJSON.find(d => d.pu_id === feature.id_2);
+  const kibsDummy = getKibsDummy(values, feature);
 
   return {
-    fillColor: getColor(0.2),
-    fillOpacity: 0.4,
+    fillColor: getColor(kibsDummy),
+    fillOpacity: kibsDummy,
   };
 };
 
 const applyDefault = () => defaultStyle;
 
 const isSelectedSingleRegion = (feature, values) =>
-  feature.properties.id_2 === values.region.value;
+  feature.properties.PU_ID === values.region.value;
 
 const applyStyles = (values, feature) => {
   if (!values.region && !values.godina) {
@@ -135,9 +153,9 @@ const Mape = () => {
 
   function highlightFeature(e) {
     var layer = e.target;
-    const { name_2 } = e.target.feature.properties;
+    const { NAME } = e.target.feature.properties;
     setSelected({
-      province: `${name_2}`,
+      province: `${NAME}`,
     });
     layer.setStyle({
       weight: 5,
@@ -151,7 +169,12 @@ const Mape = () => {
   }
 
   function resetHighlight(e) {
-    e.target.setStyle(applyStyles(singleFilterValues.region ? singleFilterValues : multiFilterValues, e.target.feature));
+    e.target.setStyle(
+      applyStyles(
+        singleFilterValues.region ? singleFilterValues : multiFilterValues,
+        e.target.feature,
+      ),
+    );
   }
 
   function onEachFeature(feature, layer) {
@@ -159,20 +182,33 @@ const Mape = () => {
       singleFilterValues.region &&
       isSelectedSingleRegion(feature, singleFilterValues)
     ) {
-      layer.bindTooltip(`${getMinMaxNormSingle(singleFilterValues)}`, {
+      layer.bindTooltip(
+        `${getMinMaxNormSingle(singleFilterValues)} (${humanize(
+          feature.properties.NAME,
+        )})`,
+        {
+          permanent: true,
+          direction: 'center',
+          className: 'countryLabel',
+        },
+      );
+    }
+
+    if (multiFilterValues.godina) {
+      layer.bindTooltip(`${getKibsDummy(multiFilterValues, feature)} (${humanize(feature.properties.NAME)})`, {
         permanent: true,
-        direction: 'top',
+        direction: 'center',
         className: 'countryLabel',
       });
     }
 
-    if (multiFilterValues.godina) {
-      layer.bindTooltip('Kibs num', {
+    if (!singleFilterValues.region && !multiFilterValues.godina) {
+      layer.bindTooltip(humanize(feature.properties.NAME), {
         permanent: true,
-        direction: 'top',
+        direction: 'center',
         className: 'countryLabel',
       });
-    } 
+    }
 
     layer.on({
       mouseover: highlightFeature,
@@ -208,7 +244,7 @@ const Mape = () => {
           key={getKey()}
           mapRef={mapRef}
           center={position}
-          zoom={7.2}
+          zoom={8.4}
           scrollWheelZoom={true}
           whenReady={e => {
             mapRef = e.target;
@@ -223,8 +259,7 @@ const Mape = () => {
           )}
           {selected.province && (
             <div className="info">
-              <strong>{selected.province}</strong>
-              <span>Placeholder for values</span>
+              <strong>{humanize(selected.province)}</strong>
             </div>
           )}
           <div className="legend">
