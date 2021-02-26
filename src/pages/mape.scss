@@ -181,3 +181,49 @@
   width: 800px;
   height: 600px;
 }
+
+.card-new {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.title-new {
+  color: grey;
+  font-size: 18px;
+}
+
+.button-new {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.a-new {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+.button-new:hover, a:hover {
+  opacity: 0.7;
+}
+
+.h2 {
+  display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}

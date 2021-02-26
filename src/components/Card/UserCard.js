@@ -3,7 +3,7 @@ import PropTypes from 'utils/propTypes';
 
 import classNames from 'classnames';
 
-import { Card, CardTitle, CardSubtitle, CardText, CardBody } from 'reactstrap';
+import { Card, CardImg, Button, CardTitle, CardSubtitle, CardText, CardBody } from 'reactstrap';
 
 import Avatar from '../Avatar';
 
@@ -13,6 +13,7 @@ const UserCard = ({
   title,
   subtitle,
   text,
+  style = {},
   children,
   className,
   ...restProps
@@ -20,16 +21,23 @@ const UserCard = ({
   const classes = classNames('bg-gradient-theme', className);
 
   return (
-    <Card inverse className={classes} {...restProps}>
-      <CardBody className="d-flex justify-content-center align-items-center flex-column">
-        <Avatar src={avatar} size={avatarSize} className="mb-2" />
-        <CardTitle>{title}</CardTitle>
-        <CardSubtitle>{subtitle}</CardSubtitle>
+    <Card style={{ maxWidth: '350px', marginLeft: style.marginLeft || 0}}>
+      <CardImg
+        top
+        src="https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg"
+        alt="Card image cap"
+        style={{ maxHeight: '270px'}}
+      />
+      <CardBody>
+        <CardTitle tag="h5">{title}</CardTitle>
+        <CardSubtitle tag="h6" className="mb-2 text-muted">
+          {subtitle}
+        </CardSubtitle>
         <CardText>
-          <small>{text}</small>
+           {text}
         </CardText>
+        <Button>Contact</Button>
       </CardBody>
-      {children}
     </Card>
   );
 };
