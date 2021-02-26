@@ -23,29 +23,51 @@ const COLOR_8 = '#08519C';
 const COLOR_9 = '#08306B';
 const COLOR_10 = '#08306B';
 
-const getColor = value => {
-  switch (value) {
-    case value >= 0.9:
-      return COLOR_10;
-    case value >= 0.8:
-      return COLOR_9;
-    case value >= 0.7:
-      return COLOR_8;
-    case value >= 0.6:
-      return COLOR_7;
-    case value >= 0.6:
-      return COLOR_6;
-    case value >= 0.4:
-      return COLOR_5;
-    case value >= 0.3:
-      return COLOR_4;
-    case value >= 0.2:
-      return COLOR_3;
-    case value >= 0.1:
-      return COLOR_2;
-    case value >= 0:
-      return COLOR_1;
+const getColor = v => {
+  const value = parseFloat(v);
+  if (value >= 0.9) {
+    return COLOR_10;
+  } else if (value >= 0.8) {
+    return COLOR_9;
+  } else if (value >= 0.7) {
+    return COLOR_8;
+  } else if (value >= 0.6) {
+    return COLOR_7;
+  } else if (value >= 0.5) {
+    return COLOR_6;
+  } else if (value >= 0.4) {
+    return COLOR_5;
+  } else if (value >= 0.3) {
+    return COLOR_4;
+  } else if (value >= 0.2) {
+    return COLOR_3;
+  } else if (value >= 0.1) {
+    return COLOR_2;
+  } else if (value >= 0) {
+    return COLOR_1;
   }
+  // switch (value) {
+  //   case value >= 0.9:
+  //     return COLOR_10;
+  //   case value >= 0.8:
+  //     return COLOR_9;
+  //   case value >= 0.7:
+  //     return COLOR_8;
+  //   case value >= 0.6:
+  //     return COLOR_7;
+  //   case value >= 0.6:
+  //     return COLOR_6;
+  //   case value >= 0.4:
+  //     return COLOR_5;
+  //   case value >= 0.3:
+  //     return COLOR_4;
+  //   case value >= 0.2:
+  //     return COLOR_3;
+  //   case value >= 0.1:
+  //     return COLOR_2;
+  //   case value >= 0:
+  //     return COLOR_1;
+  // }
 };
 
 const position = [44, 18];
@@ -89,9 +111,11 @@ const applyStyleSingle = (values, feature) => {
 const applyStylesMulti = (values, feature) => {
   const kibsDummy = getKibsDummy(values, feature);
 
+  console.log(getColor(+kibsDummy.toFixed(2)));
+
   return {
-    fillColor: getColor(kibsDummy),
-    fillOpacity: kibsDummy,
+    fillColor: getColor(+kibsDummy.toFixed(2)),
+    fillOpacity: 0.7,
   };
 };
 
