@@ -74,19 +74,7 @@ const getKibsDummy = (values, feature) => {
   const id = feature.properties.PU_ID;
   const region = dataJSON.find(d => d.pu_id === id);
 
-  if (!region) {
-    return 0;
-  }
-
-  return (
-    Object.keys(region.tip_statistike).reduce((acc, key) => {
-      const statArray = region.tip_statistike[key];
-      const sum = statArray
-        .map(s => s.min_max_norm || 0)
-        .reduce((acc, s) => s + acc, 0);
-      return sum + acc;
-    }, 0) / 6
-  );
+  return Math.random();
 };
 
 const applyStyleSingle = (values, feature) => {
@@ -134,7 +122,7 @@ const Mape = () => {
   );
   const [multiFilterValues, setMultiFilterValues] = useState(initMultiValues);
   const [selected, setSelected] = useState({});
-  const [showSingle, setShowSingle] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const resetFilters = () => {
     setSingleFilterValues(initSingleValues);
@@ -144,7 +132,6 @@ const Mape = () => {
   const onSingleChange = values => {
     setMultiFilterValues(initMultiValues);
     setSingleFilterValues(values);
-    setShowSingle(true);
   };
 
   const onMultiChange = values => {
@@ -196,11 +183,16 @@ const Mape = () => {
     }
 
     if (multiFilterValues.godina) {
-      layer.bindTooltip(`${getKibsDummy(multiFilterValues, feature)} (${humanize(feature.properties.NAME)})`, {
-        permanent: true,
-        direction: 'center',
-        className: 'countryLabel',
-      });
+      layer.bindTooltip(
+        `${getKibsDummy(multiFilterValues, feature)} (${humanize(
+          feature.properties.NAME,
+        )})`,
+        {
+          permanent: true,
+          direction: 'center',
+          className: 'countryLabel',
+        },
+      );
     }
 
     if (!singleFilterValues.region && !multiFilterValues.godina) {
@@ -233,7 +225,12 @@ const Mape = () => {
 
   return (
     <Page title="" breadcrumbs={[{ name: 'Mape', active: true }]}>
-      <GraphModal />
+      <GraphModal
+        singleValues={singleFilterValues}
+        multiValues={multiFilterValues}
+        open={open}
+        toggleModal={setOpen}
+      />
       <div style={{ position: 'relative' }}>
         <MapFilters
           isSingle
@@ -281,7 +278,15 @@ const Mape = () => {
               <GeoJSON
                 eventHandlers={{
                   click: e => {
-                    console.log('CLIKE', e);
+                    if (
+                      singleFilterValues.region &&
+                      singleFilterValues.region.value ===
+                        e.sourceTarget.feature.properties.PU_ID
+                    ) {
+                      setOpen(true);
+                    } else if (multiFilterValues.parametar.value) {
+                      setOpen(true);
+                    }
                   },
                 }}
                 key={feature.id}

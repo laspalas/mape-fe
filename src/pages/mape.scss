@@ -163,8 +163,6 @@
 }
 
 .modalGraph {
-  width: 1000px;
-  height: 700px;
   z-index: 100000;
 }
 
@@ -172,4 +170,14 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+}
+
+.modal-content {
+  width: 800px;
+  height: 800px;
+}
+
+.modalGraph {
+  width: 800px;
+  height: 600px;
 }
