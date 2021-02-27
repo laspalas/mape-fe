@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { L } from '../thrd/bigimage';
 
 import Page from 'components/Page';
@@ -10,9 +10,9 @@ import { MapFilters } from '../components/MapFilters/MapFilters';
 import dataJSON from '../assets/data.json';
 import './mape.scss';
 import { ClearFilters } from '../components/MapFilters/ClearFilters';
-import { humanize } from '../utils/humanize'; 
+import { humanize } from '../utils/humanize';
 import GraphModal from '../components/GraphModal/GraphModal';
-import 'leaflet-easyprint'; 
+import 'leaflet-easyprint';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -132,17 +132,10 @@ const Mape = () => {
   const [singleFilterValues, setSingleFilterValues] = useState(null);
   const [multiFilterValues, setMultiFilterValues] = useState(null);
   const [selected, setSelected] = useState({});
+  const [selectedId, setSelectedId] = useState(null);
   const [isSingle, setIsSingle] = useState(false);
   const [isMulti, setIsMulti] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    L.easyPrint({
-      title: 'My awesome print button',
-      position: 'topright',
-      sizeModes: ['A4Portrait', 'A4Landscape']
-    }).addTo(mapRef); 
-  }, [singleFilterValues, multiFilterValues])
 
   const resetFilters = () => {
     setIsMulti(false);
@@ -155,7 +148,7 @@ const Mape = () => {
     setMultiFilterValues(null);
     setSingleFilterValues(values);
     setIsSingle(true);
-    setIsMulti(false);   
+    setIsMulti(false);
   };
 
   const onMultiChange = values => {
@@ -229,11 +222,6 @@ const Mape = () => {
         },
       );
     }
-
-    layer.on({
-      mouseover: highlightFeature,
-      mouseout: resetHighlight,
-    });
   }
 
   const getKey = () => {
@@ -250,12 +238,15 @@ const Mape = () => {
 
   return (
     <Page title="" breadcrumbs={[{ name: 'Mape', active: true }]}>
-      {/* <GraphModal
-        singleValues={singleFilterValues}
-        multiValues={multiFilterValues}
-        open={open}
-        toggleModal={setOpen}
-      /> */}
+      {selectedId && (singleFilterValues || multiFilterValues) && (
+        <GraphModal
+          singleValues={singleFilterValues}
+          multiValues={multiFilterValues}
+          open={open && !!selectedId}
+          toggleModal={setOpen}
+          selectedId={selectedId}
+        />
+      )}
       <div style={{ position: 'relative' }} id="luka">
         <MapFilters
           isSingle
@@ -271,6 +262,11 @@ const Mape = () => {
           scrollWheelZoom={true}
           whenReady={e => {
             mapRef = e.target;
+            L.easyPrint({
+              title: 'My awesome print button',
+              position: 'topright',
+              sizeModes: ['A4Portrait', 'A4Landscape'],
+            }).addTo(e.target);
           }}
         >
           <TileLayer
@@ -294,14 +290,12 @@ const Mape = () => {
               <GeoJSON
                 eventHandlers={{
                   click: e => {
-                    if (
-                      singleFilterValues.region &&
-                      singleFilterValues.region.value ===
-                        e.sourceTarget.feature.properties.PU_ID
-                    ) {
+                    if (isSingle) {
                       setOpen(true);
-                    } else if (multiFilterValues.parametar.value) {
+                      setSelectedId(feature.properties.PU_ID);
+                    } else if (isMulti) {
                       setOpen(true);
+                      setSelectedId(feature.properties.PU_ID);
                     }
                   },
                 }}

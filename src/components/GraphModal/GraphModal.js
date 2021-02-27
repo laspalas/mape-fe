@@ -11,7 +11,7 @@ import { randomNum } from 'utils/demos';
 import dataJSON from '../../assets/data.json';
 import { mapStaticKeysLabels } from '../../models/statistic';
 
-const getAllMinMaxSorted = values => {
+const getAllMinMaxSorted = (values, selectedId) => {
   const godine = dataJSON.map(d => d.tip_statistike[values.parametar.value]);
 
   const mapByMinMaxNorm = godine.map(godina => {
@@ -24,20 +24,53 @@ const getAllMinMaxSorted = values => {
       name: d.policijska_uprava,
       id: d.pu_id,
       value: mapByMinMaxNorm[index],
-      color: d.pu_id === values.region.value ? 'red' : 'blue',
+      color: +d.pu_id === +selectedId ? 'red' : 'blue',
     };
   });
 
-  const selectedRegion = regions.find(r => r.id === values.region.value);
-
   return {
     regions: regions.sort((r1, r2) => r2.value - r1.value),
-    selectedRegion,
   };
 };
 
-const getLineDataSingle = singleValues => {
-  const { regions, selectedRegion } = getAllMinMaxSorted(singleValues);
+const getAllKibsSorted = (values, selectedId) => {
+  const regions = dataJSON.map((d, index) => {
+    return {
+      name: d.policijska_uprava,
+      id: d.pu_id,
+      value: Math.random().toFixed(3),
+      color: +d.pu_id === +selectedId ? 'red' : 'blue',
+    };
+  });
+
+  return {
+    regions: regions.sort((r1, r2) => r2.value - r1.value)
+  }
+}
+
+const getLineDataSingle = (singleValues, selectedId) => {
+  const { regions, selectedRegion } = getAllMinMaxSorted(
+    singleValues,
+    selectedId,
+  );
+  return {
+    labels: regions.map(d => d.name),
+    datasets: [
+      {
+        backgroundColor: regions.map(r => r.color),
+        borderColor: getColor('primary'),
+        borderWidth: 1,
+        data: regions.map(d => d.value),
+      },
+    ],
+  };
+};
+
+const getKibsLineData = (multiValues, selectedId) => {
+  const { regions } = getAllKibsSorted(
+    multiValues,
+    selectedId,
+  );
   return {
     labels: regions.map(d => d.name),
     datasets: [
@@ -72,9 +105,11 @@ const GraphModal = props => {
     toggleModal,
     singleValues,
     multiValues,
+    selectedId,
   } = props;
 
   const isSingle = !!singleValues;
+  const isMulti = !!multiValues;
 
   return (
     <div>
@@ -97,7 +132,7 @@ const GraphModal = props => {
               <Row>
                 <Col xl={12} lg={12} md={12}>
                   <Card>
-                    {isSingle && (
+                    {(isSingle | isMulti) && (
                       <CardHeader>
                         {isSingle
                           ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
@@ -105,14 +140,18 @@ const GraphModal = props => {
                       </CardHeader>
                     )}
                     <CardBody>
-                      {isSingle && (
+                      {(isSingle || isMulti) && (
                         <Bar
                           options={{
                             legend: {
                               display: false,
                             },
                           }}
-                          data={getLineDataSingle(singleValues)}
+                          data={
+                            isSingle
+                              ? getLineDataSingle(singleValues, selectedId)
+                              : getKibsLineData(multiValues, selectedId)
+                          }
                         />
                       )}
                     </CardBody>
@@ -120,7 +159,7 @@ const GraphModal = props => {
                 </Col>
               </Row>
             </Tab>
-            <Tab eventKey="radioChart" title="Radio chart">
+            {/* <Tab eventKey="radioChart" title="Radio chart">
               <Row>
                 <Col xl={12} lg={12} md={12}>
                   <Card>
@@ -139,7 +178,7 @@ const GraphModal = props => {
                   </Card>
                 </Col>
               </Row>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </ModalBody>
       </Modal>
