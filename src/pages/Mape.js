@@ -1,16 +1,18 @@
-import React, { useRef, useState } from 'react';
-import L from 'leaflet';
+import React, { useEffect, useRef, useState } from 'react';
+import { L } from '../thrd/bigimage';
 
 import Page from 'components/Page';
 
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import bihgeojson from '../assets/geo-data/bihgeo.json';
 import { MapFilters } from '../components/MapFilters/MapFilters';
 import dataJSON from '../assets/data.json';
 import './mape.scss';
 import { ClearFilters } from '../components/MapFilters/ClearFilters';
-import { humanize } from '../utils/humanize';
+import { humanize } from '../utils/humanize'; 
 import GraphModal from '../components/GraphModal/GraphModal';
+import 'leaflet-easyprint'; 
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -134,6 +136,14 @@ const Mape = () => {
   const [isMulti, setIsMulti] = useState(false);
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    L.easyPrint({
+      title: 'My awesome print button',
+      position: 'topright',
+      sizeModes: ['A4Portrait', 'A4Landscape']
+    }).addTo(mapRef); 
+  }, [singleFilterValues, multiFilterValues])
+
   const resetFilters = () => {
     setIsMulti(false);
     setIsSingle(false);
@@ -145,7 +155,7 @@ const Mape = () => {
     setMultiFilterValues(null);
     setSingleFilterValues(values);
     setIsSingle(true);
-    setIsMulti(false);
+    setIsMulti(false);   
   };
 
   const onMultiChange = values => {
@@ -246,7 +256,7 @@ const Mape = () => {
         open={open}
         toggleModal={setOpen}
       /> */}
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }} id="luka">
         <MapFilters
           isSingle
           values={singleFilterValues}
@@ -256,7 +266,6 @@ const Mape = () => {
         <ClearFilters onClearFilters={resetFilters} />
         <MapContainer
           key={getKey()}
-          mapRef={mapRef}
           center={position}
           zoom={8.4}
           scrollWheelZoom={true}
@@ -268,14 +277,6 @@ const Mape = () => {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {!selected.province && (
-            <div className="hover-info">Hover over an Area</div>
-          )}
-          {selected.province && (
-            <div className="info">
-              <strong>{humanize(selected.province)}</strong>
-            </div>
-          )}
           <div className="legend">
             <div style={{ '--color': COLOR_10 }}>0.9 - 10</div>
             <div style={{ '--color': COLOR_9 }}>0.8 - 0.9</div>
