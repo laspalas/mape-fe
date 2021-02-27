@@ -127,10 +127,6 @@ const GraphModal = props => {
     legend: {
       position: 'top'
     },
-    title: {
-      display: true,
-      text: 'Chart.js Radar Chart'
-    },
     scale: {
       reverse: false,
       gridLines: {
