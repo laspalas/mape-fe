@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
-
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import { Line, Pie, Doughnut, Bar, Radar, Polar } from 'react-chartjs-2';
 
 import { getColor } from 'utils/colors';
 import { randomNum } from 'utils/demos';
 import dataJSON from '../../assets/data.json';
-
-// blue, red
-
-// const getMinMaxNormSingle = values => {
-//   const region = dataJSON.find(d => d.pu_id === values.region.value);
-//   const godine = region.tip_statistike[values.parametar.value];
-//   const minMaxNorm = godine.find(g => g.godina === values.godina.value)
-//     .min_max_norm;
-
-//   return minMaxNorm;
-// };
+import { mapStaticKeysLabels } from '../../models/statistic';
 
 const getAllMinMaxSorted = values => {
   const godine = dataJSON.map(d => d.tip_statistike[values.parametar.value]);
@@ -39,7 +30,10 @@ const getAllMinMaxSorted = values => {
 
   const selectedRegion = regions.find(r => r.id === values.region.value);
 
-  return { regions: regions.sort((r1, r2) => r2.value - r1.value), selectedRegion }
+  return {
+    regions: regions.sort((r1, r2) => r2.value - r1.value),
+    selectedRegion,
+  };
 };
 
 const getLineDataSingle = singleValues => {
@@ -48,7 +42,7 @@ const getLineDataSingle = singleValues => {
     labels: regions.map(d => d.name),
     datasets: [
       {
-        backgroundColor: regions.map((r) => r.color),
+        backgroundColor: regions.map(r => r.color),
         borderColor: getColor('primary'),
         borderWidth: 1,
         data: regions.map(d => d.value),
@@ -57,41 +51,18 @@ const getLineDataSingle = singleValues => {
   };
 };
 
-// return {
-//   labels: MONTHS,
-//   datasets: [
-//     {
-//       backgroundColor: getColor('primary'),
-//       borderColor: getColor('primary'),
-//       borderWidth: 1,
-//       data: [
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//       ],
-//       ...moreData,
-//     },
-//     {
-//       backgroundColor: getColor('secondary'),
-//       borderColor: getColor('secondary'),
-//       borderWidth: 1,
-//       data: [
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//         randomNum(),
-//       ],
-//       ...moreData2,
-//     },
-//   ],
-// };
+const radarChartData = singleValues => {
+  console.log(
+    Object.keys(mapStaticKeysLabels).map(key => mapStaticKeysLabels[key]),
+    'labels',
+  );
+  return {
+    labels: Object.keys(mapStaticKeysLabels).map(
+      key => mapStaticKeysLabels[key].label,
+    ),
+    dataset: [],
+  };
+};
 
 const GraphModal = props => {
   const {
@@ -103,7 +74,7 @@ const GraphModal = props => {
     multiValues,
   } = props;
 
-  const isSingle = singleValues.region && singleValues.region.value;
+  const isSingle = !!singleValues;
 
   return (
     <div>
@@ -121,29 +92,55 @@ const GraphModal = props => {
           className="modal-body-graph"
           style={{ width: '100%', height: '100%' }}
         >
-          <Row>
-            <Col xl={12} lg={12} md={12}>
-              <Card>
-                <CardHeader>
-                  {singleValues.region && singleValues.region.value
-                    ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
-                    : 'Kibs chart'}
-                </CardHeader>
-                <CardBody>
-                  {isSingle && (
-                    <Bar
-                      options={{
-                        legend: {
-                          display: false,
-                        },
-                      }}
-                      data={getLineDataSingle(singleValues)}
-                    />
-                  )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+          <Tabs defaultActiveKey="BarChart" transition={false}>
+            <Tab eventKey="BarChart" title="Bar chart">
+              <Row>
+                <Col xl={12} lg={12} md={12}>
+                  <Card>
+                    {isSingle && (
+                      <CardHeader>
+                        {isSingle
+                          ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
+                          : 'Kibs chart'}
+                      </CardHeader>
+                    )}
+                    <CardBody>
+                      {isSingle && (
+                        <Bar
+                          options={{
+                            legend: {
+                              display: false,
+                            },
+                          }}
+                          data={getLineDataSingle(singleValues)}
+                        />
+                      )}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+            <Tab eventKey="radioChart" title="Radio chart">
+              <Row>
+                <Col xl={12} lg={12} md={12}>
+                  <Card>
+                    {isSingle && (
+                      <CardHeader>
+                        {singleValues.region && singleValues.region.value
+                          ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
+                          : 'Kibs chart'}
+                      </CardHeader>
+                    )}
+                    <CardBody>
+                      {isSingle && (
+                        <Radar data={radarChartData(singleValues)} />
+                      )}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Tab>
+          </Tabs>
         </ModalBody>
       </Modal>
     </div>

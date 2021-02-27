@@ -25,7 +25,7 @@ const COLOR_10 = '#08306B';
 
 const getColor = v => {
   const value = parseFloat(v);
-  if (value >= 0.9) {
+  if (+value >= 0.9) {
     return COLOR_10;
   } else if (value >= 0.8) {
     return COLOR_9;
@@ -46,34 +46,12 @@ const getColor = v => {
   } else if (value >= 0) {
     return COLOR_1;
   }
-  // switch (value) {
-  //   case value >= 0.9:
-  //     return COLOR_10;
-  //   case value >= 0.8:
-  //     return COLOR_9;
-  //   case value >= 0.7:
-  //     return COLOR_8;
-  //   case value >= 0.6:
-  //     return COLOR_7;
-  //   case value >= 0.6:
-  //     return COLOR_6;
-  //   case value >= 0.4:
-  //     return COLOR_5;
-  //   case value >= 0.3:
-  //     return COLOR_4;
-  //   case value >= 0.2:
-  //     return COLOR_3;
-  //   case value >= 0.1:
-  //     return COLOR_2;
-  //   case value >= 0:
-  //     return COLOR_1;
-  // }
 };
 
 const position = [44, 18];
 let mapRef;
 
-const initSingleValues = { region: null, parametar: null, godina: null };
+const initSingleValues = { parametar: null, godina: null };
 const initMultiValues = { parametar: [], godina: null };
 
 const defaultStyle = {
@@ -83,28 +61,34 @@ const defaultStyle = {
   weight: 2,
 };
 
-const getMinMaxNormSingle = values => {
-  const region = dataJSON.find(d => d.pu_id === values.region.value);
-  const godine = region.tip_statistike[values.parametar.value];
-  const minMaxNorm = godine.find(g => g.godina === values.godina.value)
-    .min_max_norm;
+const getMinMaxNormSingle = (values, feature) => {
+  console.log(values, feature);
+  const region = dataJSON.find(d => d.pu_id === feature.properties.PU_ID);
 
-  return minMaxNorm;
+  if (!region) {
+    return 0;
+  }
+
+  const godine = region.tip_statistike[values.parametar.value];
+  const minMaxNorm =
+    godine.find(g => g.godina === values.godina.value).min_max_norm || 0;
+
+  return minMaxNorm.toFixed(3);
 };
 
 const getKibsDummy = (values, feature) => {
   const id = feature.properties.PU_ID;
   const region = dataJSON.find(d => d.pu_id === id);
 
-  return Math.random();
+  return Math.random().toFixed(3);
 };
 
 const applyStyleSingle = (values, feature) => {
-  const minMaxNorm = getMinMaxNormSingle(values);
+  const minMaxNorm = getMinMaxNormSingle(values, feature);
 
   return {
     fillColor: getColor(minMaxNorm),
-    fillOpacity: minMaxNorm,
+    fillOpacity: 1,
   };
 };
 
@@ -112,26 +96,30 @@ const applyStylesMulti = (values, feature) => {
   const kibsDummy = getKibsDummy(values, feature);
 
   return {
-    fillColor: getColor(+kibsDummy.toFixed(2)),
-    fillOpacity: 0.7,
+    fillColor: getColor(+kibsDummy),
+    fillOpacity: 1,
   };
 };
 
 const applyDefault = () => defaultStyle;
 
-const isSelectedSingleRegion = (feature, values) =>
-  feature.properties.PU_ID === values.region.value;
+const applyStyles = (values, feature, isSingle, isMulti) => {
+  if (feature.properties.PU_ID === 0) {
+    return {
+      backgroundColor: 'red',
+      color: 'red',
+    };
+  }
 
-const applyStyles = (values, feature) => {
-  if (!values.region && !values.godina) {
+  if (!isSingle && !isMulti && feature.properties.PU_ID !== 0) {
     return applyDefault();
   }
 
-  if (values.region && isSelectedSingleRegion(feature, values)) {
-    return applyStyleSingle(values);
+  if (isSingle && values && feature.properties.PU_ID !== 0) {
+    return applyStyleSingle(values, feature);
   }
 
-  if (values.godina && values.parametar && !values.region) {
+  if (isMulti) {
     return applyStylesMulti(values, feature);
   }
 
@@ -139,25 +127,31 @@ const applyStyles = (values, feature) => {
 };
 
 const Mape = () => {
-  const [singleFilterValues, setSingleFilterValues] = useState(
-    initSingleValues,
-  );
-  const [multiFilterValues, setMultiFilterValues] = useState(initMultiValues);
+  const [singleFilterValues, setSingleFilterValues] = useState(null);
+  const [multiFilterValues, setMultiFilterValues] = useState(null);
   const [selected, setSelected] = useState({});
+  const [isSingle, setIsSingle] = useState(false);
+  const [isMulti, setIsMulti] = useState(false);
   const [open, setOpen] = useState(false);
 
   const resetFilters = () => {
+    setIsMulti(false);
+    setIsSingle(false);
     setSingleFilterValues(initSingleValues);
     setMultiFilterValues(initMultiValues);
   };
 
   const onSingleChange = values => {
-    setMultiFilterValues(initMultiValues);
+    setMultiFilterValues(null);
     setSingleFilterValues(values);
+    setIsSingle(true);
+    setIsMulti(false);
   };
 
   const onMultiChange = values => {
-    setSingleFilterValues(initSingleValues);
+    setIsMulti(true);
+    setIsSingle(false);
+    setSingleFilterValues(null);
     setMultiFilterValues(values);
   };
 
@@ -167,33 +161,42 @@ const Mape = () => {
     setSelected({
       province: `${NAME}`,
     });
-    layer.setStyle({
-      weight: 5,
-      color: '#3388ff',
-      dashArray: '',
-      fillOpacity: 0.7,
-    });
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-      layer.bringToFront();
+    if (e.target.feature.properties.PU_ID !== 0) {
+      layer.setStyle({
+        weight: 5,
+        color: '#3388ff',
+        dashArray: '',
+        fillOpacity: 0.7,
+      });
+      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+      }
     }
   }
 
   function resetHighlight(e) {
     e.target.setStyle(
       applyStyles(
-        singleFilterValues.region ? singleFilterValues : multiFilterValues,
+        isSingle ? singleFilterValues : multiFilterValues,
         e.target.feature,
+        isSingle,
+        isMulti,
       ),
     );
   }
 
   function onEachFeature(feature, layer) {
-    if (
-      singleFilterValues.region &&
-      isSelectedSingleRegion(feature, singleFilterValues)
-    ) {
+    if (!isSingle && !isMulti) {
+      layer.bindTooltip(humanize(feature.properties.NAME), {
+        permanent: true,
+        direction: 'center',
+        className: 'countryLabel',
+      });
+    }
+
+    if (isSingle && feature.properties.PU_ID !== 0) {
       layer.bindTooltip(
-        `${getMinMaxNormSingle(singleFilterValues)} (${humanize(
+        `${getMinMaxNormSingle(singleFilterValues, feature)} (${humanize(
           feature.properties.NAME,
         )})`,
         {
@@ -204,7 +207,7 @@ const Mape = () => {
       );
     }
 
-    if (multiFilterValues.godina) {
+    if (isMulti && feature.properties.PU_ID !== 0) {
       layer.bindTooltip(
         `${getKibsDummy(multiFilterValues, feature)} (${humanize(
           feature.properties.NAME,
@@ -217,14 +220,6 @@ const Mape = () => {
       );
     }
 
-    if (!singleFilterValues.region && !multiFilterValues.godina) {
-      layer.bindTooltip(humanize(feature.properties.NAME), {
-        permanent: true,
-        direction: 'center',
-        className: 'countryLabel',
-      });
-    }
-
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,
@@ -232,14 +227,12 @@ const Mape = () => {
   }
 
   const getKey = () => {
-    if (singleFilterValues.region) {
-      return `${singleFilterValues.region.value} ${singleFilterValues.godina.value} ${singleFilterValues.parametar.value}`;
+    if (isSingle) {
+      return `single-map-bro ${JSON.stringify(singleFilterValues)}`;
     }
 
-    if (multiFilterValues.godina) {
-      return `${multiFilterValues.godina.value} ${JSON.stringify(
-        multiFilterValues.parametar,
-      )}`;
+    if (isMulti) {
+      return `multi-map-bro ${JSON.stringify(multiFilterValues)}`;
     }
 
     return 'nesto';
@@ -247,12 +240,12 @@ const Mape = () => {
 
   return (
     <Page title="" breadcrumbs={[{ name: 'Mape', active: true }]}>
-      <GraphModal
+      {/* <GraphModal
         singleValues={singleFilterValues}
         multiValues={multiFilterValues}
         open={open}
         toggleModal={setOpen}
-      />
+      /> */}
       <div style={{ position: 'relative' }}>
         <MapFilters
           isSingle
@@ -316,10 +309,10 @@ const Mape = () => {
                 data={feature}
                 style={feature => {
                   return applyStyles(
-                    singleFilterValues.region
-                      ? singleFilterValues
-                      : multiFilterValues,
+                    isSingle ? singleFilterValues : multiFilterValues,
                     feature,
+                    isSingle,
+                    isMulti,
                   );
                 }}
               ></GeoJSON>

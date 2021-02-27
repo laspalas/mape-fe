@@ -5,7 +5,7 @@ import { Autocomplete } from 'formik-material-ui-lab';
 import { Formik, Form, Field } from 'formik';
 
 const validate = values => {
-  if (values.godina && values.parametar) {
+  if (!!values && values.godina.value && values.parametar) {
     return true;
   } else {
     return false;
@@ -22,7 +22,7 @@ const KibsForm = ({ onChange, values }) => {
         onChange(values);
       }}
       enableReinitialize
-      initialValues={values}
+      initialValues={values || { godina: {}, parametar: []}}
     >
       {({ values }) => (
         <Form>

@@ -8,7 +8,7 @@ import { humanize } from '../../utils/humanize';
 import dataJSON from '../../assets/data.json';
 
 const validate = values => {
-  if (values.godina && values.parametar && values.region) {
+  if (!!values && values.godina.value && values.parametar) {
     return true;
   } else {
     return false;
@@ -25,33 +25,11 @@ const SingleForm = ({ onChange, values }) => {
         onChange(values);
       }}
       enableReinitialize
-      initialValues={values}
+      initialValues={values || { godina: {}, parametar: {} }}
     >
       {({ values }) => (
         <Form>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Field
-                name="region"
-                component={Autocomplete}
-                disablePortal
-                blurOnSelect
-                getOptionDisabled={(option) => !dataJSON.find((d) => d.pu_id === option.value) }
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label="Policijska uprava"
-                    variant="outlined"
-                  />
-                )}
-                
-                options={bihgeojson.features.map((feature) => ({
-                  value: feature.properties.PU_ID,
-                  label: humanize(feature.properties.NAME),
-                }))}
-                getOptionLabel={option => option.label}
-              />
-            </Grid>
             <Grid item xs={12}>
               <Field
                 disablePortal
