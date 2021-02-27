@@ -149,7 +149,6 @@ L.Control.BigImage = L.Control.extend({
               new_resolve();
             }
           } catch (e) {
-            console.log(e);
             new_resolve();
           }
         }),

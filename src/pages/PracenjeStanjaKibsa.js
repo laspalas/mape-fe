@@ -31,7 +31,6 @@ import { useResizeDetector } from 'react-resize-detector';
 
 const CardPage = () => {
   const { width, height, ref } = useResizeDetector();
-  console.log(width, height);
   return (
     <Page
       title=""

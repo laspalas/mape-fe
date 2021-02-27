@@ -44,9 +44,9 @@ const getAllKibsSorted = (values, selectedId) => {
   });
 
   return {
-    regions: regions.sort((r1, r2) => r2.value - r1.value)
-  }
-}
+    regions: regions.sort((r1, r2) => r2.value - r1.value),
+  };
+};
 
 const getLineDataSingle = (singleValues, selectedId) => {
   const { regions, selectedRegion } = getAllMinMaxSorted(
@@ -67,10 +67,7 @@ const getLineDataSingle = (singleValues, selectedId) => {
 };
 
 const getKibsLineData = (multiValues, selectedId) => {
-  const { regions } = getAllKibsSorted(
-    multiValues,
-    selectedId,
-  );
+  const { regions } = getAllKibsSorted(multiValues, selectedId);
   return {
     labels: regions.map(d => d.name),
     datasets: [
@@ -84,16 +81,31 @@ const getKibsLineData = (multiValues, selectedId) => {
   };
 };
 
-const radarChartData = singleValues => {
-  console.log(
-    Object.keys(mapStaticKeysLabels).map(key => mapStaticKeysLabels[key]),
-    'labels',
+const radarChartData = (singleValues, selectedId) => {
+  const data = dataJSON.map(region => {
+    const dataset = Object.keys(region.tip_statistike).map(key => {
+      const godina = region.tip_statistike[key].find(
+        stat => stat.godina === singleValues.godina.value,
+      );
+      const minMaxNorm = (godina && godina.min_max_norm) || 0;
+
+      return minMaxNorm;
+    });
+
+    return { data: dataset, label: region.policijska_uprava, hidden: region.pu_id !== selectedId};
+  });
+
+  const labels = Object.keys(mapStaticKeysLabels).map(
+    key => mapStaticKeysLabels[key].value,
   );
+
   return {
-    labels: Object.keys(mapStaticKeysLabels).map(
-      key => mapStaticKeysLabels[key].label,
-    ),
-    dataset: [],
+    labels,
+    datasets: data.map(d => ({
+      data: d.data,
+      label: d.label,
+      hidden: d.hidden,
+    })),
   };
 };
 
@@ -110,6 +122,34 @@ const GraphModal = props => {
 
   const isSingle = !!singleValues;
   const isMulti = !!multiValues;
+
+  const options = {
+    legend: {
+      position: 'top'
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Radar Chart'
+    },
+    scale: {
+      reverse: false,
+      gridLines: {
+        color: [
+          'black',
+          'red',
+          'orange',
+          'yellow',
+          'green',
+          'blue',
+          'indigo',
+          'violet'
+        ]
+      },
+      ticks: {
+        beginAtZero: true
+      }
+    }
+  }
 
   return (
     <div>
@@ -130,9 +170,9 @@ const GraphModal = props => {
           <Tabs defaultActiveKey="BarChart" transition={false}>
             <Tab eventKey="BarChart" title="Bar chart">
               <Row>
-                <Col xl={12} lg={12} md={12}>
+                <Col xl={12} lg={12} md={12} style={{ padding: '1.6rem' }}>
                   <Card>
-                    {(isSingle | isMulti) && (
+                    {isSingle | isMulti && (
                       <CardHeader>
                         {isSingle
                           ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
@@ -159,26 +199,31 @@ const GraphModal = props => {
                 </Col>
               </Row>
             </Tab>
-            {/* <Tab eventKey="radioChart" title="Radio chart">
-              <Row>
-                <Col xl={12} lg={12} md={12}>
-                  <Card>
-                    {isSingle && (
-                      <CardHeader>
-                        {singleValues.region && singleValues.region.value
-                          ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
-                          : 'Kibs chart'}
-                      </CardHeader>
-                    )}
-                    <CardBody>
-                      {isSingle && (
-                        <Radar data={radarChartData(singleValues)} />
+            {isSingle && (
+              <Tab eventKey="radioChart" title="Radio chart">
+                <Row>
+                  <Col xl={12} lg={12} md={12} style={{ padding: '1.6rem' }}>
+                    <Card>
+                      {(isSingle || isMulti) && (
+                        <CardHeader>
+                          {isSingle
+                            ? `Parametar chart (${singleValues.godina.value})`
+                            : 'Kibs chart'}
+                        </CardHeader>
                       )}
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-            </Tab> */}
+                      <CardBody>
+                        {(isSingle || isMulti) && (
+                          <Radar
+                            options={options}
+                            data={radarChartData(singleValues, selectedId)}
+                          />
+                        )}
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+              </Tab>
+            )}
           </Tabs>
         </ModalBody>
       </Modal>

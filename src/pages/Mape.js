@@ -64,7 +64,6 @@ const defaultStyle = {
 };
 
 const getMinMaxNormSingle = (values, feature) => {
-  console.log(values, feature);
   const region = dataJSON.find(d => d.pu_id === feature.properties.PU_ID);
 
   if (!region) {
