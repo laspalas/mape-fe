@@ -8,7 +8,7 @@ import { humanize } from '../../utils/humanize';
 import dataJSON from '../../assets/data.json';
 
 const validate = values => {
-  if (!!values && values.godina.value && values.parametar) {
+  if (!!values && values.godina && values.godina.value && values.parametar) {
     return true;
   } else {
     return false;
