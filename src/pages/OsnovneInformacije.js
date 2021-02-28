@@ -46,6 +46,7 @@ import {
   Row,
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
+import {info } from './texts';
 
 const today = new Date();
 const lastWeek = new Date(
@@ -88,13 +89,13 @@ class DashboardPage extends React.Component {
       >
         <Tabs defaultActiveKey="Osnovne informacije" transition={false}>
           <Tab eventKey="Osnovne informacije" title="Osnovne informacije">
-            <TabContent>Osnovne informacije</TabContent>
+            <TabContent>{info}</TabContent>
           </Tab>
           <Tab eventKey="Svrha i sadrzaj" title="Svrha i sadrzaj">
-            <TabContent>Svrha i sadrzaj</TabContent>
+            <TabContent>{info}</TabContent>
           </Tab>
           <Tab eventKey="Cilj projekta" title="Cilj projekta">
-            <TabContent>Cilj projekta</TabContent>
+            <TabContent>{info}</TabContent>
           </Tab>
         </Tabs>
       </Page>

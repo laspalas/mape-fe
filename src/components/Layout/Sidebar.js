@@ -86,12 +86,17 @@ const navItems = [
     exact: false,
     Icon: FaInfoCircle,
   },
-  { to: '/zasto_kibs', name: 'ZASTO KIBS', exact: false, Icon: FaInfoCircle },
   {
-    to: '/model',
-    name: 'Model za proracun KIBS-a',
+    to: '/model_kibs',
+    name: 'Zasto KIBS',
     exact: false,
     Icon: MdWidgets,
+  },
+  {
+    to: '/zasto_kibs',
+    name: 'Model za proracun KIBS-a',
+    exact: false,
+    Icon: FaInfoCircle,
   },
   {
     to: '/baza',
@@ -147,7 +152,11 @@ class Sidebar extends React.Component {
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon }, index) => (
-              <NavItem style={{ borderRadius: '6px' }} key={index} className={bem.e('nav-item')}>
+              <NavItem
+                style={{ borderRadius: '6px' }}
+                key={index}
+                className={bem.e('nav-item')}
+              >
                 <BSNavLink
                   id={`navItem-${name}-${index}`}
                   className="text-uppercase"
@@ -163,7 +172,7 @@ class Sidebar extends React.Component {
                   exact={exact}
                 >
                   <Icon className={bem.e('nav-item-icon')} />
-                  <span style={{ maxWidth: '210px'}}>{name}</span>
+                  <span style={{ maxWidth: '210px' }}>{name}</span>
                 </BSNavLink>
               </NavItem>
             ))}

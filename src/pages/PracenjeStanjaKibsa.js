@@ -28,6 +28,7 @@ import {
 } from 'reactstrap';
 import PyramidChart from '../components/PyramidChart/PyramidChart';
 import { useResizeDetector } from 'react-resize-detector';
+import { info } from './texts';
 
 const CardPage = () => {
   const { width, height, ref } = useResizeDetector();
@@ -38,22 +39,16 @@ const CardPage = () => {
         { name: 'Praćenje stanja bezbednosti saobraćaja', active: true },
       ]}
     >
-      <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+      <div
+        ref={ref}
+        style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
+      >
         <div style={{ flex: 1, margin: '1rem' }}>
-          With the development and comprehension of road safety issues, methods
-          for comparing road safety situations in specific areas have been also
-          developed. Therefore, today’s methods for road safety comparisons
-          encompass a multitude of factors (and consequently a multitude of
-          indicators) while tending to reduce all those indicators to the same
-          scale and allocate them as most accurate weights possible to represent
-          the specific features of the compared area. Depending on the purpose
-          of the composite index, the phase of selecting the representative road
-          safety indicators on a territory should start from the analysis of all
-          categories (levels) of indicators from the Koornstra et al. (2002) and
-          LTSA (2000) pyramid.
-        </div>
-        <div style={{ flex: 1, margin: '1rem'}}>
-          <PyramidChart width={width}/>
+          <div style={{ width: '60%', float: 'left', marginRight: '1.6rem', marginBottom: '1.6rem' }}>
+            <PyramidChart width={width} />
+          </div>
+          <h1>Pracenje stanja bezbednosti saobracaja</h1>
+          {info}
         </div>
       </div>
     </Page>

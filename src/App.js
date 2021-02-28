@@ -9,6 +9,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NosiociProjekta from './pages/NosiociProjekta';
+import ModelKibs from './pages/ModelKibs';
 
 const PracenjeStanjaKibsa = React.lazy(() =>
   import('pages/PracenjeStanjaKibsa'),
@@ -38,7 +39,7 @@ class App extends React.Component {
                   component={PracenjeStanjaKibsa}
                 />
                 <Route exact path="/mape" component={Mape} />
-                <Route exact path="/input-groups" component={InputGroupPage} />
+                <Route exact path="/model_kibs" component={ModelKibs} />
                 <Route exact path="/zasto_kibs" component={ZastoKibs} />
                 <Route exact path="/baza" component={BazaPodataka} />
                 <Route exact path="/nosioci_aktivnosti" component={NosiociProjekta} />
