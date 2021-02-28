@@ -5,7 +5,7 @@ export const mapStaticKeysLabels = {
   },
   procenat_pojas_nazad: {
     value: 'procenat_pojas_nazad',
-    label: 'Procenat pojas nazazd',
+    label: 'Procenat pojas nazad',
   },
   procenat_alkohol_dan: { value: 'procenat_alkohol_dan', label: 'Procenat alkohol dan' },
   procenat_alkohol_noc: { value: 'procenat_alkohol_noc', label: 'Procenat alkohol noc' },
@@ -15,7 +15,7 @@ export const mapStaticKeysLabels = {
   },
   procenat_prekoracenja_brzine_u_naselju: {
     value: 'procenat_prekoracenja_brzine_u_naselju',
-    label: 'Procenat prekoracenja brzine unaselju',
+    label: 'Procenat prekoracenja brzine u naselju',
   },
   procenat_prekoracenja_brzine_u_naselju_preko_10km_h: {
     value: 'procenat_prekoracenja_brzine_u_naselju_preko_10km_h',
