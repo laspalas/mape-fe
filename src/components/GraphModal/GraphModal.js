@@ -96,7 +96,7 @@ const radarChartData = (singleValues, selectedId) => {
   });
 
   const labels = Object.keys(mapStaticKeysLabels).map(
-    key => mapStaticKeysLabels[key].value,
+    key => mapStaticKeysLabels[key].label,
   );
 
   return {
