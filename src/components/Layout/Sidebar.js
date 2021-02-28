@@ -26,8 +26,10 @@ import {
   MdWeb,
   MdWidgets,
   MdMap,
+  MdGroup,
 } from 'react-icons/md';
-import { FaMapMarker, FaDatabase, FaInfoCircle } from 'react-icons/fa';
+import { FaMapMarker, FaDatabase, FaCarCrash, FaInfoCircle } from 'react-icons/fa';
+import { SiMathworks } from 'react-icons/si';
 import { NavLink } from 'react-router-dom';
 import {
   // UncontrolledTooltip,
@@ -84,7 +86,7 @@ const navItems = [
     to: '/kibspracenje',
     name: 'Praćenje stanja bezbednosti saobraćaja',
     exact: false,
-    Icon: FaInfoCircle,
+    Icon: FaCarCrash,
   },
   {
     to: '/model_kibs',
@@ -96,13 +98,7 @@ const navItems = [
     to: '/zasto_kibs',
     name: 'Model za proracun KIBS-a',
     exact: false,
-    Icon: FaInfoCircle,
-  },
-  {
-    to: '/baza',
-    name: 'Baze podataka',
-    exact: false,
-    Icon: FaDatabase,
+    Icon: SiMathworks,
   },
   {
     to: '/mape',
@@ -114,9 +110,10 @@ const navItems = [
     to: '/nosioci_aktivnosti',
     name: 'Nosioci aktivnosti',
     exact: false,
-    Icon: FaInfoCircle,
+    Icon: MdGroup,
   },
 ];
+
 
 const bem = bn.create('sidebar');
 

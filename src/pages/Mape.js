@@ -258,7 +258,7 @@ const Mape = () => {
           key={getKey()}
           center={position}
           zoom={8.4}
-          scrollWheelZoom={true}
+          scrollWheelZoom={false}
           whenReady={e => {
             mapRef = e.target;
             L.easyPrint({
