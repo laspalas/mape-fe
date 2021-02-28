@@ -81,8 +81,20 @@
   position: absolute;
   z-index: 999;
   left: 20px;
-  bottom: 150px;
+  bottom: 100px;
   padding: 10px 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.3);
+  font: 13px/1 sans-serif;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.legend-2 {
+  position: absolute;
+  z-index: 999;
+  right: 70px;
+  bottom: 100px;
+  padding: 5px;
   border-radius: 5px;
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.3);
   font: 13px/1 sans-serif;

@@ -13,6 +13,7 @@ import { ClearFilters } from '../components/MapFilters/ClearFilters';
 import { humanize } from '../utils/humanize';
 import GraphModal from '../components/GraphModal/GraphModal';
 import 'leaflet-easyprint';
+import policija from '../assets/policija.jpeg';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -24,6 +25,19 @@ const COLOR_7 = '#2171B5';
 const COLOR_8 = '#08519C';
 const COLOR_9 = '#08306B';
 const COLOR_10 = '#08306B';
+
+const mapColors = [
+  { pu_id: 28, color: '#B8BA00' },
+  { pu_id: 29, color: '#B00000' },
+  { pu_id: 30, color: '#A54AFF' },
+  { pu_id: 31, color: '#00AAAA' },
+  { pu_id: 32, color: '#CC4201' },
+  { pu_id: 33, color: '#3635FF' },
+  { pu_id: 34, color: '#B65B00' },
+  { pu_id: 35, color: '#FF5959' },
+  { pu_id: 36, color: '#68016C' },
+  { pu_id: 37, color: '#808040' },
+];
 
 const getColor = v => {
   const value = parseFloat(v);
@@ -59,7 +73,7 @@ const initMultiValues = { parametar: [], godina: null };
 const defaultStyle = {
   color: '#3388ff',
   fillColor: '#3388ff',
-  fillOpacity: 0,
+  fillOpacity: 0.5,
   weight: 2,
 };
 
@@ -102,7 +116,7 @@ const applyStylesMulti = (values, feature) => {
   };
 };
 
-const applyDefault = () => defaultStyle;
+const applyDefault = backgroundColor => ({ ...defaultStyle, color: backgroundColor, fillColor: backgroundColor });
 
 const applyStyles = (values, feature, isSingle, isMulti) => {
   if (feature.properties.PU_ID === 0) {
@@ -113,7 +127,8 @@ const applyStyles = (values, feature, isSingle, isMulti) => {
   }
 
   if (!isSingle && !isMulti && feature.properties.PU_ID !== 0) {
-    return applyDefault();
+    const mapColor = mapColors.find(m => m.pu_id === feature.properties.PU_ID);
+    return applyDefault(mapColor.color);
   }
 
   if (isSingle && values && feature.properties.PU_ID !== 0) {
@@ -283,6 +298,9 @@ const Mape = () => {
             <div style={{ '--color': COLOR_3 }}>0.2 - 0.3</div>
             <div style={{ '--color': COLOR_2 }}>0.1 - 0.2</div>
             <div style={{ '--color': COLOR_1 }}>0 - 0.1</div>
+          </div>
+          <div className="legend-2">
+            <img width={200} height={300} src={policija} />
           </div>
           {bihgeojson.features.map(feature => {
             return (
