@@ -280,6 +280,7 @@ const Mape = () => {
               title: 'My awesome print button',
               position: 'topright',
               sizeModes: ['A4Portrait', 'A4Landscape'],
+              hideClasses: ['legend-2'],
             }).addTo(e.target);
           }}
         >
