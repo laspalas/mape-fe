@@ -32,15 +32,34 @@ import { useResizeDetector } from 'react-resize-detector';
 const NosiociProjekta = () => {
   const { width, height, ref } = useResizeDetector();
   return (
-    <Page
-      title=""
-      breadcrumbs={[
-        { name: 'Nosioci projekta', active: true },
-      ]}
-    >
-      <div ref={ref} style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
-        <UserCard title="Nikola Nonkovic" subtitle="BE Engineer" text="Info about Nikola Nonkovic"/>
-        <UserCard style={{ marginLeft: '20px'}} title="Luka Jovanovic" subtitle="FE Engineer" text="Info about Luka Jovanovic"/>
+    <Page title="" breadcrumbs={[{ name: 'Nosioci projekta', active: true }]}>
+      <div
+        ref={ref}
+        style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
+      >
+        <UserCard
+          title="Suzana Tešić"
+          subtitle="PhD College of Traffic Engineering"
+          text="Info about Milan Tesic"
+        />
+        <UserCard
+          style={{ marginLeft: '20px' }}
+          title="Milan Tešić"
+          subtitle="PhD College of Traffic Engineering"
+          text="Info about Milan Tesic"
+        />
+        <UserCard
+          style={{ marginLeft: '20px' }}
+          title="Nikola Nonkovic"
+          subtitle="BE Engineer"
+          text="Info about Nikola Nonkovic"
+        />
+        <UserCard
+          style={{ marginLeft: '20px' }}
+          title="Luka Jovanovic"
+          subtitle="FE Engineer"
+          text="Info about Luka Jovanovic"
+        />
       </div>
     </Page>
   );
