@@ -32,6 +32,8 @@ import trafic from '../assets/trafic.jpeg';
 import { info } from './texts';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import CardHeader from 'reactstrap/lib/CardHeader';
+import slika from '../assets/img/products/product_640-4.jpg';
 
 const TabContent = ({ children }) => {
   return (
@@ -54,16 +56,36 @@ const ModelKibs = () => {
   return (
     <Page title="" breadcrumbs={[{ name: 'Nosioci projekta', active: true }]}>
       <Tabs defaultActiveKey="Osnovne informacije" transition={false}>
-          <Tab eventKey="Osnovne informacije" title="Zasto KIBS?">
-            <TabContent>{info}</TabContent>
-          </Tab>
-          <Tab eventKey="Svrha i sadrzaj" title="Potencijal KIBS-a">
-            <TabContent>{info}</TabContent>
-          </Tab>
-          <Tab eventKey="Cilj projekta" title="Ogranicenja KIBS-a">
-            <TabContent>{info}</TabContent>
-          </Tab>
-        </Tabs>
+        <Tab eventKey="Osnovne informacije" title="Zasto KIBS?">
+          <TabContent>
+            <Row>
+              <Col>
+                <Card>
+                  <CardHeader>Definicija KIBS-a</CardHeader>
+                  <CardBody style={{ minHeight: '300px' }}>Some text</CardBody>
+                </Card>
+                <Card style={{ marginTop: '30px' }}>
+                  <CardHeader>Vaznost KIBS-a</CardHeader>
+                  <CardBody style={{ minHeight: '300px' }}>Some text</CardBody>
+                </Card>
+              </Col>
+              <Col>
+                <Card>
+                  <CardBody style={{ height: '750px', padding: 0 }}>
+                    <img height="100%" width="100%" src={slika}></img>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </TabContent>
+        </Tab>
+        <Tab
+          eventKey="Svrha i sadrzaj"
+          title="Ocena pomocu zvezdica/Star rating"
+        >
+          <TabContent>{info}</TabContent>
+        </Tab>
+      </Tabs>
     </Page>
   );
 };
