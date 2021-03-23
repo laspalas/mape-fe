@@ -38,15 +38,15 @@ const NosiociProjekta = () => {
         style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
       >
         <UserCard
-          title="Suzana Tešić"
+          title="Milan Tešić"
           subtitle="PhD College of Traffic Engineering"
           text="Info about Milan Tesic"
         />
         <UserCard
-          style={{ marginLeft: '20px' }}
-          title="Milan Tešić"
+          title="Suzana Miladić-Tešić"
           subtitle="PhD College of Traffic Engineering"
           text="Info about Milan Tesic"
+          style={{ marginLeft: '20px' }}
         />
         <UserCard
           style={{ marginLeft: '20px' }}
