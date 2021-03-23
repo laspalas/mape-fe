@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 
-
 let chart;
 const PyramidChart = ({ width }) => {
   useEffect(() => {
     chart = window.Highcharts.chart('container', {
       chart: {
         type: 'pyramid',
+        height: '800px',
       },
       responsive: true,
       title: {
-        text: 'Piramialni prikaz grupa indikatora',
+        text: 'Piramidalni prikaz grupa indikatora',
         align: 'center',
       },
       plotOptions: {
@@ -38,8 +38,8 @@ const PyramidChart = ({ width }) => {
               },
             },
           },
-          center: ['40%', '50%'],
-          width: '60%',
+          center: ['50%', '50%'],
+          width: '50%',
         },
       },
       legend: {
@@ -58,7 +58,7 @@ const PyramidChart = ({ width }) => {
       tooltip: {
         useHTML: true,
         headerFormat: '<small>{point.key}:</small><table>',
-        pointFormat: '<tr><td style="color: red"><b>{point.z}</b> </td>',
+        pointFormat: '<tr><td style="color: black"><b>{point.z}</b> </td>',
         footerFormat: '</table>',
       },
 
@@ -68,26 +68,26 @@ const PyramidChart = ({ width }) => {
           tooltiInfo: 'aaaaaaa',
           data: [
             {
-              name: 'Final outcomes',
+              name: 'Stavovi ucesnika u saobracaju',
 
               y: 2,
-              z: 'deaths per 100.000 inhabitants',
+              z: 'Stavovi ucesnika u saobracaju',
             },
             {
-              name: 'Intermediate outcomes',
+              name: 'Indikatori bezbednosti saobracaja',
               y: 2,
               z:
-                'safety performance indicators<br/>2nd safety performance indicators',
+                'Indikatori bezbednosti saobracaja',
             },
             {
-              name: 'Policy performance indicators',
+              name: 'Saobracajne nezgode i njihove posledice',
               y: 2,
-              z: 'safety measures and programmes',
+              z: 'Saobracajne nezgode i njihove posledice',
             },
             {
-              name: 'Background performance indicators',
+              name: 'Troskovi saobracajnih nezgoda',
               y: 2,
-              z: 'structure and culture',
+              z: 'Troskovi saobracajnih nezgoda',
             },
           ],
         },

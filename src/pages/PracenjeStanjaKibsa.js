@@ -44,11 +44,7 @@ const CardPage = () => {
         style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}
       >
         <div style={{ flex: 1, margin: '1rem' }}>
-          <div style={{ width: '60%', float: 'left', marginRight: '1.6rem', marginBottom: '1.6rem' }}>
-            <PyramidChart width={width} />
-          </div>
-          <h1>Pracenje stanja bezbednosti saobracaja</h1>
-          {info}
+          <PyramidChart width={width} height={700}/>
         </div>
       </div>
     </Page>
