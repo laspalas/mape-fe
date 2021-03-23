@@ -16,6 +16,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardHeader,
   CardImg,
   CardImgOverlay,
   CardLink,
@@ -60,6 +61,14 @@ const NosiociProjekta = () => {
           subtitle="FE Engineer"
           text="Info about Luka Jovanovic"
         />
+      </div>
+      <div style={{ marginTop: '30px' }}>
+        <Card>
+          <CardHeader>
+            <h4>Publikacije</h4>
+          </CardHeader>
+          <CardBody style={{ minHeight: '300px' }}></CardBody>
+        </Card>
       </div>
     </Page>
   );
