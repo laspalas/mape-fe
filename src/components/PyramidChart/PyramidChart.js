@@ -39,7 +39,7 @@ const PyramidChart = ({ width }) => {
             },
           },
           center: ['50%', '50%'],
-          width: '50%',
+          width: '60%',
         },
       },
       legend: {
@@ -71,23 +71,23 @@ const PyramidChart = ({ width }) => {
               name: 'Stavovi ucesnika u saobracaju',
 
               y: 2,
-              z: 'Stavovi ucesnika u saobracaju',
+              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
             },
             {
               name: 'Indikatori bezbednosti saobracaja',
               y: 2,
               z:
-                'Indikatori bezbednosti saobracaja',
+                'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
             },
             {
               name: 'Saobracajne nezgode i njihove posledice',
               y: 2,
-              z: 'Saobracajne nezgode i njihove posledice',
+              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
             },
             {
               name: 'Troskovi saobracajnih nezgoda',
               y: 2,
-              z: 'Troskovi saobracajnih nezgoda',
+              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
             },
           ],
         },
