@@ -17,6 +17,7 @@
     "formik": "^2.2.6",
     "formik-material-ui": "^3.0.1",
     "formik-material-ui-lab": "^0.0.8",
+    "hex-alpha": "^1.0.3",
     "highcharts": "^8.2.0",
     "highcharts-react-official": "^3.0.0",
     "html2canvas": "^1.0.0-rc.7",

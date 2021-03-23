@@ -14,6 +14,7 @@ import { humanize } from '../utils/humanize';
 import GraphModal from '../components/GraphModal/GraphModal';
 import 'leaflet-easyprint';
 import policija from '../assets/policija.jpeg';
+import { Legend, legendValues } from '../components/Legend/Legend';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -41,26 +42,18 @@ const mapColors = [
 
 const getColor = v => {
   const value = parseFloat(v);
-  if (+value >= 0.9) {
-    return COLOR_10;
-  } else if (value >= 0.8) {
-    return COLOR_9;
-  } else if (value >= 0.7) {
-    return COLOR_8;
-  } else if (value >= 0.6) {
-    return COLOR_7;
-  } else if (value >= 0.5) {
-    return COLOR_6;
-  } else if (value >= 0.4) {
-    return COLOR_5;
-  } else if (value >= 0.3) {
-    return COLOR_4;
-  } else if (value >= 0.2) {
-    return COLOR_3;
-  } else if (value >= 0.1) {
-    return COLOR_2;
-  } else if (value >= 0) {
-    return COLOR_1;
+  if (+value >= legendValues.SAFEST_GREEN.min_value) {
+    return legendValues.SAFEST_GREEN.color;
+  } else if (value >= legendValues.YELLOW.min_value) {
+    return legendValues.YELLOW.color;
+  } else if (value >= legendValues.ORANGE.min_value) {
+    return legendValues.ORANGE.color;
+  } else if (value >= legendValues.RED.min_value) {
+    return legendValues.RED.color;
+  } else if (value >= legendValues.BLACK.min_value) {
+    return legendValues.BLACK.color;
+  } else {
+    return legendValues.NOT_RATED.color;
   }
 };
 
@@ -103,7 +96,7 @@ const applyStyleSingle = (values, feature) => {
 
   return {
     fillColor: getColor(minMaxNorm),
-    fillOpacity: 1,
+    fillOpacity: 0.5,
   };
 };
 
@@ -112,17 +105,22 @@ const applyStylesMulti = (values, feature) => {
 
   return {
     fillColor: getColor(+kibsDummy),
-    fillOpacity: 1,
+    fillOpacity: 0.5,
   };
 };
 
-const applyDefault = backgroundColor => ({ ...defaultStyle, color: backgroundColor, fillColor: backgroundColor });
+const applyDefault = backgroundColor => ({
+  ...defaultStyle,
+  color: backgroundColor,
+  fillColor: backgroundColor,
+});
 
 const applyStyles = (values, feature, isSingle, isMulti) => {
   if (feature.properties.PU_ID === 0) {
     return {
-      backgroundColor: 'red',
-      color: 'red',
+      backgroundColor: '#bbbbbb',
+      color: '#bbbbbb',
+      fillOpacity: '0.6',
     };
   }
 
@@ -191,17 +189,6 @@ const Mape = () => {
     }
   }
 
-  function resetHighlight(e) {
-    e.target.setStyle(
-      applyStyles(
-        isSingle ? singleFilterValues : multiFilterValues,
-        e.target.feature,
-        isSingle,
-        isMulti,
-      ),
-    );
-  }
-
   function onEachFeature(feature, layer) {
     if (!isSingle && !isMulti) {
       layer.bindTooltip(humanize(feature.properties.NAME), {
@@ -235,6 +222,14 @@ const Mape = () => {
           className: 'countryLabel',
         },
       );
+    }
+
+    if (feature.properties.PU_ID === 0) {
+      layer.bindTooltip(feature.properties.NAME, {
+        permanent: true,
+        direction: 'center',
+        className: 'countryLabel',
+      });
     }
   }
 
@@ -289,19 +284,10 @@ const Mape = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <div className="legend">
-            <div style={{ '--color': COLOR_10 }}>0.9 - 10</div>
-            <div style={{ '--color': COLOR_9 }}>0.8 - 0.9</div>
-            <div style={{ '--color': COLOR_8 }}>0.7 - 0.8</div>
-            <div style={{ '--color': COLOR_7 }}>0.6 - 0.7</div>
-            <div style={{ '--color': COLOR_6 }}>0.5 - 0.6</div>
-            <div style={{ '--color': COLOR_5 }}>0.4 - 0.5</div>
-            <div style={{ '--color': COLOR_4 }}>0.3 - 0.4</div>
-            <div style={{ '--color': COLOR_3 }}>0.2 - 0.3</div>
-            <div style={{ '--color': COLOR_2 }}>0.1 - 0.2</div>
-            <div style={{ '--color': COLOR_1 }}>0 - 0.1</div>
+            <Legend />
           </div>
           <div className="legend-2">
-            <img width={200} height={300} src={policija} />
+            <img width={200} height={250} src={policija} />
           </div>
           {bihgeojson.features.map(feature => {
             return (
