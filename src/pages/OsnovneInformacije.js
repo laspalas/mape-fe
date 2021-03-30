@@ -46,7 +46,8 @@ import {
   Row,
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
-import {info } from './texts';
+import { info } from './texts';
+import { appFirebase } from '../thrd/firbase';
 
 const today = new Date();
 const lastWeek = new Date(

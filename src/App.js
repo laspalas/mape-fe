@@ -19,6 +19,8 @@ const ZastoKibs = React.lazy(() => import('pages/ZastoKibs'));
 const OsnovneInformacije = React.lazy(() => import('pages/OsnovneInformacije'));
 const InputGroupPage = React.lazy(() => import('pages/InputGroupPage'));
 const BazaPodataka = React.lazy(() => import('pages/BazePodataka'));
+const AdminPage = React.lazy(() => import('pages/Admin'));
+
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -43,6 +45,7 @@ class App extends React.Component {
                 <Route exact path="/zasto_kibs" component={ZastoKibs} />
                 <Route exact path="/baza" component={BazaPodataka} />
                 <Route exact path="/nosioci_aktivnosti" component={NosiociProjekta} />
+                <Route exact path="/admin" component={AdminPage} />
               </React.Suspense>
             </MainLayout>
             <Redirect to="/" />

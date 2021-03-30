@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { store } from '../../thrd/store';
 
 let chart;
-const PyramidChart = ({ width }) => {
+const PyramidChart = ({ width, pracenje, ...props }) => {
   useEffect(() => {
     chart = window.Highcharts.chart('container', {
       chart: {
@@ -71,31 +72,30 @@ const PyramidChart = ({ width }) => {
               name: 'Stavovi ucesnika u saobracaju',
 
               y: 2,
-              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
+              z: pracenje.stavovi,
             },
             {
               name: 'Indikatori bezbednosti saobracaja',
               y: 2,
-              z:
-                'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
+              z: pracenje.indikatori,
             },
             {
               name: 'Saobracajne nezgode i njihove posledice',
               y: 2,
-              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
+              z: pracenje.nezgode,
             },
             {
               name: 'Troskovi saobracajnih nezgoda',
               y: 2,
-              z: 'Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext Long teeext 150char',
+              z: pracenje.troskovi,
             },
           ],
         },
       ],
     });
-  }, [width]);
+  }, [width, pracenje]);
 
   return <div id="container"></div>;
 };
 
-export default PyramidChart;
+export default store.connect(state => state)(PyramidChart);
