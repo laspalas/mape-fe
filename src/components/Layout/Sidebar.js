@@ -27,9 +27,16 @@ import {
   MdWidgets,
   MdMap,
   MdGroup,
+  MdSettingsApplications
 } from 'react-icons/md';
-import { FaMapMarker, FaDatabase, FaCarCrash, FaInfoCircle } from 'react-icons/fa';
+import {
+  FaMapMarker,
+  FaDatabase,
+  FaCarCrash,
+  FaInfoCircle,
+} from 'react-icons/fa';
 import { SiMathworks } from 'react-icons/si';
+import { GrUser, GrUserAdmin } from 'react-icons/gr';
 import { NavLink } from 'react-router-dom';
 import {
   // UncontrolledTooltip,
@@ -112,8 +119,13 @@ const navItems = [
     exact: false,
     Icon: MdGroup,
   },
+  {
+    to: '/admin',
+    name: 'Admin',
+    exact: false,
+    Icon: MdSettingsApplications,
+  },
 ];
-
 
 const bem = bn.create('sidebar');
 
