@@ -11,6 +11,7 @@ import Page from 'components/Page';
 
 import MathJax from 'react-mathjax';
 import slika from '../assets/img/products/product_640-4.jpg';
+import { store } from '../thrd/store';
 
 const first_formula = `KIBS_{j}=\\frac{max} {\\overline {w_{ij}}} \\sum\\nolimits_{i=1}^l= \\overline {r_{ij}} \\ \\overline {w_{ij}}`;
 const second_formula = `\\sum_{i=1}^l \\overline {w_{ij}} = 1 `;
@@ -25,32 +26,32 @@ const description_6 = `m\\ =\\ \\{alkolol,\\ brzina,\\ zaštitni sistem,\\ upotr
 const description_7 = `L\\ =\\ donja\\ granica`;
 const description_8 = `U\\ =\\ gornja\\ granica`;
 
-const ChartPage = () => {
+const ChartPage = ({ model }) => {
   return (
     <Page title="" breadcrumbs={[{ name: 'Zasto KIBS', active: true }]}>
-      <MathJax.Provider>
-        <Row>
-          <Col>
-            <Card>
-              <CardHeader>
-                <h3>Metodologija</h3>
-              </CardHeader>
-              <CardBody style={{ minHeight: '700px' }}>Text</CardBody>
-            </Card>
-          </Col>
-          <Col>
-            <Card>
-              <CardBody
-                style={{ padding: 0, minHeight: '765px', height: '765px' }}
-              >
-                <img width="100%" height="100%" src={slika}></img>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </MathJax.Provider>
+      <Row>
+        <Col>
+          <Card>
+            <CardHeader>
+              <h3>Metodologija</h3>
+            </CardHeader>
+            <CardBody style={{ minHeight: '800px' }}>
+              {model.metodologija}
+            </CardBody>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <CardBody
+              style={{ padding: 0, minHeight: '864px', height: '864px' }}
+            >
+              <img width="100%" height="100%" src={model.model_slika}></img>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </Page>
   );
 };
 
-export default ChartPage;
+export default store.connect(s => s)(ChartPage);

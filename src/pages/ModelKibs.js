@@ -34,6 +34,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import CardHeader from 'reactstrap/lib/CardHeader';
 import slika from '../assets/img/products/product_640-4.jpg';
+import { store } from '../thrd/store';
 
 const TabContent = ({ children }) => {
   return (
@@ -51,7 +52,7 @@ const TabContent = ({ children }) => {
   );
 };
 
-const ModelKibs = () => {
+const ModelKibs = ({ zasto }) => {
   const { width, height, ref } = useResizeDetector();
   return (
     <Page title="" breadcrumbs={[{ name: 'Nosioci projekta', active: true }]}>
@@ -62,17 +63,21 @@ const ModelKibs = () => {
               <Col>
                 <Card>
                   <CardHeader>Definicija KIBS-a</CardHeader>
-                  <CardBody style={{ minHeight: '300px' }}>Some text</CardBody>
+                  <CardBody style={{ minHeight: '300px' }}>
+                    {zasto.def}
+                  </CardBody>
                 </Card>
                 <Card style={{ marginTop: '30px' }}>
                   <CardHeader>Vaznost KIBS-a</CardHeader>
-                  <CardBody style={{ minHeight: '300px' }}>Some text</CardBody>
+                  <CardBody style={{ minHeight: '300px' }}>
+                    {zasto.vaznost}
+                  </CardBody>
                 </Card>
               </Col>
               <Col>
                 <Card>
                   <CardBody style={{ height: '750px', padding: 0 }}>
-                    <img height="100%" width="100%" src={slika}></img>
+                    <img height="100%" width="100%" src={zasto.kibs_slika}></img>
                   </CardBody>
                 </Card>
               </Col>
@@ -83,11 +88,11 @@ const ModelKibs = () => {
           eventKey="Svrha i sadrzaj"
           title="Ocena pomocu zvezdica/Star rating"
         >
-          <TabContent>{info}</TabContent>
+          <TabContent>{zasto.ocena}</TabContent>
         </Tab>
       </Tabs>
     </Page>
   );
 };
 
-export default ModelKibs;
+export default store.connect(s => s)(ModelKibs);
