@@ -52,7 +52,7 @@ const Contact = props => {
 };
 
 const UserCard = ({
-  avatar,
+  avatar = '',
   avatarSize,
   title,
   subtitle,
@@ -68,11 +68,11 @@ const UserCard = ({
     <Card style={{ maxWidth: '350px', marginLeft: style.marginLeft || 0 }}>
       <CardImg
         top
-        src="https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg"
+        src={avatar || "https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg"}
         alt="Card image cap"
         style={{ maxHeight: '270px' }}
       />
-      <CardBody>
+      <CardBody style={{ wordBreak: 'break-all' }}>
         <CardTitle tag="h5">{title}</CardTitle>
         <CardSubtitle tag="h6" className="mb-2 text-muted">
           {subtitle}

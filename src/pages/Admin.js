@@ -124,6 +124,9 @@ const AdminPage = props => {
         onClick={() => {
           appFirebase.auth().signOut();
         }}
+        color="primary"
+        variant="contained"
+        style={{ marginBottom: '1.6rem' }}
       >
         Logout
       </Button>
@@ -413,7 +416,7 @@ const AdminPage = props => {
                       const state = store.getState();
                       store.setState({
                         ...state,
-                        osnovne: values,
+                        zasto: values,
                       });
                       formikHelpers.setSubmitting(false);
                     });
@@ -589,9 +592,12 @@ const AdminPage = props => {
           <TabContent>
             <Formik
               onSubmit={(values, formikHelpers) => {
-                const slikeKeys = ['model_slika'].filter(
-                  key => typeof values[key] === 'object',
-                );
+                const slikeKeys = [
+                  'milan_slika',
+                  'suzana_slika',
+                  'nikola_slika',
+                  'luka_slika',
+                ].filter(key => typeof values[key] === 'object');
 
                 const promises = slikeKeys.map(key => {
                   const ref = appFirebase.storage().ref(key);
@@ -614,7 +620,7 @@ const AdminPage = props => {
                     });
                     appFirebase
                       .database()
-                      .ref('model')
+                      .ref('nosioci')
                       .set({
                         ...values,
                       })
@@ -622,14 +628,14 @@ const AdminPage = props => {
                         const state = store.getState();
                         store.setState({
                           ...state,
-                          model: values,
+                          nosioci: values,
                         });
                       });
                   });
                 } else {
                   appFirebase
                     .database()
-                    .ref('model')
+                    .ref('nosioci')
                     .set({
                       ...values,
                     })
@@ -637,18 +643,46 @@ const AdminPage = props => {
                       const state = store.getState();
                       store.setState({
                         ...state,
-                        model: values,
+                        nosioci: values,
                       });
                       formikHelpers.setSubmitting(false);
                     });
                 }
               }}
               enableReinitialize
-              initialValues={{ ...props.model }}
+              initialValues={{ ...props.nosioci }}
             >
               {() => (
                 <Form>
                   <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Field
+                        name="milan_slika"
+                        label="Milan slika"
+                        component={SimpleFileUpload}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="suzana_slika"
+                        label="Suzana slika"
+                        component={SimpleFileUpload}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="nikola_slika"
+                        label="Nikola slika"
+                        component={SimpleFileUpload}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="luka_slika"
+                        label="Luka slika"
+                        component={SimpleFileUpload}
+                      />
+                    </Grid>
                     <Grid item xs={12}>
                       <Field
                         variant="outlined"
@@ -656,17 +690,9 @@ const AdminPage = props => {
                         fullWidth={true}
                         multiline
                         rows={4}
-                        name="metodologija"
-                        label="Metodologija"
+                        name="publikacije"
+                        label="Publikacije"
                         component={TextField}
-                      />
-                    </Grid>
-
-                    <Grid item xs={4}>
-                      <Field
-                        name="model_slika"
-                        label="Slika"
-                        component={SimpleFileUpload}
                       />
                     </Grid>
                   </Grid>

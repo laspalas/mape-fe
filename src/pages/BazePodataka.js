@@ -77,7 +77,7 @@ const ChartPage = () => {
         <Col xl={6} lg={12} md={12}>
           <Card>
             <CardHeader>Bar</CardHeader>
-            <CardBody>
+            <CardBody style={{ wordBreak: 'break-all' }}>
               <Bar data={genLineData()} />
             </CardBody>
           </Card>
@@ -86,7 +86,7 @@ const ChartPage = () => {
         <Col xl={6} lg={12} md={12}>
           <Card>
             <CardHeader>Line</CardHeader>
-            <CardBody>
+            <CardBody style={{ wordBreak: 'break-all' }}>
               <Line data={genLineData({ fill: false }, { fill: false })} />
             </CardBody>
           </Card>
@@ -97,7 +97,7 @@ const ChartPage = () => {
         <Col xl={6} lg={12} md={12}>
           <Card>
             <CardHeader>Stacked Line</CardHeader>
-            <CardBody>
+            <CardBody style={{ wordBreak: 'break-all' }}>
               <Line
                 data={genLineData()}
                 options={{

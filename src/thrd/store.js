@@ -22,7 +22,34 @@ const store = new Store({
   model: {
     metodologija: '',
     model_slika: '',
-  }
+  },
+  nosioci: {
+    luka_slika: '',
+    milan_slika: '',
+    suzana_slika: '',
+    nikola_slika: '',
+    publikacije: '',
+    luka: {
+      ln: '',
+      twitter: '',
+      rg: '',
+    },
+    nikola: {
+      ln: '',
+      twitter: '',
+      rg: '',
+    },
+    suzana: {
+      ln: '',
+      twitter: '',
+      rg: '',
+    },
+    milan: {
+      ln: '',
+      twitter: '',
+      rg: '',
+    },
+  },
 });
 
 appFirebase

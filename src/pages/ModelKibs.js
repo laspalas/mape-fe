@@ -52,7 +52,7 @@ const TabContent = ({ children }) => {
   );
 };
 
-const ModelKibs = ({ zasto }) => {
+const ModelKibs = ({ zasto = {} }) => {
   const { width, height, ref } = useResizeDetector();
   return (
     <Page title="" breadcrumbs={[{ name: 'Nosioci projekta', active: true }]}>
@@ -60,24 +60,30 @@ const ModelKibs = ({ zasto }) => {
         <Tab eventKey="Osnovne informacije" title="Zasto KIBS?">
           <TabContent>
             <Row>
-              <Col>
+              <Col xs={5}>
                 <Card>
                   <CardHeader>Definicija KIBS-a</CardHeader>
-                  <CardBody style={{ minHeight: '300px' }}>
+                  <CardBody
+                    style={{ minHeight: '300px', wordBreak: 'breal-all' }}
+                  >
                     {zasto.def}
                   </CardBody>
                 </Card>
                 <Card style={{ marginTop: '30px' }}>
                   <CardHeader>Vaznost KIBS-a</CardHeader>
-                  <CardBody style={{ minHeight: '300px' }}>
+                  <CardBody style={{ minHeight: '300px', wordBreak: 'breal-all' }}>
                     {zasto.vaznost}
                   </CardBody>
                 </Card>
               </Col>
-              <Col>
+              <Col xs={5}>
                 <Card>
-                  <CardBody style={{ height: '750px', padding: 0 }}>
-                    <img height="100%" width="100%" src={zasto.kibs_slika}></img>
+                  <CardBody style={{ height: '750px', padding: 0, wordBreak: 'breal-all' }}>
+                    <img
+                      height="100%"
+                      width="100%"
+                      src={zasto.kibs_slika}
+                    ></img>
                   </CardBody>
                 </Card>
               </Col>

@@ -30,20 +30,20 @@ const ChartPage = ({ model }) => {
   return (
     <Page title="" breadcrumbs={[{ name: 'Zasto KIBS', active: true }]}>
       <Row>
-        <Col>
+        <Col xs={6}>
           <Card>
             <CardHeader>
               <h3>Metodologija</h3>
             </CardHeader>
-            <CardBody style={{ minHeight: '800px' }}>
+            <CardBody style={{ minHeight: '800px', wordBreak: 'break-all' }}>
               {model.metodologija}
             </CardBody>
           </Card>
         </Col>
-        <Col>
+        <Col xs={6}>
           <Card>
             <CardBody
-              style={{ padding: 0, minHeight: '864px', height: '864px' }}
+              style={{ padding: 0, minHeight: '864px', height: '864px', wordBreak: 'breal-all' }}
             >
               <img width="100%" height="100%" src={model.model_slika}></img>
             </CardBody>

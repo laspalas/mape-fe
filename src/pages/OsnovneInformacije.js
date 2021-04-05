@@ -95,14 +95,14 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Oblast projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%' }}>
+                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
                     {osnovne.oblast_text}
                   </CardBody>
                 </Card>
               </Col>
               <Col xs={3}>
                 <img
-                  style={{ maxWidth: '100%', maxHeight: '250px' }}
+                  style={{ maxWidth: '100%', maxHeight: '250px', wordBreak: 'break-all' }}
                   src={osnovne.oblast_slika}
                 ></img>
               </Col>
@@ -119,7 +119,7 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Predmet projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%' }}>
+                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
                     {osnovne.predmet_text}
                   </CardBody>
                 </Card>
@@ -131,7 +131,7 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Ocekivani rezultati</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%' }}>
+                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
                     {osnovne.rezultat_text}
                   </CardBody>
                 </Card>

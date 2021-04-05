@@ -18,7 +18,7 @@ const AvatarCard = ({
 
   return (
     <Card inverse className={classes} {...restProps}>
-      <CardBody className="d-flex justify-content-center align-items-center flex-column">
+      <CardBody style={{ wordBreak: 'break-all' }} className="d-flex justify-content-center align-items-center flex-column">
         <Avatar src={avatar} size={avatarSize} className="mb-3" />
         <CardTitle>{title}</CardTitle>
         {!!subtitle && <CardSubtitle>{subtitle}</CardSubtitle>}

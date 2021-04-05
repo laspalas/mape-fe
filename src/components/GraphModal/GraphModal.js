@@ -175,7 +175,7 @@ const GraphModal = props => {
                           : 'Kibs chart'}
                       </CardHeader>
                     )}
-                    <CardBody>
+                    <CardBody style={{ wordBreak: 'break-all' }}>
                       {(isSingle || isMulti) && (
                         <Bar
                           options={{
