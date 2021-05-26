@@ -15,6 +15,7 @@ import GraphModal from '../components/GraphModal/GraphModal';
 import 'leaflet-easyprint';
 import policija from '../assets/policija.jpeg';
 import { Legend, legendValues } from '../components/Legend/Legend';
+import { store } from '../thrd/store';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -61,7 +62,7 @@ const position = [44, 18];
 let mapRef;
 
 const initSingleValues = { parametar: null, godina: null };
-const initMultiValues = { parametar: [], godina: null };
+const initMultiValues = { godina: null, sezona: null };
 
 const defaultStyle = {
   color: '#3388ff',
@@ -84,11 +85,24 @@ const getMinMaxNormSingle = (values, feature) => {
   return minMaxNorm.toFixed(3);
 };
 
-const getKibsDummy = (values, feature) => {
+const getKibs = (values, feature, state) => {
   const id = feature.properties.PU_ID;
   const region = dataJSON.find(d => d.pu_id === id);
+  if (!values) {
+    return 0;
+  }
 
-  return Math.random().toFixed(3);
+  const result =
+    state[
+      `result_${values.godina.value}${values.sezona ? values.sezona.value : ''}`
+    ];
+
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const kibs = result.data.kibs;
+
+  const regionId = mapRegionIndexToPuId[`${id}`];
+
+  return kibs[regionId].toFixed(3);
 };
 
 const applyStyleSingle = (values, feature) => {
@@ -100,8 +114,8 @@ const applyStyleSingle = (values, feature) => {
   };
 };
 
-const applyStylesMulti = (values, feature) => {
-  const kibsDummy = getKibsDummy(values, feature);
+const applyStylesMulti = (values, feature, state) => {
+  const kibsDummy = getKibs(values, feature, state);
 
   return {
     fillColor: getColor(+kibsDummy),
@@ -115,7 +129,7 @@ const applyDefault = backgroundColor => ({
   fillColor: backgroundColor,
 });
 
-const applyStyles = (values, feature, isSingle, isMulti) => {
+const applyStyles = (values, feature, isSingle, isMulti, state) => {
   if (feature.properties.PU_ID === 0) {
     return {
       backgroundColor: '#bbbbbb',
@@ -134,13 +148,13 @@ const applyStyles = (values, feature, isSingle, isMulti) => {
   }
 
   if (isMulti) {
-    return applyStylesMulti(values, feature);
+    return applyStylesMulti(values, feature, state);
   }
 
   return applyDefault();
 };
 
-const Mape = () => {
+const MapeC = ({ ...props }) => {
   const [singleFilterValues, setSingleFilterValues] = useState(null);
   const [multiFilterValues, setMultiFilterValues] = useState(null);
   const [selected, setSelected] = useState({});
@@ -213,7 +227,7 @@ const Mape = () => {
 
     if (isMulti && feature.properties.PU_ID !== 0) {
       layer.bindTooltip(
-        `${getKibsDummy(multiFilterValues, feature)} (${humanize(
+        `${getKibs(multiFilterValues, feature, props)} (${humanize(
           feature.properties.NAME,
         )})`,
         {
@@ -312,6 +326,7 @@ const Mape = () => {
                     feature,
                     isSingle,
                     isMulti,
+                    props,
                   );
                 }}
               ></GeoJSON>
@@ -322,5 +337,7 @@ const Mape = () => {
     </Page>
   );
 };
+
+const Mape = store.connect(state => state)(MapeC);
 
 export default Mape;

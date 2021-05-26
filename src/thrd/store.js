@@ -1,9 +1,12 @@
 import { Store } from 'simple-react-store';
 import { appFirebase } from './firbase';
+import storeJSON from '../assets/store.json';
 
 // Create store with empty state
 const store = new Store({
   pracenje: {},
+  godine: [],
+  sezone: [],
   osnovne: {
     oblast_text: '',
     oblast_slika: '',
@@ -52,12 +55,14 @@ const store = new Store({
   },
 });
 
-appFirebase
-  .database()
-  .ref()
-  .get()
-  .then(res => {
-    store.setState(res.toJSON());
-  });
+// appFirebase
+//   .database()
+//   .ref()
+//   .get()
+//   .then(res => {
+//     store.setState(res.toJSON());
+//     console.log(store);
+//   });
+store.setState(storeJSON);
 
 export { store };

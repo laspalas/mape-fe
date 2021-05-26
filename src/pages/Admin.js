@@ -367,7 +367,6 @@ const AdminPage = props => {
           <TabContent>
             <Formik
               onSubmit={(values, formikHelpers) => {
-                console.log(values, 'values');
                 const slikeKeys = ['kibs_slika'].filter(
                   key => typeof values[key] === 'object',
                 );
@@ -382,7 +381,6 @@ const AdminPage = props => {
                       });
                     })
                     .catch(e => {
-                      console.log(e);
                     });
                 });
 
@@ -506,7 +504,6 @@ const AdminPage = props => {
                       });
                     })
                     .catch(e => {
-                      console.log(e);
                     });
                 });
 
@@ -609,7 +606,6 @@ const AdminPage = props => {
                       });
                     })
                     .catch(e => {
-                      console.log(e);
                     });
                 });
 

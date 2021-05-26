@@ -3,16 +3,17 @@ import { Box, TextField, Button, Grid } from '@material-ui/core';
 import { mapStaticKeysLabels } from '../../models/statistic';
 import { Autocomplete } from 'formik-material-ui-lab';
 import { Formik, Form, Field } from 'formik';
+import { store } from '../../thrd/store';
 
 const validate = values => {
-  if (!!values && values.godina.value && values.parametar) {
+  if (!!values && values.godina && values.godina.value) {
     return true;
   } else {
     return false;
   }
 };
 
-const KibsForm = ({ onChange, values }) => {
+const KibsFormComponent = ({ onChange, values, ...props }) => {
   return (
     <Formik
       validateOnChange
@@ -22,40 +23,40 @@ const KibsForm = ({ onChange, values }) => {
         onChange(values);
       }}
       enableReinitialize
-      initialValues={values || { godina: {}, parametar: []}}
+      initialValues={values || { godina: {} }}
     >
       {({ values }) => (
         <Form>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Field
-                disablePortal
-                name="parametar"
-                blurOnSelect
-                multiple
-                component={Autocomplete}
-                options={Object.keys(mapStaticKeysLabels).map(
-                  key => mapStaticKeysLabels[key],
-                )}
                 renderInput={params => (
-                  <TextField {...params} label="Parametar" variant="outlined" />
+                  <TextField {...params} label="Godina" variant="outlined" />
                 )}
+                disablePortal
+                options={Object.values(props.godine).map(g => ({
+                  value: +g,
+                  label: `${g}`,
+                }))}
+                blurOnSelect
                 getOptionLabel={option => option.label}
+                name="godina"
+                component={Autocomplete}
               />
             </Grid>
             <Grid item xs={12}>
               <Field
                 renderInput={params => (
-                  <TextField {...params} label="Godina" variant="outlined" />
+                  <TextField {...params} label="Sezona" variant="outlined" />
                 )}
                 disablePortal
-                options={[
-                  { value: 2017, label: '2017' },
-                  { value: 2019, label: '2019' },
-                ]}
+                options={Object.values(props.sezone).map(s => ({
+                  value: s,
+                  label: `${s.toUpperCase()}`,
+                }))}
                 blurOnSelect
                 getOptionLabel={option => option.label}
-                name="godina"
+                name="sezona"
                 component={Autocomplete}
               />
             </Grid>
@@ -67,7 +68,7 @@ const KibsForm = ({ onChange, values }) => {
               variant="contained"
               color="primary"
             >
-              Primeni filtere
+              Prikazi KIBS
             </Button>
           </Box>
         </Form>
@@ -75,5 +76,9 @@ const KibsForm = ({ onChange, values }) => {
     </Formik>
   );
 };
+
+const KibsForm = store.connect((state, props) => {
+  return { ...state, ...props };
+})(KibsFormComponent);
 
 export { KibsForm };
