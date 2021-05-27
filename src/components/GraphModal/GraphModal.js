@@ -33,12 +33,30 @@ const getAllMinMaxSorted = (values, selectedId) => {
   };
 };
 
-const getAllKibsSorted = (values, selectedId) => {
+const getKibs = (values, id, state) => {
+  if (!values || !values.godina) {
+    return 0;
+  }
+
+  const result =
+    state[
+      `result_${values.godina.value}${values.sezona ? values.sezona.value : ''}`
+    ];
+
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const kibs = result.data.kibs;
+
+  const regionId = mapRegionIndexToPuId[`${id}`];
+
+  return kibs[regionId];
+};
+
+const getAllKibsSorted = (values, selectedId, state) => {
   const regions = dataJSON.map((d, index) => {
     return {
       name: d.policijska_uprava,
       id: d.pu_id,
-      value: Math.random().toFixed(3),
+      value: getKibs(values, d.pu_id, state),
       color: +d.pu_id === +selectedId ? 'red' : 'blue',
     };
   });
@@ -66,8 +84,8 @@ const getLineDataSingle = (singleValues, selectedId) => {
   };
 };
 
-const getKibsLineData = (multiValues, selectedId) => {
-  const { regions } = getAllKibsSorted(multiValues, selectedId);
+const getKibsLineData = (multiValues, selectedId, state) => {
+  const { regions } = getAllKibsSorted(multiValues, selectedId, state);
   return {
     labels: regions.map(d => d.name),
     datasets: [
@@ -92,7 +110,11 @@ const radarChartData = (singleValues, selectedId) => {
       return minMaxNorm;
     });
 
-    return { data: dataset, label: region.policijska_uprava, hidden: region.pu_id !== selectedId};
+    return {
+      data: dataset,
+      label: region.policijska_uprava,
+      hidden: region.pu_id !== selectedId,
+    };
   });
 
   const labels = Object.keys(mapStaticKeysLabels).map(
@@ -118,6 +140,7 @@ const GraphModal = props => {
     singleValues,
     multiValues,
     selectedId,
+    state,
   } = props;
 
   const isSingle = !!singleValues;
@@ -125,7 +148,7 @@ const GraphModal = props => {
 
   const options = {
     legend: {
-      position: 'top'
+      position: 'top',
     },
     scale: {
       reverse: false,
@@ -138,14 +161,14 @@ const GraphModal = props => {
           'green',
           'blue',
           'indigo',
-          'violet'
-        ]
+          'violet',
+        ],
       },
       ticks: {
-        beginAtZero: true
-      }
-    }
-  }
+        beginAtZero: true,
+      },
+    },
+  };
 
   return (
     <div>
@@ -186,7 +209,7 @@ const GraphModal = props => {
                           data={
                             isSingle
                               ? getLineDataSingle(singleValues, selectedId)
-                              : getKibsLineData(multiValues, selectedId)
+                              : getKibsLineData(multiValues, selectedId, state)
                           }
                         />
                       )}

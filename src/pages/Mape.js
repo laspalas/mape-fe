@@ -268,6 +268,7 @@ const MapeC = ({ ...props }) => {
           open={open && !!selectedId}
           toggleModal={setOpen}
           selectedId={selectedId}
+          state={props}
         />
       )}
       <div style={{ position: 'relative' }} id="luka">
