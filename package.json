@@ -5,6 +5,7 @@
   "homepage": "https://reduction-admin.github.io/react-reduction",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/data-grid": "^4.0.0-alpha.30",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@types/reactstrap": "^8.7.2",
     "beautiful-react-hooks": "^0.31.0",

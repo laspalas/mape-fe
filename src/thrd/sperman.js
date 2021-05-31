@@ -1,5 +1,4 @@
 import { omit } from 'lodash';
-import data from '../assets/store.json';
 import { SpearmanRHO } from './spermanBase';
 
 const calc = (data, kibsArray) => {
@@ -23,19 +22,16 @@ const calc = (data, kibsArray) => {
     .sort((s1, s2) => s2.spearmanValue - s1.spearmanValue);
 };
 
-const caclulateSperman = () => {
-  const data1 = data.result_2019.data;
-  const dataKibs = data1.kibs;
+const caclulateSperman = (data) => {
+  const dataKibs = data.kibs;
   const kibsArray = Object.keys(dataKibs)
     .sort()
     .map(key => dataKibs[key]);
   return {
-    Comb3: calc(data1['Comb3'], kibsArray),
-    Comb4: calc(data1['Comb4'], kibsArray),
-    Comb5: calc(data1['Comb5'], kibsArray),
+    Comb3: calc(data['Comb3'], kibsArray),
+    Comb4: calc(data['Comb4'], kibsArray),
+    Comb5: calc(data['Comb5'], kibsArray),
   };
 };
-
-console.log(caclulateSperman());
 
 export { caclulateSperman };
