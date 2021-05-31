@@ -8,6 +8,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import {
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+  Card,
+  CardHeader,
+  CardSubtitle,
+  CardBody,
+  CardText,
+} from 'reactstrap';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -59,19 +71,25 @@ export default function BasicTable({ rows = [] }) {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={row.name}>
-              <TableCell
-                align="center"
-              >
-                {row[0].Indicators}
+              <TableCell align="center">
+                <Button color="link" variant="link">
+                  {row[0].Indicators}
+                </Button>
               </TableCell>
               <TableCell align="center">
                 {row[0].spearmanValue.toFixed(3)}
               </TableCell>
-              <TableCell align="center">{row[1].Indicators}</TableCell>
+              <TableCell align="center">
+                <Button color="link" variant="link">
+                  {row[1].Indicators}
+                </Button>
+              </TableCell>
               <TableCell align="center">
                 {row[1].spearmanValue.toFixed(3)}
               </TableCell>
-              <TableCell align="center">{row[2].Indicators}</TableCell>
+              <TableCell align="center">
+                <Button color="link">{row[2].Indicators}</Button>
+              </TableCell>
               <TableCell align="center">
                 {row[2].spearmanValue.toFixed(3)}
               </TableCell>
