@@ -12076,6 +12076,13 @@ spdy@^4.0.0:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
+spearman-rho@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/spearman-rho/-/spearman-rho-1.0.6.tgz#66e04cffa3a5cfc752bff7c1a795f6fa8909d3f6"
+  integrity sha1-ZuBM/6Olz8dSv/fBp5X2+okJ0/Y=
+  dependencies:
+    lodash "^4.17.4"
+
 specificity@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/specificity/-/specificity-0.4.1.tgz#aab5e645012db08ba182e151165738d00887b019"

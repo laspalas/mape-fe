@@ -16,6 +16,7 @@ import 'leaflet-easyprint';
 import policija from '../assets/policija.jpeg';
 import { Legend, legendValues } from '../components/Legend/Legend';
 import { store } from '../thrd/store';
+import { caclulateSperman } from '../thrd/sperman';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';

@@ -14,6 +14,7 @@ const validate = values => {
 };
 
 const KibsFormComponent = ({ onChange, values, ...props }) => {
+  console.log(props);
   return (
     <Formik
       validateOnChange
@@ -50,7 +51,7 @@ const KibsFormComponent = ({ onChange, values, ...props }) => {
                   <TextField {...params} label="Sezona" variant="outlined" />
                 )}
                 disablePortal
-                options={Object.values(props.sezone).map(s => ({
+                options={Object.values(props.sezone || {}).map(s => ({
                   value: s,
                   label: `${s.toUpperCase()}`,
                 }))}

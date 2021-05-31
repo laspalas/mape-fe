@@ -6,7 +6,7 @@ import storeJSON from '../assets/store.json';
 const store = new Store({
   pracenje: {},
   godine: [],
-  sezone: [],
+  sezone: {},
   osnovne: {
     oblast_text: '',
     oblast_slika: '',
@@ -63,6 +63,6 @@ const store = new Store({
 //     store.setState(res.toJSON());
 //     console.log(store);
 //   });
-// store.setState(storeJSON);
+store.setState(storeJSON);
 
 export { store };
