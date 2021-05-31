@@ -193,7 +193,7 @@ const GraphModal = props => {
                   <Card>
                     {isSingle | isMulti && (
                       <CardHeader>
-                        {isSingle
+                        {isSingle && singleValues && singleValues.godina && singleValues.godina.parametar
                           ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
                           : 'Kibs chart'}
                       </CardHeader>

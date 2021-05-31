@@ -55,14 +55,14 @@ const store = new Store({
   },
 });
 
-// appFirebase
-//   .database()
-//   .ref()
-//   .get()
-//   .then(res => {
-//     store.setState(res.toJSON());
-//     console.log(store);
-//   });
-store.setState(storeJSON);
+appFirebase
+  .database()
+  .ref()
+  .get()
+  .then(res => {
+    store.setState(res.toJSON());
+    console.log(store);
+  });
+// store.setState(storeJSON);
 
 export { store };

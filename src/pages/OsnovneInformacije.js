@@ -87,7 +87,6 @@ const DashboardPage = ({ osnovne = {} }) => {
             <Row
               style={{
                 minHeight: '270px',
-                maxHeight: '270px',
               }}
             >
               <Col xs={9}>
@@ -95,20 +94,24 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Oblast projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
+                  <CardBody style={{ wordBreak: 'break-all' }}>
                     {osnovne.oblast_text}
                   </CardBody>
                 </Card>
               </Col>
-              <Col xs={3}>
+              <Col xs={'auto'}>
                 <img
-                  style={{ maxWidth: '100%', maxHeight: '250px', wordBreak: 'break-all' }}
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '250px',
+                    wordBreak: 'break-all',
+                  }}
                   src={osnovne.oblast_slika}
                 ></img>
               </Col>
             </Row>
-            <Row style={{ minHeight: '270px'}}>
-              <Col xs={3}>
+            <Row style={{ minHeight: '270px' }}>
+              <Col xs={'auto'}>
                 <img
                   style={{ maxHeight: '250px' }}
                   src={osnovne.predmet_slika}
@@ -125,13 +128,13 @@ const DashboardPage = ({ osnovne = {} }) => {
                 </Card>
               </Col>
             </Row>
-            <Row style={{ minHeight: '270px'}}>
+            <Row style={{ minHeight: '270px' }}>
               <Col xs={9}>
-                <Card style={{ height: '100%',  maxHeight: '250px' }}>
+                <Card style={{ height: '100%', minHeight: '250px' }}>
                   <CardHeader>
                     <h3>Ocekivani rezultati</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
+                  <CardBody style={{ wordBreak: 'break-all' }}>
                     {osnovne.rezultat_text}
                   </CardBody>
                 </Card>
