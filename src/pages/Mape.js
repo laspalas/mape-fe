@@ -88,14 +88,13 @@ const getMinMaxNormSingle = (values, feature) => {
 
 const getKibs = (values, feature, state) => {
   const id = feature.properties.PU_ID;
-  const region = dataJSON.find(d => d.pu_id === id);
   if (!values || !values.godina) {
     return 0;
   }
 
   const result =
     state[
-      `result_${values.godina.value}${values.sezona ? values.sezona.value : ''}`
+      `results_${values.godina.value}${values.sezona ? `_${values.sezona.value}` : ''}`
     ];
 
   const mapRegionIndexToPuId = result.mapRegionIndexToPuId;

@@ -14,7 +14,18 @@ const validate = values => {
 };
 
 const KibsFormComponent = ({ onChange, values, ...props }) => {
-  console.log(props);
+  const keysRes = Object.keys(props).filter(key => key.startsWith('results'));
+  const godinaSezona = keysRes.map(key => key.split('_'));
+  const mapGodinaSezone = godinaSezona.reduce((acc, gs) => {
+    const godina = gs[1];
+    const sezona = gs[2];
+    const res = acc[godina] ? [...acc[godina], sezona] : [sezona];
+    return {
+      ...acc,
+      [godina]: res.filter(r => !!r),
+    };
+  }, {});
+
   return (
     <Formik
       validateOnChange
@@ -24,9 +35,9 @@ const KibsFormComponent = ({ onChange, values, ...props }) => {
         onChange(values);
       }}
       enableReinitialize
-      initialValues={values || { godina: {} }}
+      initialValues={values || { godina: {}, sezona: {} }}
     >
-      {({ values }) => (
+      {({ values, setFieldValue, setValues }) => (
         <Form>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -42,6 +53,12 @@ const KibsFormComponent = ({ onChange, values, ...props }) => {
                 blurOnSelect
                 getOptionLabel={option => option.label}
                 name="godina"
+                onChange={(e, v) => {
+                  setFieldValue('godina', v);
+                  if (v && !mapGodinaSezone[v.value].length) {
+                    setFieldValue('sezona', null);
+                  }
+                }}
                 component={Autocomplete}
               />
             </Grid>
@@ -51,10 +68,12 @@ const KibsFormComponent = ({ onChange, values, ...props }) => {
                   <TextField {...params} label="Sezona" variant="outlined" />
                 )}
                 disablePortal
-                options={Object.values(props.sezone || {}).map(s => ({
-                  value: s,
-                  label: `${s.toUpperCase()}`,
-                }))}
+                options={(mapGodinaSezone[values.godina.value] || []).map(
+                  s => ({
+                    value: s,
+                    label: s,
+                  }),
+                )}
                 blurOnSelect
                 getOptionLabel={option => option.label}
                 name="sezona"
