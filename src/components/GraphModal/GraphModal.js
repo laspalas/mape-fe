@@ -28,6 +28,9 @@ function zip() {
 }
 
 const getAllMinMaxSorted = (values, selectedId) => {
+  if (!values.parametar || !values.godina) {
+    return [];
+  }
   const godine = dataJSON.map(d => d.tip_statistike[values.parametar.value]);
 
   const mapByMinMaxNorm = godine.map(godina => {
@@ -56,7 +59,7 @@ const getKibs = (values, id, state) => {
 
   const result =
     state[
-      `result_${values.godina.value}${
+      `results_${values.godina.value}${
         values.sezona ? `_${values.sezona.value}` : ''
       }`
     ];
@@ -85,18 +88,18 @@ const getAllKibsSorted = (values, selectedId, state) => {
 };
 
 const getLineDataSingle = (singleValues, selectedId) => {
-  const { regions, selectedRegion } = getAllMinMaxSorted(
+  const { regions , selectedRegion } = getAllMinMaxSorted(
     singleValues,
     selectedId,
   );
   return {
-    labels: regions.map(d => d.name),
+    labels: (regions || []).map(d => d.name),
     datasets: [
       {
-        backgroundColor: regions.map(r => r.color),
+        backgroundColor: (regions || []).map(r => r.color),
         borderColor: getColor('primary'),
         borderWidth: 1,
-        data: regions.map(d => d.value),
+        data: (regions || []).map(d => d.value),
       },
     ],
   };
@@ -159,8 +162,14 @@ const GraphModal = props => {
     multiValues,
     selectedId,
     state,
+    setIndicators,
     ...stateRest
   } = props;
+
+  if (!singleValues && !multiValues) {
+    return null;
+  }
+
 
   const [rows, setRows] = useState([]);
 
@@ -168,7 +177,7 @@ const GraphModal = props => {
     if (multiValues && multiValues.godina) {
       const data =
         stateRest[
-          `result_${multiValues.godina.value}${
+          `results_${multiValues.godina.value}${
             multiValues.sezona ? `_${multiValues.sezona.value}` : ''
           }`
         ];
@@ -213,6 +222,11 @@ const GraphModal = props => {
       },
     },
   };
+
+  const onClickCell = (indicators) => {
+    setIndicators(indicators);
+    toggleModal(false);
+  }
 
   return (
     <div>
@@ -272,7 +286,7 @@ const GraphModal = props => {
                     <Card>
                       {(isSingle || isMulti) && (
                         <CardHeader>
-                          {isSingle
+                          {isSingle && singleValues.godina
                             ? `Parametar chart (${singleValues.godina.value})`
                             : 'Kibs chart'}
                         </CardHeader>
@@ -294,7 +308,7 @@ const GraphModal = props => {
               <Tab eventKey="statKibs" title="Kibs">
                 <Row>
                   <Col xl={12} lg={12} md={12} style={{ padding: '1.6rem' }}>
-                    <DataGrid rows={rows} />
+                    <DataGrid rows={rows} onClickCell={onClickCell}/>
                   </Col>
                 </Row>
               </Tab>

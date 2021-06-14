@@ -62,6 +62,5 @@ appFirebase
   .then(res => {
     store.setState(res.toJSON());
   });
-// store.setState(storeJSON);
 
 export { store };

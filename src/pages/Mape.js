@@ -17,6 +17,7 @@ import policija from '../assets/policija.jpeg';
 import { Legend, legendValues } from '../components/Legend/Legend';
 import { store } from '../thrd/store';
 import { caclulateSperman } from '../thrd/sperman';
+import { find } from 'lodash';
 
 const COLOR_1 = '#F7FBFF';
 const COLOR_2 = '#DEEBF7';
@@ -98,6 +99,15 @@ const getKibs = (values, feature, state) => {
     ];
 
   const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+
+  if (values.indicators) {
+    const combCount = values.indicators.split('_').length;
+    const comb = result.data[`Comb${combCount}`];
+    const kibs = find(comb, (c) => c.Indicators === values.indicators );
+    const regionId = mapRegionIndexToPuId[`${id}`];
+    return kibs[regionId].toFixed(3);
+  }
+
   const kibs = result.data.kibs;
 
   const regionId = mapRegionIndexToPuId[`${id}`];
@@ -157,6 +167,7 @@ const applyStyles = (values, feature, isSingle, isMulti, state) => {
 const MapeC = ({ ...props }) => {
   const [singleFilterValues, setSingleFilterValues] = useState(null);
   const [multiFilterValues, setMultiFilterValues] = useState(null);
+  const [indicators, setIndicators] = useState(null);
   const [selected, setSelected] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [isSingle, setIsSingle] = useState(false);
@@ -166,8 +177,9 @@ const MapeC = ({ ...props }) => {
   const resetFilters = () => {
     setIsMulti(false);
     setIsSingle(false);
-    setSingleFilterValues(initSingleValues);
-    setMultiFilterValues(initMultiValues);
+    setSingleFilterValues(null);
+    setMultiFilterValues(null);
+    setIndicators(null);
   };
 
   const onSingleChange = values => {
@@ -175,6 +187,7 @@ const MapeC = ({ ...props }) => {
     setSingleFilterValues(values);
     setIsSingle(true);
     setIsMulti(false);
+    setIndicators(null);
   };
 
   const onMultiChange = values => {
@@ -182,6 +195,7 @@ const MapeC = ({ ...props }) => {
     setIsSingle(false);
     setSingleFilterValues(null);
     setMultiFilterValues(values);
+    setIndicators(null);
   };
 
   function highlightFeature(e) {
@@ -227,7 +241,7 @@ const MapeC = ({ ...props }) => {
 
     if (isMulti && feature.properties.PU_ID !== 0) {
       layer.bindTooltip(
-        `${getKibs(multiFilterValues, feature, props)} (${humanize(
+        `${getKibs({...multiFilterValues, indicators }, feature, props)} (${humanize(
           feature.properties.NAME,
         )})`,
         {
@@ -253,7 +267,7 @@ const MapeC = ({ ...props }) => {
     }
 
     if (isMulti) {
-      return `multi-map-bro ${JSON.stringify(multiFilterValues)}`;
+      return `multi-map-bro ${JSON.stringify({...multiFilterValues, indicators })}`;
     }
 
     return 'nesto';
@@ -269,6 +283,7 @@ const MapeC = ({ ...props }) => {
           toggleModal={setOpen}
           selectedId={selectedId}
           state={props}
+          setIndicators={setIndicators}
         />
       )}
       <div style={{ position: 'relative' }} id="luka">
@@ -323,7 +338,7 @@ const MapeC = ({ ...props }) => {
                 data={feature}
                 style={feature => {
                   return applyStyles(
-                    isSingle ? singleFilterValues : multiFilterValues,
+                    isSingle ? singleFilterValues : {...multiFilterValues, indicators },
                     feature,
                     isSingle,
                     isMulti,

@@ -2,7 +2,8 @@ import { omit } from 'lodash';
 import { SpearmanRHO } from './spermanBase';
 
 const calc = (data, kibsArray) => {
-  return data
+  const d = Object.values(data);
+  return d
     .map(combData => {
       const keyIndicator = combData.Indicators;
       const regionValues = omit(combData, ['Indicators']);
