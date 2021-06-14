@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Popover from 'react-popover';
 import { Button } from 'reactstrap';
-import data from '../../assets/data.json';
 import { KibsForm } from './KibsForm';
 import { SingleForm } from './SingleForm';
 
@@ -77,7 +76,7 @@ const MapFilters = ({ isSingle, onChange, values }) => {
         color="primary"
         onClick={() => setIsPopoverOpen(!isPopoverOpen)}
       >
-        {isSingle ? 'Prikaz po indikatoru' : 'Prikaz po kibsu'}
+        {isSingle ? 'Prikaz po indikatoru' : 'KIBS'}
       </Button>
     </Popover>
   );

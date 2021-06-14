@@ -64,7 +64,7 @@ const ModelKibs = ({ zasto = {} }) => {
                 <Card>
                   <CardHeader>Definicija KIBS-a</CardHeader>
                   <CardBody
-                    style={{ minHeight: '300px', wordBreak: 'breal-all' }}
+                    style={{ minHeight: '300px', wordBreak: 'break-all' }}
                   >
                     {zasto.def}
                   </CardBody>
@@ -76,7 +76,7 @@ const ModelKibs = ({ zasto = {} }) => {
                   </CardBody>
                 </Card>
               </Col>
-              <Col xs={5}>
+              <Col xs={7}>
                 <Card>
                   <CardBody style={{ height: '750px', padding: 0, wordBreak: 'breal-all' }}>
                     <img

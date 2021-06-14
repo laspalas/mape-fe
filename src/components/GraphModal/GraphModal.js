@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Line, Pie, Doughnut, Bar, Radar, Polar } from 'react-chartjs-2';
+import { max } from 'lodash';
 
 import { getColor } from 'utils/colors';
 import { randomNum } from 'utils/demos';
 import dataJSON from '../../assets/data.json';
 import { mapStaticKeysLabels } from '../../models/statistic';
+import DataGrid from './Table';
+import { store } from '../../thrd/store';
+import { caclulateSperman } from '../../thrd/sperman';
+
+function zip() {
+  var out = [];
+  for (var i = 0; i < arguments[0].length; i++) {
+    var item = [];
+    for (var j in arguments) {
+      item.push(arguments[j][i]);
+    }
+    out.push(item);
+  }
+  return out;
+}
 
 const getAllMinMaxSorted = (values, selectedId) => {
   const godine = dataJSON.map(d => d.tip_statistike[values.parametar.value]);
@@ -33,12 +49,32 @@ const getAllMinMaxSorted = (values, selectedId) => {
   };
 };
 
-const getAllKibsSorted = (values, selectedId) => {
+const getKibs = (values, id, state) => {
+  if (!values || !values.godina) {
+    return 0;
+  }
+
+  const result =
+    state[
+      `result_${values.godina.value}${
+        values.sezona ? `_${values.sezona.value}` : ''
+      }`
+    ];
+
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const kibs = result.data.kibs;
+
+  const regionId = mapRegionIndexToPuId[`${id}`];
+
+  return kibs[regionId];
+};
+
+const getAllKibsSorted = (values, selectedId, state) => {
   const regions = dataJSON.map((d, index) => {
     return {
       name: d.policijska_uprava,
       id: d.pu_id,
-      value: Math.random().toFixed(3),
+      value: getKibs(values, d.pu_id, state),
       color: +d.pu_id === +selectedId ? 'red' : 'blue',
     };
   });
@@ -66,8 +102,8 @@ const getLineDataSingle = (singleValues, selectedId) => {
   };
 };
 
-const getKibsLineData = (multiValues, selectedId) => {
-  const { regions } = getAllKibsSorted(multiValues, selectedId);
+const getKibsLineData = (multiValues, selectedId, state) => {
+  const { regions } = getAllKibsSorted(multiValues, selectedId, state);
   return {
     labels: regions.map(d => d.name),
     datasets: [
@@ -92,7 +128,11 @@ const radarChartData = (singleValues, selectedId) => {
       return minMaxNorm;
     });
 
-    return { data: dataset, label: region.policijska_uprava, hidden: region.pu_id !== selectedId};
+    return {
+      data: dataset,
+      label: region.policijska_uprava,
+      hidden: region.pu_id !== selectedId,
+    };
   });
 
   const labels = Object.keys(mapStaticKeysLabels).map(
@@ -118,14 +158,41 @@ const GraphModal = props => {
     singleValues,
     multiValues,
     selectedId,
+    state,
+    ...stateRest
   } = props;
+
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    if (multiValues && multiValues.godina) {
+      const data =
+        stateRest[
+          `result_${multiValues.godina.value}${
+            multiValues.sezona ? `_${multiValues.sezona.value}` : ''
+          }`
+        ];
+
+      if (!data) {
+        return;
+      }
+
+      const kibs = caclulateSperman(data.data);
+
+      const comb3 = kibs.Comb3.slice(0, 5);
+      const comb4 = kibs.Comb4.slice(0, 5);
+      const comb5 = kibs.Comb5.slice(0, 5);
+
+      setRows(zip(comb3, comb4, comb5));
+    }
+  }, [multiValues]);
 
   const isSingle = !!singleValues;
   const isMulti = !!multiValues;
 
   const options = {
     legend: {
-      position: 'top'
+      position: 'top',
     },
     scale: {
       reverse: false,
@@ -138,14 +205,14 @@ const GraphModal = props => {
           'green',
           'blue',
           'indigo',
-          'violet'
-        ]
+          'violet',
+        ],
       },
       ticks: {
-        beginAtZero: true
-      }
-    }
-  }
+        beginAtZero: true,
+      },
+    },
+  };
 
   return (
     <div>
@@ -170,7 +237,10 @@ const GraphModal = props => {
                   <Card>
                     {isSingle | isMulti && (
                       <CardHeader>
-                        {isSingle
+                        {isSingle &&
+                        singleValues &&
+                        singleValues.godina &&
+                        singleValues.godina.parametar
                           ? `Parametar chart (${singleValues.godina.value}) (${singleValues.parametar.label})`
                           : 'Kibs chart'}
                       </CardHeader>
@@ -186,7 +256,7 @@ const GraphModal = props => {
                           data={
                             isSingle
                               ? getLineDataSingle(singleValues, selectedId)
-                              : getKibsLineData(multiValues, selectedId)
+                              : getKibsLineData(multiValues, selectedId, state)
                           }
                         />
                       )}
@@ -220,6 +290,15 @@ const GraphModal = props => {
                 </Row>
               </Tab>
             )}
+            {isMulti && (
+              <Tab eventKey="statKibs" title="Kibs">
+                <Row>
+                  <Col xl={12} lg={12} md={12} style={{ padding: '1.6rem' }}>
+                    <DataGrid rows={rows} />
+                  </Col>
+                </Row>
+              </Tab>
+            )}
           </Tabs>
         </ModalBody>
       </Modal>
@@ -227,4 +306,6 @@ const GraphModal = props => {
   );
 };
 
-export default GraphModal;
+export default store.connect((state, props) => ({ ...state, ...props }))(
+  GraphModal,
+);

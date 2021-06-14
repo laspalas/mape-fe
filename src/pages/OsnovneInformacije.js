@@ -50,6 +50,7 @@ import { info } from './texts';
 import { appFirebase } from '../thrd/firbase';
 import slika from '../assets/img/products/product_640-4.jpg';
 import { store } from '../thrd/store';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const today = new Date();
 const lastWeek = new Date(
@@ -87,7 +88,6 @@ const DashboardPage = ({ osnovne = {} }) => {
             <Row
               style={{
                 minHeight: '270px',
-                maxHeight: '270px',
               }}
             >
               <Col xs={9}>
@@ -95,24 +95,30 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Oblast projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
+                  <CardBody style={{ wordBreak: 'break-all' }}>
                     {osnovne.oblast_text}
                   </CardBody>
                 </Card>
               </Col>
               <Col xs={3}>
-                <img
-                  style={{ maxWidth: '100%', maxHeight: '250px', wordBreak: 'break-all' }}
+                <LazyLoadImage
+                  style={{
+                    maxHeight: '250px',
+                    wordBreak: 'break-all',
+                  }}
+                  width="100%"
+                  height='270px'
                   src={osnovne.oblast_slika}
-                ></img>
+                ></LazyLoadImage>
               </Col>
             </Row>
-            <Row style={{ minHeight: '270px'}}>
+            <Row style={{ minHeight: '270px' }}>
               <Col xs={3}>
-                <img
-                  style={{ maxHeight: '250px' }}
+                <LazyLoadImage
+                   width="100%"
+                   height='270px'
                   src={osnovne.predmet_slika}
-                ></img>
+                ></LazyLoadImage>
               </Col>
               <Col xs={9}>
                 <Card style={{ height: '100%' }}>
@@ -125,22 +131,23 @@ const DashboardPage = ({ osnovne = {} }) => {
                 </Card>
               </Col>
             </Row>
-            <Row style={{ minHeight: '270px'}}>
+            <Row style={{ minHeight: '270px' }}>
               <Col xs={9}>
-                <Card style={{ height: '100%',  maxHeight: '250px' }}>
+                <Card style={{ height: '100%', minHeight: '250px' }}>
                   <CardHeader>
                     <h3>Ocekivani rezultati</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
+                  <CardBody style={{ wordBreak: 'break-all' }}>
                     {osnovne.rezultat_text}
                   </CardBody>
                 </Card>
               </Col>
               <Col xs={3}>
-                <img
-                  style={{ maxHeight: '250px' }}
+                <LazyLoadImage
+                    width="100%"
+                    height='270px'
                   src={osnovne.rezultat_slika}
-                ></img>
+                ></LazyLoadImage>
               </Col>
             </Row>
           </TabContent>

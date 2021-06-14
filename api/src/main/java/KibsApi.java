@@ -43,7 +43,7 @@ public class KibsApi {
 
     public static void main(String[] args) {
 
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create(config -> {config.enableCorsForAllOrigins();}).start(7000);
         app.post("/calculate", ctx -> {
                     try {
                         JSONObject jsonResult = new JSONObject(ctx.body());

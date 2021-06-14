@@ -4,11 +4,13 @@ import Page from 'components/Page';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Box, Button, Grid } from '@material-ui/core';
+import { getMeta, getData, fetchData } from './adminFileUtils';
 
 import { Formik, Form, Field } from 'formik';
 import { TextField, SimpleFileUpload } from 'formik-material-ui';
 import { appFirebase } from '../thrd/firbase';
 import { store } from '../thrd/store';
+import ExcelJS from 'exceljs';
 
 const TabContent = ({ children }) => {
   return (
@@ -367,7 +369,6 @@ const AdminPage = props => {
           <TabContent>
             <Formik
               onSubmit={(values, formikHelpers) => {
-                console.log(values, 'values');
                 const slikeKeys = ['kibs_slika'].filter(
                   key => typeof values[key] === 'object',
                 );
@@ -381,9 +382,7 @@ const AdminPage = props => {
                         return Promise.resolve({ key, url });
                       });
                     })
-                    .catch(e => {
-                      console.log(e);
-                    });
+                    .catch(e => {});
                 });
 
                 if (promises.length) {
@@ -505,9 +504,7 @@ const AdminPage = props => {
                         return Promise.resolve({ key, url });
                       });
                     })
-                    .catch(e => {
-                      console.log(e);
-                    });
+                    .catch(e => {});
                 });
 
                 if (promises.length) {
@@ -608,9 +605,7 @@ const AdminPage = props => {
                         return Promise.resolve({ key, url });
                       });
                     })
-                    .catch(e => {
-                      console.log(e);
-                    });
+                    .catch(e => {});
                 });
 
                 if (promises.length) {
@@ -693,6 +688,171 @@ const AdminPage = props => {
                         name="publikacije"
                         label="Publikacije"
                         component={TextField}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Box mt={3} alignItems="right" textAlign="right">
+                    <Button
+                      name="1"
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                    >
+                      Sacuvaj
+                    </Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          </TabContent>
+        </Tab>
+        <Tab eventKey="import" title="Import">
+          <TabContent>
+            <Formik
+              onSubmit={values => {
+                const wb = new ExcelJS.Workbook();
+                const reader = new FileReader();
+                const godina = +values.godina;
+                const interval_limit = [
+                  +values.levi_limit,
+                  +values.desni_limit,
+                ];
+                const sezona = values.sezona;
+                console.log(sezona);
+
+                reader.readAsArrayBuffer(values.tabela_import);
+                reader.onload = () => {
+                  const buffer = reader.result;
+                  wb.xlsx.load(buffer).then(workbook => {
+                    const worksheet = workbook.getWorksheet(1);
+                    const meta = getMeta(worksheet);
+                    const data = getData(worksheet);
+                    const req = {
+                      data,
+                      upper_limit: meta.upper_limit,
+                      lower_limit: meta.lower_limit,
+                      interval_limit,
+                    };
+                    console.log(
+                      `results_${godina}${sezona ? `_${sezona}` : ''}`,
+                    );
+                    fetchData(req).then(res => {
+                      appFirebase
+                        .database()
+                        .ref(`results_${godina}${sezona ? `_${sezona}` : ''}`)
+                        .set({
+                          data: res,
+                          godina: godina,
+                          ...meta,
+                          request: req,
+                          sezona: sezona || null,
+                          timestamp: new Date().getTime(),
+                        });
+
+                      appFirebase
+                        .database()
+                        .ref('godine')
+                        .get()
+                        .then(res => {
+                          const godine = Object.values(res.toJSON() || {});
+                          appFirebase
+                            .database()
+                            .ref('godine')
+                            .set(Array.from(new Set([...godine, godina])));
+                        });
+
+                      appFirebase
+                        .database()
+                        .ref('sezone')
+                        .get()
+                        .then(res => {
+                          const sezone = Object.values(res.toJSON() || {});
+                          appFirebase
+                            .database()
+                            .ref('sezone')
+                            .set(
+                              Array.from(
+                                new Set([...sezone, sezona]),
+                              ).filter(s => !!s),
+                            );
+                        });
+                    });
+                  });
+                };
+                return true;
+              }}
+              enableReinitialize
+              initialValues={{}}
+              validateOnChange={false}
+              validate={values => {
+                const errors = {};
+
+                if (!values.tabela_import) {
+                  errors.tabela_import = 'Obavezno polje';
+                }
+                if (!values.godina) {
+                  errors.godina = 'Obavezno polje';
+                }
+                if (!values.levi_limit) {
+                  errors.levi_limit = 'Obavezno polje';
+                }
+                if (!values.desni_limit) {
+                  errors.desni_limit = 'Obavezno polje';
+                }
+
+                return errors;
+              }}
+            >
+              {({ errors }) => (
+                <Form>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Field
+                        name="tabela_import"
+                        label="Tabela import"
+                        component={SimpleFileUpload}
+                        error={errors.tabela_import}
+                        helperText={errors.tabela_import}
+                      />
+                      <a href="/template.xlsx" download="template.xlsx">
+                        Skini template
+                      </a>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="godina"
+                        label="Godina"
+                        error={errors.godina}
+                        helperText={errors.godina}
+                        component={TextField}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="sezona"
+                        label="Sezona"
+                        component={TextField}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Field
+                        name="levi_limit"
+                        label="Levi limit"
+                        error={errors.levi_limit}
+                        helperText={errors.levi_limit}
+                        component={TextField}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Field
+                        name="desni_limit"
+                        label="Desni limit"
+                        error={errors.desni_limit}
+                        helperText={errors.desni_limit}
+                        component={TextField}
+                        type="number"
                       />
                     </Grid>
                   </Grid>
