@@ -50,5 +50,5 @@ RUN mvn clean package
 # mvn compile
 # mvn package
 CMD java -Djava.library.path=/opt/ibm/ILOG/CPLEX_Studio_Community201/cplex/bin/x86-64_linux/ -jar target/test-1.0-SNAPSHOT-shaded.jar
-# docker run -p 0.0.0.0:7000:7000 -t test_kibs
-# docker build -t test_kibs .
+# docker build -t kibs_api .
+# docker run -p 0.0.0.0:7000:7000 -t kibs_api
