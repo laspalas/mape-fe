@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ListGroup,
+  ListGroupItem,
+} from 'reactstrap';
 
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 import Tab from 'react-bootstrap/Tab';
@@ -88,7 +96,7 @@ const getAllKibsSorted = (values, selectedId, state) => {
 };
 
 const getLineDataSingle = (singleValues, selectedId) => {
-  const { regions , selectedRegion } = getAllMinMaxSorted(
+  const { regions, selectedRegion } = getAllMinMaxSorted(
     singleValues,
     selectedId,
   );
@@ -170,8 +178,8 @@ const GraphModal = props => {
     return null;
   }
 
-
   const [rows, setRows] = useState([]);
+  const [params, setParams] = useState([]);
 
   useEffect(() => {
     if (multiValues && multiValues.godina) {
@@ -185,6 +193,8 @@ const GraphModal = props => {
       if (!data) {
         return;
       }
+
+      setParams(Object.values(data.parametersOrder));
 
       const kibs = caclulateSperman(data.data);
 
@@ -223,10 +233,10 @@ const GraphModal = props => {
     },
   };
 
-  const onClickCell = (indicators) => {
+  const onClickCell = indicators => {
     setIndicators(indicators);
     toggleModal(false);
-  }
+  };
 
   return (
     <div>
@@ -307,8 +317,25 @@ const GraphModal = props => {
             {isMulti && (
               <Tab eventKey="statKibs" title="Kibs">
                 <Row>
-                  <Col xl={12} lg={12} md={12} style={{ padding: '1.6rem' }}>
-                    <DataGrid rows={rows} onClickCell={onClickCell}/>
+                  <Col xs={12} style={{ padding: '1.6rem' }}>
+                    <DataGrid rows={rows} onClickCell={onClickCell} />
+                  </Col>
+                </Row>
+              </Tab>
+            )}
+            {isMulti && (
+              <Tab eventKey="params" title="Indikatori">
+                <Row>
+                  <Col xs={12} style={{ padding: '1.6rem' }}>
+                    <ListGroup>
+                      {params.map((p, index) => {
+                        return (
+                          <ListGroupItem>
+                            {index} - {p.label}
+                          </ListGroupItem>
+                        );
+                      })}
+                    </ListGroup>
                   </Col>
                 </Row>
               </Tab>
