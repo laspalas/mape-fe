@@ -27,7 +27,7 @@ import {
   MdWidgets,
   MdMap,
   MdGroup,
-  MdSettingsApplications
+  MdSettingsApplications,
 } from 'react-icons/md';
 import {
   FaMapMarker,
@@ -47,6 +47,7 @@ import {
   NavLink as BSNavLink,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
+import Logo from '../../assets/logo.png';
 
 const sidebarBackground = {};
 
@@ -156,7 +157,7 @@ class Sidebar extends React.Component {
               style={{ paddingLeft: '10px', fontWeight: 600, fontSize: '25px' }}
               className="text-white"
             >
-              KIBS MAPE
+              <img src={Logo} style={{ width: '150px', height: '50px' }} />
             </span>
           </Navbar>
           <Nav vertical>
