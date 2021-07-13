@@ -10,7 +10,7 @@ import { Formik, Form, Field } from 'formik';
 import { TextField, SimpleFileUpload } from 'formik-material-ui';
 import { appFirebase } from '../thrd/firbase';
 import { store } from '../thrd/store';
-import ExcelJS from 'exceljs';
+// import ExcelJS from 'exceljs';
 
 const TabContent = ({ children }) => {
   return (
@@ -706,7 +706,7 @@ const AdminPage = props => {
             </Formik>
           </TabContent>
         </Tab>
-        <Tab eventKey="import" title="Import">
+        {/* <Tab eventKey="import" title="Import">
           <TabContent>
             <Formik
               onSubmit={values => {
@@ -870,7 +870,7 @@ const AdminPage = props => {
               )}
             </Formik>
           </TabContent>
-        </Tab>
+        </Tab> */}
       </Tabs>
     </Page>
   );
