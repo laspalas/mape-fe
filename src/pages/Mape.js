@@ -73,18 +73,26 @@ const defaultStyle = {
   weight: 2,
 };
 
-const getMinMaxNormSingle = (values, feature) => {
+const getMinMaxNormSingle = (values, feature, state) => {
   const region = dataJSON.find(d => d.pu_id === feature.properties.PU_ID);
+  const result =
+    state[
+      `results_${values.godina.value}${values.sezona ? `_${values.sezona.value}` : ''}`
+    ];
+  
+  const request = result.request;
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const regionId = mapRegionIndexToPuId[`${feature.properties.PU_ID}`];
+  const regionIndex = regionId.split(' ')[1];
+  const regionData = request.data[regionIndex];
+  const parameterIndex = Object.values(result.parametersOrder).findIndex((p) => p.value === values.parametar.value);
+  const value = regionData[parameterIndex];
 
   if (!region) {
     return 0;
   }
 
-  const godine = region.tip_statistike[values.parametar.value];
-  const minMaxNorm =
-    godine.find(g => g.godina === values.godina.value).min_max_norm || 0;
-
-  return minMaxNorm.toFixed(3);
+  return value.toFixed(3);
 };
 
 const getKibs = (values, feature, state) => {
@@ -115,8 +123,8 @@ const getKibs = (values, feature, state) => {
   return kibs[regionId].toFixed(3);
 };
 
-const applyStyleSingle = (values, feature) => {
-  const minMaxNorm = getMinMaxNormSingle(values, feature);
+const applyStyleSingle = (values, feature, state) => {
+  const minMaxNorm = getMinMaxNormSingle(values, feature, state);
 
   return {
     fillColor: getColor(minMaxNorm),
@@ -154,7 +162,7 @@ const applyStyles = (values, feature, isSingle, isMulti, state) => {
   }
 
   if (isSingle && values && feature.properties.PU_ID !== 0) {
-    return applyStyleSingle(values, feature);
+    return applyStyleSingle(values, feature, state);
   }
 
   if (isMulti) {
@@ -228,7 +236,7 @@ const MapeC = ({ ...props }) => {
 
     if (isSingle && feature.properties.PU_ID !== 0) {
       layer.bindTooltip(
-        `${getMinMaxNormSingle(singleFilterValues, feature)} (${humanize(
+        `${getMinMaxNormSingle(singleFilterValues, feature, props)} (${humanize(
           feature.properties.NAME,
         )})`,
         {

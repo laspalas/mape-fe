@@ -6,16 +6,44 @@ import { Formik, Form, Field } from 'formik';
 import bihgeojson from '../../assets/geo-data/bihgeo.json';
 import { humanize } from '../../utils/humanize';
 import dataJSON from '../../assets/data.json';
+import { store } from '../../thrd/store';
 
-const validate = values => {
-  if (!!values && values.godina && values.godina.value && values.parametar) {
+const validate = (values, mapGodinaParams) => {
+  if (
+    !mapGodinaParams[
+      `results_${values.godina ? values.godina.value : ''}${
+        values.sezona ? `_${values.sezona.value}` : ''
+      }`
+    ]
+  ) {
+    return false;
+  }
+  if (!!values && values.parametar && values.parametar.value) {
     return true;
   } else {
     return false;
   }
 };
 
-const SingleForm = ({ onChange, values }) => {
+const SingleFormComponent = ({ onChange, values, ...props }) => {
+  const keysRes = Object.keys(props).filter(key => key.startsWith('results'));
+  const godinaSezona = keysRes.map(key => key.split('_'));
+  const mapGodinaSezone = godinaSezona.reduce((acc, gs) => {
+    const godina = gs[1];
+    const sezona = gs[2];
+    const res = acc[godina] ? [...acc[godina], sezona] : [sezona];
+    return {
+      ...acc,
+      [godina]: res.filter(r => !!r),
+    };
+  }, {});
+  const mapGodinaParams = keysRes.reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: Object.values(props[key].parametersOrder),
+    };
+  }, {});
+
   return (
     <Formik
       validateOnChange
@@ -25,46 +53,85 @@ const SingleForm = ({ onChange, values }) => {
         onChange(values);
       }}
       enableReinitialize
-      initialValues={values || { godina: {}, parametar: {} }}
+      initialValues={{ godina: {}, parametar: {}, sezona: {} }}
     >
-      {({ values }) => (
+      {({ values, setFieldValue }) => (
         <Form>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Field
-                disablePortal
-                name="parametar"
-                blurOnSelect
-                component={Autocomplete}
-                options={Object.keys(mapStaticKeysLabels).map(
-                  key => mapStaticKeysLabels[key],
-                )}
-                renderInput={params => (
-                  <TextField {...params} label="Parametar" variant="outlined" />
-                )}
-                getOptionLabel={option => option.label}
-              />
-            </Grid>
             <Grid item xs={12}>
               <Field
                 renderInput={params => (
                   <TextField {...params} label="Godina" variant="outlined" />
                 )}
                 disablePortal
-                options={[
-                  { value: 2017, label: '2017' },
-                  { value: 2019, label: '2019' },
-                ]}
+                options={Object.values(props.godine).map(g => ({
+                  value: +g,
+                  label: `${g}`,
+                }))}
                 blurOnSelect
                 getOptionLabel={option => option.label}
                 name="godina"
+                onChange={(e, v) => {
+                  setFieldValue('godina', v);
+                  if (v && !mapGodinaSezone[v.value].length) {
+                    setFieldValue('sezona', null);
+                  }
+                }}
                 component={Autocomplete}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Field
+                renderInput={params => (
+                  <TextField {...params} label="Sezona" variant="outlined" />
+                )}
+                disablePortal
+                options={(
+                  mapGodinaSezone[values.godina ? values.godina.value : ''] ||
+                  []
+                ).map(s => ({
+                  value: s,
+                  label: s,
+                }))}
+                blurOnSelect
+                getOptionLabel={option => option.label}
+                name="sezona"
+                component={Autocomplete}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {mapGodinaParams[
+                `results_${values.godina ? values.godina.value : ''}${
+                  values.sezona ? `_${values.sezona.value}` : ''
+                }`
+              ] && (
+                <Field
+                  disablePortal
+                  name="parametar"
+                  blurOnSelect
+                  component={Autocomplete}
+                  options={
+                    mapGodinaParams[
+                      `results_${values.godina ? values.godina.value : ''}${
+                        values.sezona ? `_${values.sezona.value}` : ''
+                      }`
+                    ] || []
+                  }
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      label="Parametar"
+                      variant="outlined"
+                    />
+                  )}
+                  getOptionLabel={option => option.label}
+                />
+              )}
             </Grid>
           </Grid>
           <Box mt={3} alignItems="right" textAlign="right">
             <Button
-              disabled={!validate(values)}
+              disabled={!validate(values, mapGodinaParams)}
               type="submit"
               variant="contained"
               color="primary"
@@ -77,5 +144,9 @@ const SingleForm = ({ onChange, values }) => {
     </Formik>
   );
 };
+
+const SingleForm = store.connect((state, props) => {
+  return { ...state, ...props };
+})(SingleFormComponent);
 
 export { SingleForm };
