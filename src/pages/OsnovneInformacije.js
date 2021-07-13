@@ -95,9 +95,12 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Oblast projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ wordBreak: 'break-all' }}>
-                    {osnovne.oblast_text}
-                  </CardBody>
+                  <CardBody
+                    dangerouslySetInnerHTML={{
+                      __html: osnovne.oblast_text,
+                    }}
+                    style={{ wordBreak: 'break-all' }}
+                  ></CardBody>
                 </Card>
               </Col>
               <Col xs={3}>
@@ -107,7 +110,7 @@ const DashboardPage = ({ osnovne = {} }) => {
                     wordBreak: 'break-all',
                   }}
                   width="100%"
-                  height='270px'
+                  height="270px"
                   src={osnovne.oblast_slika}
                 ></LazyLoadImage>
               </Col>
@@ -115,8 +118,8 @@ const DashboardPage = ({ osnovne = {} }) => {
             <Row style={{ minHeight: '270px' }}>
               <Col xs={3}>
                 <LazyLoadImage
-                   width="100%"
-                   height='270px'
+                  width="100%"
+                  height="270px"
                   src={osnovne.predmet_slika}
                 ></LazyLoadImage>
               </Col>
@@ -125,9 +128,12 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Predmet projekta</h3>
                   </CardHeader>
-                  <CardBody style={{ height: '100%', wordBreak: 'break-all' }}>
-                    {osnovne.predmet_text}
-                  </CardBody>
+                  <CardBody
+                    dangerouslySetInnerHTML={{
+                      __html: osnovne.predmet_text,
+                    }}
+                    style={{ height: '100%', wordBreak: 'break-all' }}
+                  ></CardBody>
                 </Card>
               </Col>
             </Row>
@@ -137,15 +143,18 @@ const DashboardPage = ({ osnovne = {} }) => {
                   <CardHeader>
                     <h3>Ocekivani rezultati</h3>
                   </CardHeader>
-                  <CardBody style={{ wordBreak: 'break-all' }}>
-                    {osnovne.rezultat_text}
-                  </CardBody>
+                  <CardBody
+                    dangerouslySetInnerHTML={{
+                      __html: osnovne.rezultat_text,
+                    }}
+                    style={{ wordBreak: 'break-all' }}
+                  ></CardBody>
                 </Card>
               </Col>
               <Col xs={3}>
                 <LazyLoadImage
-                    width="100%"
-                    height='270px'
+                  width="100%"
+                  height="270px"
                   src={osnovne.rezultat_slika}
                 ></LazyLoadImage>
               </Col>
@@ -153,7 +162,13 @@ const DashboardPage = ({ osnovne = {} }) => {
           </TabContent>
         </Tab>
         <Tab eventKey="Svrha i cilj projekta" title="Svrha i cilj projekta">
-          <TabContent>{osnovne.svrha}</TabContent>
+          <TabContent>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: osnovne.svrha,
+              }}
+            />
+          </TabContent>
         </Tab>
       </Tabs>
     </Page>

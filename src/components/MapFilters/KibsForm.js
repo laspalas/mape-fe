@@ -68,12 +68,13 @@ const KibsFormComponent = ({ onChange, values, ...props }) => {
                   <TextField {...params} label="Sezona" variant="outlined" />
                 )}
                 disablePortal
-                options={(mapGodinaSezone[values.godina.value] || []).map(
-                  s => ({
-                    value: s,
-                    label: s,
-                  }),
-                )}
+                options={(
+                  mapGodinaSezone[values.godina ? values.godina.value : ''] ||
+                  []
+                ).map(s => ({
+                  value: s,
+                  label: s,
+                }))}
                 blurOnSelect
                 getOptionLabel={option => option.label}
                 name="sezona"

@@ -10,7 +10,15 @@ import { Formik, Form, Field } from 'formik';
 import { TextField, SimpleFileUpload } from 'formik-material-ui';
 import { appFirebase } from '../thrd/firbase';
 import { store } from '../thrd/store';
-// import ExcelJS from 'exceljs';
+import ExcelJS from 'exceljs';
+import RichEditor from '../components/RichTextEditor/RichText';
+import {
+  EditorState,
+  convertFromHTML,
+  convertToRaw,
+  ContentState,
+} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 const TabContent = ({ children }) => {
   return (
@@ -27,6 +35,10 @@ const TabContent = ({ children }) => {
     </div>
   );
 };
+
+const editorState = new EditorState.createWithContent(
+  ContentState.createFromText('Hello'),
+);
 
 const AdminPage = props => {
   const [logedIn, setLogedIn] = useState(false);
@@ -116,6 +128,15 @@ const AdminPage = props => {
     );
   }
 
+  const fromHtml = (textHtml = '') => {
+    const blocksFromHTML = convertFromHTML(textHtml || '');
+    const state = ContentState.createFromBlockArray(
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap,
+    );
+    return EditorState.createWithContent(state);
+  };
+
   return (
     <Page
       className="DashboardPage"
@@ -137,6 +158,7 @@ const AdminPage = props => {
           <TabContent>
             <Formik
               onSubmit={(values, formikHelpers) => {
+                debugger;
                 const slikeKeys = [
                   'oblast_slika',
                   'predmet_slika',
@@ -162,6 +184,20 @@ const AdminPage = props => {
                       .ref('osnovne')
                       .set({
                         ...values,
+                        oblast_text: draftToHtml(
+                          convertToRaw(values.oblast_text.getCurrentContent()),
+                        ),
+                        predmet_text: draftToHtml(
+                          convertToRaw(values.predmet_text.getCurrentContent()),
+                        ),
+                        rezultat_text: draftToHtml(
+                          convertToRaw(
+                            values.rezultat_text.getCurrentContent(),
+                          ),
+                        ),
+                        svrha: draftToHtml(
+                          convertToRaw(values.svrha.getCurrentContent()),
+                        ),
                       })
                       .then(() => {
                         const state = store.getState();
@@ -177,6 +213,18 @@ const AdminPage = props => {
                     .ref('osnovne')
                     .set({
                       ...values,
+                      oblast_text: draftToHtml(
+                        convertToRaw(values.oblast_text.getCurrentContent()),
+                      ),
+                      predmet_text: draftToHtml(
+                        convertToRaw(values.predmet_text.getCurrentContent()),
+                      ),
+                      rezultat_text: draftToHtml(
+                        convertToRaw(values.rezultat_text.getCurrentContent()),
+                      ),
+                      svrha: draftToHtml(
+                        convertToRaw(values.svrha.getCurrentContent()),
+                      ),
                     })
                     .then(() => {
                       const state = store.getState();
@@ -189,21 +237,29 @@ const AdminPage = props => {
                 }
               }}
               enableReinitialize
-              initialValues={{ ...props.osnovne }}
+              initialValues={{
+                ...props.osnovne,
+                oblast_text: fromHtml(props.osnovne.oblast_text),
+                predmet_text: fromHtml(props.osnovne.predmet_text),
+                rezultat_text: fromHtml(props.osnovne.rezultat_text),
+                svrha: fromHtml(props.osnovne.svrha),
+              }}
             >
-              {() => (
+              {({ handleBlur, setFieldValue, values }) => (
                 <Form>
                   <Grid container spacing={2}>
+                    {console.log(
+                      draftToHtml(
+                        convertToRaw(values.oblast_text.getCurrentContent()),
+                      ),
+                    )}
                     <Grid item xs={8}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.oblast_text}
                         name="oblast_text"
                         label="Oblast projekta"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -214,15 +270,12 @@ const AdminPage = props => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.predmet_text}
                         name="predmet_text"
                         label="Predmet projekta"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -233,15 +286,12 @@ const AdminPage = props => {
                       />
                     </Grid>
                     <Grid item xs={8}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.rezultat_text}
                         name="rezultat_text"
                         label="Rezultat projekta"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -252,14 +302,12 @@ const AdminPage = props => {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.svrha}
                         name="svrha"
                         label="Svrha i cilj projekta"
-                        component={TextField}
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
                       />
                     </Grid>
                   </Grid>
@@ -718,7 +766,6 @@ const AdminPage = props => {
                   +values.desni_limit,
                 ];
                 const sezona = values.sezona;
-                console.log(sezona);
 
                 reader.readAsArrayBuffer(values.tabela_import);
                 reader.onload = () => {
@@ -733,9 +780,7 @@ const AdminPage = props => {
                       lower_limit: meta.lower_limit,
                       interval_limit,
                     };
-                    console.log(
-                      `results_${godina}${sezona ? `_${sezona}` : ''}`,
-                    );
+
                     fetchData(req).then(res => {
                       appFirebase
                         .database()
@@ -771,9 +816,9 @@ const AdminPage = props => {
                             .database()
                             .ref('sezone')
                             .set(
-                              Array.from(
-                                new Set([...sezone, sezona]),
-                              ).filter(s => !!s),
+                              Array.from(new Set([...sezone, sezona])).filter(
+                                s => !!s,
+                              ),
                             );
                         });
                     });
