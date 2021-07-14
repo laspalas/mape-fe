@@ -35,22 +35,39 @@ function zip() {
   return out;
 }
 
-const getAllMinMaxSorted = (values, selectedId) => {
+const getAllMinMaxSorted = (values, selectedId, state) => {
   if (!values.parametar || !values.godina) {
     return [];
   }
-  const godine = dataJSON.map(d => d.tip_statistike[values.parametar.value]);
 
-  const mapByMinMaxNorm = godine.map(godina => {
-    const res = godina.find(g => g.godina === values.godina.value);
-    return res.min_max_norm;
-  });
+  const result =
+    state[
+      `results_${values.godina.value}${
+        values.sezona ? `_${values.sezona.value}` : ''
+      }`
+    ];
+
+  const request = result.request;
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const parameterIndex = Object.values(result.parametersOrder).findIndex(
+    p => p.value === values.parametar.value,
+  );
+  const minMaxArray = Object.values(request.data).map(d => d[parameterIndex]);
+  const mapRegionIdToIndex = Object.keys(mapRegionIndexToPuId).reduce(
+    (acc, key, index) => {
+      return {
+        ...acc,
+        [key]: index,
+      };
+    },
+    {},
+  );
 
   const regions = dataJSON.map((d, index) => {
     return {
       name: d.policijska_uprava,
       id: d.pu_id,
-      value: mapByMinMaxNorm[index],
+      value: minMaxArray[mapRegionIdToIndex[d.pu_id]],
       color: +d.pu_id === +selectedId ? 'red' : 'blue',
     };
   });
@@ -95,10 +112,11 @@ const getAllKibsSorted = (values, selectedId, state) => {
   };
 };
 
-const getLineDataSingle = (singleValues, selectedId) => {
+const getLineDataSingle = (singleValues, selectedId, state) => {
   const { regions, selectedRegion } = getAllMinMaxSorted(
     singleValues,
     selectedId,
+    state,
   );
   return {
     labels: (regions || []).map(d => d.name),
@@ -128,16 +146,33 @@ const getKibsLineData = (multiValues, selectedId, state) => {
   };
 };
 
-const radarChartData = (singleValues, selectedId) => {
-  const data = dataJSON.map(region => {
-    const dataset = Object.keys(region.tip_statistike).map(key => {
-      const godina = region.tip_statistike[key].find(
-        stat => stat.godina === singleValues.godina.value,
-      );
-      const minMaxNorm = (godina && godina.min_max_norm) || 0;
+const radarChartData = (values, selectedId, state) => {
+  const result =
+    state[
+      `results_${values.godina.value}${
+        values.sezona ? `_${values.sezona.value}` : ''
+      }`
+    ];
 
-      return minMaxNorm;
-    });
+  const request = result.request;
+  const mapRegionIndexToPuId = result.mapRegionIndexToPuId;
+  const parameterIndex = Object.values(result.parametersOrder).findIndex(
+    p => p.value === values.parametar.value,
+  );
+  const minMaxMatrix = Object.values(request.data);
+  const mapRegionIdToIndex = Object.keys(mapRegionIndexToPuId).reduce(
+    (acc, key, index) => {
+      return {
+        ...acc,
+        [key]: index,
+      };
+    },
+    {},
+  );
+
+  const data = dataJSON.map(region => {
+   const index = mapRegionIdToIndex[region.pu_id];
+   const dataset = Object.values(request.data[index]);
 
     return {
       data: dataset,
@@ -146,8 +181,8 @@ const radarChartData = (singleValues, selectedId) => {
     };
   });
 
-  const labels = Object.keys(mapStaticKeysLabels).map(
-    key => mapStaticKeysLabels[key].label,
+  const labels = Object.keys(result.parametersOrder).map(
+    key => result.parametersOrder[key].label,
   );
 
   return {
@@ -279,7 +314,11 @@ const GraphModal = props => {
                           }}
                           data={
                             isSingle
-                              ? getLineDataSingle(singleValues, selectedId)
+                              ? getLineDataSingle(
+                                  singleValues,
+                                  selectedId,
+                                  state,
+                                )
                               : getKibsLineData(multiValues, selectedId, state)
                           }
                         />
@@ -305,7 +344,11 @@ const GraphModal = props => {
                         {(isSingle || isMulti) && (
                           <Radar
                             options={options}
-                            data={radarChartData(singleValues, selectedId)}
+                            data={radarChartData(
+                              singleValues,
+                              selectedId,
+                              state,
+                            )}
                           />
                         )}
                       </CardBody>
