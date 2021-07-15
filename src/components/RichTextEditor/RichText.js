@@ -1,5 +1,42 @@
 import React from 'react';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import { EditorState, RichUtils } from 'draft-js';
+import Editor from '@draft-js-plugins/editor';
+import '@draft-js-plugins/linkify/lib/plugin.css';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import { CompositeDecorator } from 'draft-js';
+
+const Link = ({ entityKey, contentState, children }) => {
+  const { url } = contentState.getEntity(entityKey).getData();
+  return <a href={url}>{children}</a>;
+};
+
+const findLinkEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(character => {
+    const entityKey = character.getEntity();
+
+    return (
+      entityKey !== null &&
+      contentState.getEntity(entityKey).getType() === 'LINK'
+    );
+  }, callback);
+};
+
+const createLinkDecorator = () =>
+  new CompositeDecorator([
+    {
+      strategy: findLinkEntities,
+      component: Link,
+    },
+  ]);
+const linkDec = createLinkDecorator();
+
+const linkifyPlugin = createLinkifyPlugin({
+
+  component(props) {
+    // eslint-disable-next-line no-alert, jsx-a11y/anchor-has-content
+    return <a {...props} />;
+  },
+});
 
 export default class RichEditorExample extends React.Component {
   onChange = editorState => {
@@ -27,7 +64,7 @@ export default class RichEditorExample extends React.Component {
   };
   toggleInlineStyle = inlineStyle => {
     this.onChange(
-      RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)
+      RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle),
     );
   };
   render() {
@@ -62,6 +99,7 @@ export default class RichEditorExample extends React.Component {
             onTab={this.onTab}
             ref="editor"
             spellCheck={true}
+            plugins={[linkifyPlugin]}
           />
         </div>
       </div>
@@ -112,10 +150,8 @@ const BLOCK_TYPES = [
   { label: 'H4', style: 'header-four' },
   { label: 'H5', style: 'header-five' },
   { label: 'H6', style: 'header-six' },
-  { label: 'Blockquote', style: 'blockquote' },
   { label: 'UL', style: 'unordered-list-item' },
   { label: 'OL', style: 'ordered-list-item' },
-  { label: 'Code Block', style: 'code-block' },
 ];
 const BlockStyleControls = props => {
   const { editorState } = props;
@@ -126,7 +162,7 @@ const BlockStyleControls = props => {
     .getType();
   return (
     <div className="RichEditor-controls">
-      {BLOCK_TYPES.map(type =>
+      {BLOCK_TYPES.map(type => (
         <StyleButton
           key={type.label}
           active={type.style === blockType}
@@ -134,7 +170,7 @@ const BlockStyleControls = props => {
           onToggle={props.onToggle}
           style={type.style}
         />
-      )}
+      ))}
     </div>
   );
 };
@@ -148,7 +184,7 @@ const InlineStyleControls = props => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
   return (
     <div className="RichEditor-controls">
-      {INLINE_STYLES.map(type =>
+      {INLINE_STYLES.map(type => (
         <StyleButton
           key={type.label}
           active={currentStyle.has(type.style)}
@@ -156,7 +192,7 @@ const InlineStyleControls = props => {
           onToggle={props.onToggle}
           style={type.style}
         />
-      )}
+      ))}
     </div>
   );
 };

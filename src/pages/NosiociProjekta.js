@@ -72,9 +72,10 @@ const NosiociProjekta = ({ nosioci }) => {
           <CardHeader>
             <h4>Publikacije</h4>
           </CardHeader>
-          <CardBody style={{ minHeight: '300px', wordBreak: 'breal-all' }}>
-            {nosioci.publikacije}
-          </CardBody>
+          <CardBody
+            dangerouslySetInnerHTML={{ __html: nosioci.publikacije }}
+            style={{ minHeight: '300px', wordBreak: 'breal-all' }}
+          ></CardBody>
         </Card>
       </div>
     </Page>

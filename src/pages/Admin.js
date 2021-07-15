@@ -18,6 +18,7 @@ import {
   convertToRaw,
   ContentState,
 } from 'draft-js';
+import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor';
 import draftToHtml from 'draftjs-to-html';
 
 const TabContent = ({ children }) => {
@@ -129,12 +130,27 @@ const AdminPage = props => {
   }
 
   const fromHtml = (textHtml = '') => {
-    const blocksFromHTML = convertFromHTML(textHtml || '');
-    const state = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap,
-    );
-    return EditorState.createWithContent(state);
+    let editorState;
+
+    if (typeof textHtml === 'object') {
+      return textHtml;
+    }
+
+    if (typeof textHtml === 'string' && textHtml.trim() !== '') {
+      const processedHTML = DraftPasteProcessor.processHTML(textHtml);
+      const contentState = ContentState.createFromBlockArray(processedHTML);
+      //move focus to the end.
+      editorState = EditorState.createWithContent(contentState);
+      editorState = EditorState.moveFocusToEnd(editorState);
+    } else {
+      editorState = EditorState.createEmpty();
+    }
+
+    return editorState;
+  };
+
+  const toHtml = v => {
+    return draftToHtml(convertToRaw(v.getCurrentContent()));
   };
 
   return (
@@ -158,7 +174,6 @@ const AdminPage = props => {
           <TabContent>
             <Formik
               onSubmit={(values, formikHelpers) => {
-                debugger;
                 const slikeKeys = [
                   'oblast_slika',
                   'predmet_slika',
@@ -175,7 +190,7 @@ const AdminPage = props => {
                 });
 
                 if (promises.length) {
-                  return Promise.all((promises = [])).then((res = []) => {
+                  return Promise.all(promises).then((res = []) => {
                     res.forEach(({ key, url }) => {
                       values[key] = url;
                     });
@@ -247,6 +262,11 @@ const AdminPage = props => {
             >
               {({ handleBlur, setFieldValue, values }) => (
                 <Form>
+                  {console.log(
+                    toHtml(values.svrha),
+                    values.svrha.getCurrentContent(),
+                    'values',
+                  )}
                   <Grid container spacing={2}>
                     {console.log(
                       draftToHtml(
@@ -336,65 +356,66 @@ const AdminPage = props => {
                 return appFirebase
                   .database()
                   .ref('pracenje')
-                  .set(values)
+                  .set({
+                    ...values,
+                    troskovi: toHtml(values.troskovi),
+                    indikatori: toHtml(values.indikatori),
+                    stavovi: toHtml(values.stavovi),
+                    nezgode: toHtml(values.nezgode),
+                  })
                   .then(() => {
                     const state = store.getState();
                     store.setState({
                       ...state,
-                      pracenje: values,
                     });
                   });
               }}
               enableReinitialize
-              initialValues={{ ...props.pracenje }}
+              initialValues={{
+                ...props.pracenje,
+                troskovi: fromHtml(props.pracenje.troskovi),
+                indikatori: fromHtml(props.pracenje.indikatori),
+                stavovi: fromHtml(props.pracenje.stavovi),
+                nezgode: fromHtml(props.pracenje.nezgode),
+              }}
             >
-              {() => (
+              {({ values, setFieldValue, handleBlur }) => (
                 <Form>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        type="area"
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.troskovi}
                         name="troskovi"
                         label="Troskovi saobracajnih nezgoda"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        rows={4}
-                        multiline
-                        fullWidth={true}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.nezgode}
                         name="nezgode"
                         label="Saobracajne nezgode i njihove posledice"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        rows={4}
-                        multiline
-                        fullWidth={true}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.indikatori}
                         name="indikatori"
                         label="Indikatori bezbednosti saobracaja"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        rows={4}
-                        fullWidth={true}
-                        multiline
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.stavovi}
                         name="stavovi"
                         label="Stavovi ucesnika u saobracaju"
-                        component={TextField}
                       />
                     </Grid>
                   </Grid>
@@ -443,13 +464,15 @@ const AdminPage = props => {
                       .ref('zasto')
                       .set({
                         ...values,
+                        def: toHtml(values.def),
+                        vaznost: toHtml(values.vaznost),
+                        ocena: toHtml(values.ocena),
                       })
                       .then(() => {
-                        const state = store.getState();
-                        store.setState({
-                          ...state,
-                          zasto: values,
-                        });
+                        // const state = store.getState();
+                        // store.setState({
+                        //   ...state
+                        // });
                       });
                   });
                 } else {
@@ -458,57 +481,55 @@ const AdminPage = props => {
                     .ref('zasto')
                     .set({
                       ...values,
+                      def: toHtml(values.def),
+                      vaznost: toHtml(values.vaznost),
+                      ocena: toHtml(values.ocena),
                     })
                     .then(() => {
-                      const state = store.getState();
-                      store.setState({
-                        ...state,
-                        zasto: values,
-                      });
+                      // const state = store.getState();
+                      // store.setState({
+                      //   ...state
+                      // });
                       formikHelpers.setSubmitting(false);
                     });
                 }
               }}
               enableReinitialize
-              initialValues={{ ...props.zasto }}
+              initialValues={{
+                ...props.zasto,
+                def: fromHtml(props.zasto.def),
+                vaznost: fromHtml(props.zasto.vaznost),
+                ocena: fromHtml(props.zasto.ocena),
+              }}
             >
-              {() => (
+              {({ values, handleBlur, setFieldValue }) => (
                 <Form>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.def}
                         name="def"
                         label="Definicija KIBS-a"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.vaznost}
                         name="vaznost"
                         label="Vaznost KIBS-a"
-                        component={TextField}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.ocena}
                         name="ocena"
                         label="Ocena pomocu zvezdica/Star rating"
-                        component={TextField}
                       />
                     </Grid>
 
@@ -565,14 +586,9 @@ const AdminPage = props => {
                       .ref('model')
                       .set({
                         ...values,
+                        metodologija: toHtml(values.metodologija),
                       })
-                      .then(() => {
-                        const state = store.getState();
-                        store.setState({
-                          ...state,
-                          model: values,
-                        });
-                      });
+                      .then(() => {});
                   });
                 } else {
                   appFirebase
@@ -580,33 +596,29 @@ const AdminPage = props => {
                     .ref('model')
                     .set({
                       ...values,
+                      metodologija: toHtml(values.metodologija),
                     })
                     .then(() => {
-                      const state = store.getState();
-                      store.setState({
-                        ...state,
-                        model: values,
-                      });
                       formikHelpers.setSubmitting(false);
                     });
                 }
               }}
               enableReinitialize
-              initialValues={{ ...props.model }}
+              initialValues={{
+                ...props.model,
+                metodologija: fromHtml(props.model.metodologija),
+              }}
             >
-              {() => (
+              {({ values, handleBlur, setFieldValue }) => (
                 <Form>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.metodologija}
                         name="metodologija"
                         label="Metodologija"
-                        component={TextField}
                       />
                     </Grid>
 
@@ -666,13 +678,14 @@ const AdminPage = props => {
                       .ref('nosioci')
                       .set({
                         ...values,
+                        publikacije: toHtml(values.publikacije),
                       })
                       .then(() => {
-                        const state = store.getState();
-                        store.setState({
-                          ...state,
-                          nosioci: values,
-                        });
+                        // const state = store.getState();
+                        // store.setState({
+                        //   ...state,
+                        //   nosioci: values,
+                        // });
                       });
                   });
                 } else {
@@ -681,21 +694,25 @@ const AdminPage = props => {
                     .ref('nosioci')
                     .set({
                       ...values,
+                      publikacije: toHtml(values.publikacije),
                     })
                     .then(() => {
-                      const state = store.getState();
-                      store.setState({
-                        ...state,
-                        nosioci: values,
-                      });
+                      // const state = store.getState();
+                      // store.setState({
+                      //   ...state,
+                      //   nosioci: values,
+                      // });
                       formikHelpers.setSubmitting(false);
                     });
                 }
               }}
               enableReinitialize
-              initialValues={{ ...props.nosioci }}
+              initialValues={{
+                ...props.nosioci,
+                publikacije: fromHtml(props.nosioci.publikacije),
+              }}
             >
-              {() => (
+              {({ values, setFieldValue, handleBlur }) => (
                 <Form>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -727,15 +744,12 @@ const AdminPage = props => {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Field
-                        variant="outlined"
-                        minRows={3}
-                        fullWidth={true}
-                        multiline
-                        rows={4}
+                      <RichEditor
+                        onChange={setFieldValue}
+                        onBlur={handleBlur}
+                        editorState={values.publikacije}
                         name="publikacije"
                         label="Publikacije"
-                        component={TextField}
                       />
                     </Grid>
                   </Grid>

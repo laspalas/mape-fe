@@ -64,21 +64,27 @@ const ModelKibs = ({ zasto = {} }) => {
                 <Card>
                   <CardHeader>Definicija KIBS-a</CardHeader>
                   <CardBody
+                    dangerouslySetInnerHTML={{ __html: zasto.def }}
                     style={{ minHeight: '300px', wordBreak: 'break-all' }}
-                  >
-                    {zasto.def}
-                  </CardBody>
+                  ></CardBody>
                 </Card>
                 <Card style={{ marginTop: '30px' }}>
                   <CardHeader>Vaznost KIBS-a</CardHeader>
-                  <CardBody style={{ minHeight: '300px', wordBreak: 'breal-all' }}>
-                    {zasto.vaznost}
-                  </CardBody>
+                  <CardBody
+                    dangerouslySetInnerHTML={{ __html: zasto.vaznost }}
+                    style={{ minHeight: '300px', wordBreak: 'breal-all' }}
+                  ></CardBody>
                 </Card>
               </Col>
               <Col xs={7}>
                 <Card>
-                  <CardBody style={{ height: '750px', padding: 0, wordBreak: 'breal-all' }}>
+                  <CardBody
+                    style={{
+                      height: '750px',
+                      padding: 0,
+                      wordBreak: 'breal-all',
+                    }}
+                  >
                     <img
                       height="100%"
                       width="100%"
@@ -94,7 +100,9 @@ const ModelKibs = ({ zasto = {} }) => {
           eventKey="Svrha i sadrzaj"
           title="Ocena pomocu zvezdica/Star rating"
         >
-          <TabContent>{zasto.ocena}</TabContent>
+          <TabContent>
+            <div dangerouslySetInnerHTML={{ __html: zasto.ocena }}></div>
+          </TabContent>
         </Tab>
       </Tabs>
     </Page>

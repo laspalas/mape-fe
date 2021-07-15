@@ -35,15 +35,21 @@ const ChartPage = ({ model }) => {
             <CardHeader>
               <h3>Metodologija</h3>
             </CardHeader>
-            <CardBody style={{ minHeight: '800px', wordBreak: 'break-all' }}>
-              {model.metodologija}
-            </CardBody>
+            <CardBody
+              dangerouslySetInnerHTML={{ __html: model.metodologija }}
+              style={{ minHeight: '800px', wordBreak: 'break-all' }}
+            ></CardBody>
           </Card>
         </Col>
         <Col xs={6}>
           <Card>
             <CardBody
-              style={{ padding: 0, minHeight: '864px', height: '864px', wordBreak: 'breal-all' }}
+              style={{
+                padding: 0,
+                minHeight: '864px',
+                height: '864px',
+                wordBreak: 'breal-all',
+              }}
             >
               <img width="100%" height="100%" src={model.model_slika}></img>
             </CardBody>
